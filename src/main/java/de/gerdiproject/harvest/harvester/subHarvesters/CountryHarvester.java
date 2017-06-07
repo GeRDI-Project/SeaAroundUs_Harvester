@@ -48,9 +48,9 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
     private final HashMap<Integer, IJsonObject> treatiesDocuments = new HashMap<>();
     
 
-    public CountryHarvester( IJsonArray harvestedDocuments )
+    public CountryHarvester()
     {
-        super( harvestedDocuments, 2 );
+        super( 2 );
         this.viewUrlPrefix = String.format( SeaAroundUsConst.VIEW_URL_PREFIX, COUNTRY );
     }
 

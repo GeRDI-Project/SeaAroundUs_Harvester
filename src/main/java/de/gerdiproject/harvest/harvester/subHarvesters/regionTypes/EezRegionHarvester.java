@@ -44,10 +44,9 @@ public class EezRegionHarvester extends GenericRegionHarvester
     private String fisheriesSubsidiesApiUrl;
 
 
-    public EezRegionHarvester( IJsonArray harvestedDocuments )
+    public EezRegionHarvester()
     {
-        super( harvestedDocuments,
-                SeaAroundUsConst.REGION_EEZ,
+        super( SeaAroundUsConst.REGION_EEZ,
                 SeaAroundUsConst.DIMENSIONS_EEZ,
                 SeaAroundUsConst.GENERIC_URL_VO,
                 6 + SeaAroundUsConst.DIMENSIONS_EEZ.length * MEASURES.length

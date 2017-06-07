@@ -36,14 +36,14 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
     private final Entry subRegion;
 
 
-    public GlobalRegionHarvester( IJsonArray harvestedDocuments, Entry subRegion )
+    public GlobalRegionHarvester( Entry subRegion )
     {
-        super( harvestedDocuments,
-                SeaAroundUsConst.REGION_GLOBAL,
+        super( SeaAroundUsConst.REGION_GLOBAL,
                 SeaAroundUsConst.DIMENSIONS_GENERIC,
                 SeaAroundUsConst.GLOBAL_OCEAN_URL_VO );
 
         this.subRegion = subRegion;
+        this.name += " " + subRegion.displayName;
     }
 
 
@@ -100,14 +100,6 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
         return createDocument( label, apiUrl, viewUrl, geoData, defaultTags );
     }
-
-
-    @Override
-    public String getName()
-    {
-        return super.getName() + " " + subRegion.displayName; 
-    }
-
     
 
     @Override

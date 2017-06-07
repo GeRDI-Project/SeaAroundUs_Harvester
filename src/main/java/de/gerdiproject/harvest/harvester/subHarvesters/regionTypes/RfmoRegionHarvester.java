@@ -31,9 +31,9 @@ import java.util.List;
  */
 public class RfmoRegionHarvester extends GenericRegionHarvester
 {
-    public RfmoRegionHarvester( IJsonArray harvestedDocuments )
+    public RfmoRegionHarvester()
     {
-        super( harvestedDocuments, SeaAroundUsConst.REGION_RFMO, SeaAroundUsConst.DIMENSIONS_GENERIC, SeaAroundUsConst.GENERIC_URL_VO );
+        super( SeaAroundUsConst.REGION_RFMO, SeaAroundUsConst.DIMENSIONS_GENERIC, SeaAroundUsConst.GENERIC_URL_VO );
     }
 
 

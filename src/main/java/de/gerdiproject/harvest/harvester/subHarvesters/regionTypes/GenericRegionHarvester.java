@@ -68,16 +68,16 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
      * @param urls a value object of URLs that are used to retrieve region
      * metadata
      */
-    public GenericRegionHarvester( IJsonArray harvestedDocuments, Entry regionType, Entry[] dimensions, UrlVO urls )
+    public GenericRegionHarvester( Entry regionType, Entry[] dimensions, UrlVO urls )
     {
-        super( harvestedDocuments, 3 + dimensions.length * MEASURES.length );
+        super( 3 + dimensions.length * MEASURES.length );
 
         this.viewUrlPrefix = String.format( SeaAroundUsConst.VIEW_URL_PREFIX, regionType.urlName );
         this.regionType = regionType;
         this.dimensions = dimensions;
         this.urls = urls;
-
         this.documentsPerEntry = 3 + dimensions.length * MEASURES.length;
+        this.name = String.format( NAME_FORMAT, regionType.urlName.charAt( 0 ), regionType.urlName.substring( 1 ) );
     }
 
 
@@ -91,9 +91,9 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
      * @param numberOfDocumentsPerEntry the maximum number of documents that can
      * be retrieved from a single entry
      */
-    public GenericRegionHarvester( IJsonArray harvestedDocuments, Entry regionType, Entry[] dimensions, UrlVO urls, int numberOfDocumentsPerEntry )
+    public GenericRegionHarvester( Entry regionType, Entry[] dimensions, UrlVO urls, int numberOfDocumentsPerEntry )
     {
-        super( harvestedDocuments, numberOfDocumentsPerEntry );
+        super( numberOfDocumentsPerEntry );
 
         this.viewUrlPrefix = String.format( SeaAroundUsConst.VIEW_URL_PREFIX, regionType.urlName );
         this.regionType = regionType;
@@ -365,13 +365,6 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
             }
         }
         return tags;
-    }
-
-
-    @Override
-    public String getName()
-    {
-        return String.format( NAME_FORMAT, regionType.urlName.charAt( 0 ), regionType.urlName.substring( 1 ) );
     }
 
 

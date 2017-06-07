@@ -48,9 +48,9 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     /**
      * @param harvestedDocuments the list to which harvested documents are added
      */
-    public MaricultureHarvester( IJsonArray harvestedDocuments )
+    public MaricultureHarvester()
     {
-        super( harvestedDocuments, 1 );
+        super( 1 );
     }
 
 

@@ -63,9 +63,9 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
     /**
      * @param harvestedDocuments the list to which harvested documents are added
      */
-    public TaxonHarvester( IJsonArray harvestedDocuments )
+    public TaxonHarvester()
     {
-        super( harvestedDocuments, 1 + MEASURES.length * SeaAroundUsConst.DIMENSIONS_TAXON.length );
+        super( 1 + MEASURES.length * SeaAroundUsConst.DIMENSIONS_TAXON.length );
     }
 
 

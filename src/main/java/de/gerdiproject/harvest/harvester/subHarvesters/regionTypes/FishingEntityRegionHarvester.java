@@ -41,10 +41,9 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
     private final static String EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX = "/access-agreement-external/";
 
 
-    public FishingEntityRegionHarvester( IJsonArray harvestedDocuments )
+    public FishingEntityRegionHarvester()
     {
-        super( harvestedDocuments,
-                SeaAroundUsConst.REGION_FISHING_ENTITY,
+        super( SeaAroundUsConst.REGION_FISHING_ENTITY,
                 SeaAroundUsConst.DIMENSIONS_FAO,
                 SeaAroundUsConst.GENERIC_URL_VO,
                 1 + SeaAroundUsConst.DIMENSIONS_FAO.length * MEASURES.length );
