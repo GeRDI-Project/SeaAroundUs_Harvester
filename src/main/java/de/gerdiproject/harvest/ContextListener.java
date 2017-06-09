@@ -20,8 +20,6 @@ package de.gerdiproject.harvest;
 
 import de.gerdiproject.harvest.harvester.AbstractHarvester;
 import de.gerdiproject.harvest.harvester.SeaAroundUsHarvester;
-import de.gerdiproject.logger.ILogger;
-import de.gerdiproject.logger.impl.ConsoleLogger;
 import javax.servlet.annotation.WebListener;
 
 /**
@@ -31,13 +29,6 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ContextListener extends AbstractContextListener
 {
-    @Override
-    protected ILogger createLogger()
-    {
-        return new ConsoleLogger();
-    }
-
-
     @Override
     protected AbstractHarvester createHarvester()
     {
