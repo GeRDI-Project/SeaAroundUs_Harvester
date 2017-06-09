@@ -108,7 +108,7 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
 			}
 
 			// re-initialize everything
-			init( logger );
+			init();
 		}
 	}
 
