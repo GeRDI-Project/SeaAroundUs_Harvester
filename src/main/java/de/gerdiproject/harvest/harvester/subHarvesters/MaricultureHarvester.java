@@ -65,7 +65,7 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         IJsonObject maricultureData = httpRequester.getJsonObjectFromUrl( apiUrl );
         IJsonArray maricultureRegions = maricultureData.getJsonArray( JsonConst.FEATURES );
@@ -81,11 +81,10 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
      * @return the harvested documents
      */
     @Override
-    protected List<IJsonObject> harvestEntry( IJsonObject entry )
+    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject mariculture )
     {
-
         // get properties
-        IJsonObject properties = entry.getJsonObject( JsonConst.PROPERTIES );
+        IJsonObject properties = mariculture.getJsonObject( JsonConst.PROPERTIES );
         int regionId = properties.getInt( JsonConst.REGION_ID, -1 );
         IJsonArray subRegions = httpRequester.getJsonArrayFromUrl( apiUrl + regionId );
 
@@ -103,7 +102,7 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
         String label = LABEL_PREFIX + properties.getString( JsonConst.TITLE, null );
 
         // get shape geo coordinates
-        IJsonArray geoData = getGeoData( entry );
+        IJsonArray geoData = getGeoData( mariculture );
         
         // create document
         IJsonObject document = searchIndexFactory.createSearchableDocument( label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, tags );

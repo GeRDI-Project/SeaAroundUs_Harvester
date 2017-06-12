@@ -116,7 +116,7 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         IJsonObject regionData = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix );
         IJsonArray regionArray = regionData.getJsonArray( JsonConst.FEATURES );
@@ -126,10 +126,10 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected List<IJsonObject> harvestEntry( IJsonObject obj )
+    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject entry )
     {
         // read region ID
-        int regionId = getRegionId( obj );
+        int regionId = getRegionId( entry );
 
         // get region info from URL
         IJsonObject regionObject = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix + regionId );

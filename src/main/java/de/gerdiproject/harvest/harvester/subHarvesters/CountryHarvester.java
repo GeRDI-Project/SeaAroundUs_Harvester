@@ -66,7 +66,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         IJsonObject countryData = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix );
         IJsonArray countryArray = countryData.getJsonArray( JsonConst.FEATURES );
@@ -84,14 +84,14 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
     }
 
     @Override
-    protected List<IJsonObject> harvestEntry( IJsonObject entry )
+    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject country )
     {
         // read country number
-        IJsonObject properties = entry.getJsonObject( JsonConst.PROPERTIES );
+        IJsonObject properties = country.getJsonObject( JsonConst.PROPERTIES );
         int countryId = properties.getInt( JsonConst.COUNTRY_ID );
 
         // get geo data
-        IJsonObject geoData = getGeoData( entry );
+        IJsonObject geoData = getGeoData( country );
         
         // check if a document with the same countryId was already harvested
         if(profileDocuments.containsKey(countryId))

@@ -48,7 +48,7 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         IJsonObject globalRegion = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix + "1" );
         IJsonArray regionArray = jsonBuilder.createArrayFromObjects( globalRegion );
@@ -58,7 +58,7 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
 
     @Override
-    protected List<IJsonObject> harvestEntry( IJsonObject obj )
+    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject entry )
     {
         int subRegionId = Integer.parseInt( subRegion.urlName );
 
@@ -66,7 +66,7 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
         String subRegionName = subRegion.displayName;
 
         // get default search tags
-        List<String> tags = getDefaultSearchTags( obj );
+        List<String> tags = getDefaultSearchTags( (IJsonObject) entry );
 
         // create and add documents
         return createDocuments( subRegionId, null, subRegionName, null, tags );
