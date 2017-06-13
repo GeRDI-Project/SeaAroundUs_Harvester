@@ -51,7 +51,7 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         return httpRequester.getJsonArrayFromUrl( downloadUrlPrefix );
     }

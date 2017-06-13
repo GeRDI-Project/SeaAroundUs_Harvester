@@ -82,7 +82,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected IJsonArray getEntries()
+    protected IJsonArray getJsonArray()
     {
         IJsonArray taxonList = httpRequester.getJsonArrayFromUrl( taxaUrl );
         return taxonList;
@@ -90,13 +90,13 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected List<IJsonObject> harvestEntry( IJsonObject obj )
+    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject taxon )
     {
-        final int taxonKey = obj.getInt( JsonConst.TAXON_KEY );
+        final int taxonKey = taxon.getInt( JsonConst.TAXON_KEY );
 
         // get names
-        String commonName = obj.getString( JsonConst.COMMON_NAME );
-        String scientificName = obj.getString( JsonConst.SCIENTIFIC_NAME );
+        String commonName = taxon.getString( JsonConst.COMMON_NAME );
+        String scientificName = taxon.getString( JsonConst.SCIENTIFIC_NAME );
             
         List<IJsonObject> documentList = new ArrayList<>( numberOfDocumentsPerEntry );
 
