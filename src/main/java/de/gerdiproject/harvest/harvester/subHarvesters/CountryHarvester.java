@@ -76,7 +76,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected boolean harvestInternal( int from, int to )
+    protected boolean harvestInternal( int from, int to ) throws Exception
     {
         profileDocuments.clear();
         treatiesDocuments.clear();
