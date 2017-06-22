@@ -120,13 +120,13 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     	for( Entry dimension : SeaAroundUsConst.DIMENSIONS_MARICULTURE)
 		{
     		// add download for all sub regions
-    		urls.add( apiUrl + String.format( DOWNLOAD_ALL_URL_SUFFIX, dimension, regionId ) );
+    		urls.add( apiUrl + String.format( DOWNLOAD_ALL_URL_SUFFIX, dimension.urlName, regionId ) );
     		
     		// add downloads filtered by sub region
     		subRegions.forEach( (Object o) -> 
         	{
         		int subRegionId = ((IJsonObject) o).getInt( JsonConst.REGION_ID );
-        		urls.add( apiUrl + String.format( DOWNLOAD_SUBREGION_URL_SUFFIX, dimension, regionId, subRegionId ) );
+        		urls.add( apiUrl + String.format( DOWNLOAD_SUBREGION_URL_SUFFIX, dimension.urlName, regionId, subRegionId ) );
         	});
 		}
     	
