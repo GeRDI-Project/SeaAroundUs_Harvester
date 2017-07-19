@@ -46,189 +46,182 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
 
     private final HashMap<Integer, IJsonObject> profileDocuments = new HashMap<>();
     private final HashMap<Integer, IJsonObject> treatiesDocuments = new HashMap<>();
-    
+
 
     public CountryHarvester()
     {
-        super( 2 );
-        this.viewUrlPrefix = String.format( SeaAroundUsConst.VIEW_URL_PREFIX, COUNTRY );
+        super(2);
+        this.viewUrlPrefix = String.format(SeaAroundUsConst.VIEW_URL_PREFIX, COUNTRY);
     }
 
 
     @Override
-    public void setProperty( String key, String value )
+    public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals( key ))
-        {
-            downloadUrlPrefix = value + String.format( SeaAroundUsConst.REGION_IDS_URL, COUNTRY );
-        }
+        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
+            downloadUrlPrefix = value + String.format(SeaAroundUsConst.REGION_IDS_URL, COUNTRY);
     }
 
 
     @Override
     protected IJsonArray getJsonArray()
     {
-        IJsonObject countryData = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix );
-        IJsonArray countryArray = countryData.getJsonArray( JsonConst.FEATURES );
+        IJsonObject countryData = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix);
+        IJsonArray countryArray = countryData.getJsonArray(JsonConst.FEATURES);
 
         return countryArray;
     }
 
 
     @Override
-    protected boolean harvestInternal( int from, int to ) throws Exception
+    protected boolean harvestInternal(int from, int to) throws Exception
     {
         profileDocuments.clear();
         treatiesDocuments.clear();
-        return super.harvestInternal( from, to );
+        return super.harvestInternal(from, to);
     }
 
     @Override
-    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject country )
+    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject country)
     {
         // read country number
-        IJsonObject properties = country.getJsonObject( JsonConst.PROPERTIES );
-        int countryId = properties.getInt( JsonConst.COUNTRY_ID );
+        IJsonObject properties = country.getJsonObject(JsonConst.PROPERTIES);
+        int countryId = properties.getInt(JsonConst.COUNTRY_ID);
 
         // get geo data
-        IJsonObject geoData = getGeoData( country );
-        
+        IJsonObject geoData = getGeoData(country);
+
         // check if a document with the same countryId was already harvested
-        if(profileDocuments.containsKey(countryId))
-        {
-        	return updateDocuments(countryId, properties, geoData);
-        }
+        if (profileDocuments.containsKey(countryId))
+            return updateDocuments(countryId, properties, geoData);
         else
-        {
-        	return createDocuments(countryId, properties, geoData);
-        }
+            return createDocuments(countryId, properties, geoData);
     }
-    
-    
+
+
     private List<IJsonObject> createDocuments(int countryId, IJsonObject properties, IJsonObject geoJson)
     {
-    	// retrieve region info from URL
-        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix + countryId );
+        // retrieve region info from URL
+        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + countryId);
 
         // get search tags
-        IJsonArray searchTags = createSearchTags( countryObj, properties );
-        
+        IJsonArray searchTags = createSearchTags(countryObj, properties);
+
         // create documents
-        IJsonObject countryProfileDoc = createCountryProfileDocument( countryObj, geoJson, searchTags );
-        IJsonObject treatiesDoc = createTreatiesAndConventionsDocument( countryObj, geoJson, searchTags );
-        
+        IJsonObject countryProfileDoc = createCountryProfileDocument(countryObj, geoJson, searchTags);
+        IJsonObject treatiesDoc = createTreatiesAndConventionsDocument(countryObj, geoJson, searchTags);
+
         // memorize document references
-        profileDocuments.put( countryId, countryProfileDoc );
-        treatiesDocuments.put( countryId, treatiesDoc );
-        
+        profileDocuments.put(countryId, countryProfileDoc);
+        treatiesDocuments.put(countryId, treatiesDoc);
+
         // return created documents
         List<IJsonObject> docs = new LinkedList<>();
-        docs.add( countryProfileDoc);
-        docs.add( treatiesDoc);
-        
+        docs.add(countryProfileDoc);
+        docs.add(treatiesDoc);
+
         return docs;
     }
-    
+
     private List<IJsonObject> updateDocuments(int countryId, IJsonObject properties, IJsonObject geoJson)
     {
-    	// retrieve region info from URL
-        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix + countryId );
+        // retrieve region info from URL
+        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + countryId);
 
         // retrieve existing documents
-        IJsonObject profileDoc = profileDocuments.get( countryId );
-        IJsonObject treatiesDoc = treatiesDocuments.get( countryId );
-        
+        IJsonObject profileDoc = profileDocuments.get(countryId);
+        IJsonObject treatiesDoc = treatiesDocuments.get(countryId);
+
         // add title to the search tags
-        String title = countryObj.getString( JsonConst.TITLE, null );
-        profileDoc.getJsonArray( SearchIndexFactory.TAGS_JSON ).add( title );
-        treatiesDoc.getJsonArray( SearchIndexFactory.TAGS_JSON ).add( title );
-        
+        String title = countryObj.getString(JsonConst.TITLE, null);
+        profileDoc.getJsonArray(SearchIndexFactory.TAGS_JSON).add(title);
+        treatiesDoc.getJsonArray(SearchIndexFactory.TAGS_JSON).add(title);
+
         // add geoJson to geo array
-        profileDoc.getJsonArray( SearchIndexFactory.GEO_JSON ).add( geoJson );
-        treatiesDoc.getJsonArray( SearchIndexFactory.GEO_JSON ).add( geoJson );
-        
+        profileDoc.getJsonArray(SearchIndexFactory.GEO_JSON).add(geoJson);
+        treatiesDoc.getJsonArray(SearchIndexFactory.GEO_JSON).add(geoJson);
+
         // create empty documents to increase the harvesting progress
         List<IJsonObject> docs = new LinkedList<>();
-        docs.add( null );
-        docs.add( null);
-        
+        docs.add(null);
+        docs.add(null);
+
         return docs;
     }
 
-    private IJsonObject createCountryProfileDocument( IJsonObject countryObject, IJsonObject geoJson, IJsonArray searchTags )
+    private IJsonObject createCountryProfileDocument(IJsonObject countryObject, IJsonObject geoJson, IJsonArray searchTags)
     {
-        int countryId = countryObject.getInt( JsonConst.ID, -1 );
-        if (countryId == -1)
-        {
-            return null;
-        }
+        int countryId = countryObject.getInt(JsonConst.ID, -1);
 
-        String countryName = countryObject.getString( JsonConst.COUNTRY );
+        if (countryId == -1)
+            return null;
+
+        String countryName = countryObject.getString(JsonConst.COUNTRY);
 
         String label = COUNTRY_PROFILE_LABEL_PREFIX + countryName;
         String viewUrl = viewUrlPrefix + countryId;
-        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects( downloadUrlPrefix + countryId );
-        IJsonArray geoArray = jsonBuilder.createArrayFromObjects( geoJson );
+        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(downloadUrlPrefix + countryId);
+        IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
 
         return searchIndexFactory.createSearchableDocument(
-                label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
-        );
+                   label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
+               );
     }
 
 
-    private IJsonObject createTreatiesAndConventionsDocument( IJsonObject regionObject, IJsonObject geoJson, IJsonArray searchTags )
+    private IJsonObject createTreatiesAndConventionsDocument(IJsonObject regionObject, IJsonObject geoJson, IJsonArray searchTags)
     {
-        String fishBaseId = regionObject.getString( JsonConst.FISH_BASE, null );
-        if (fishBaseId == null)
-        {
-            return null;
-        }
-        String faoCode = regionObject.getString( JsonConst.FAO_CODE, "" );
-        String regionName = regionObject.getString( JsonConst.COUNTRY );
+        String fishBaseId = regionObject.getString(JsonConst.FISH_BASE, null);
 
-        String label = String.format( TREATIES_LABEL_PREFIX, regionName, faoCode );
+        if (fishBaseId == null)
+            return null;
+
+        String faoCode = regionObject.getString(JsonConst.FAO_CODE, "");
+        String regionName = regionObject.getString(JsonConst.COUNTRY);
+
+        String label = String.format(TREATIES_LABEL_PREFIX, regionName, faoCode);
         String viewUrl = TREATIES_VIEW_URL_PREFIX + fishBaseId;
-        IJsonArray geoArray = jsonBuilder.createArrayFromObjects( geoJson );
+        IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
 
         return searchIndexFactory.createSearchableDocument(
-                label, null, viewUrl, null, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
-        );
+                   label, null, viewUrl, null, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
+               );
     }
 
 
-    private IJsonArray createSearchTags( IJsonObject countryObject, IJsonObject regionProperties )
+    private IJsonArray createSearchTags(IJsonObject countryObject, IJsonObject regionProperties)
     {
         IJsonArray tags = jsonBuilder.createArray();
 
         // the title does not have to be the country, it can also be an island name
-        String title = regionProperties.getString( JsonConst.TITLE, null );
-        tags.addNotNull( title );
+        String title = regionProperties.getString(JsonConst.TITLE, null);
+        tags.addNotNull(title);
 
-        String countryName = countryObject.getString( JsonConst.COUNTRY, null );
-        tags.addNotNull( countryName );
+        String countryName = countryObject.getString(JsonConst.COUNTRY, null);
+        tags.addNotNull(countryName);
 
-        String unName = countryObject.getString( JsonConst.UN_NAME, null );
-        tags.addNotNull( unName );
+        String unName = countryObject.getString(JsonConst.UN_NAME, null);
+        tags.addNotNull(unName);
 
-        String govMarineFish = countryObject.getString( JsonConst.GOV_MARINE_FISH, null );
-        tags.addNotNull( govMarineFish );
+        String govMarineFish = countryObject.getString(JsonConst.GOV_MARINE_FISH, null);
+        tags.addNotNull(govMarineFish);
 
-        String govProtect = countryObject.getString( JsonConst.GOV_PROTECT_MARINE_ENV, null );
-        tags.addNotNull( govProtect );
+        String govProtect = countryObject.getString(JsonConst.GOV_PROTECT_MARINE_ENV, null);
+        tags.addNotNull(govProtect);
 
-        String fishManagementPlan = countryObject.getString( JsonConst.FISH_MGT_PLAN, null );
-        tags.addNotNull( fishManagementPlan );
+        String fishManagementPlan = countryObject.getString(JsonConst.FISH_MGT_PLAN, null);
+        tags.addNotNull(fishManagementPlan);
 
-        String faoCode = countryObject.getString( JsonConst.FAO_CODE, null );
-        tags.addNotNull( faoCode );
+        String faoCode = countryObject.getString(JsonConst.FAO_CODE, null);
+        tags.addNotNull(faoCode);
 
         return tags;
     }
 
 
-    private IJsonObject getGeoData( IJsonObject regionObject )
+    private IJsonObject getGeoData(IJsonObject regionObject)
     {
-        return regionObject.getJsonObject( JsonConst.GEOMETRY );
+        return regionObject.getJsonObject(JsonConst.GEOMETRY);
     }
 
 

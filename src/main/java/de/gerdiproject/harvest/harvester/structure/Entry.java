@@ -43,7 +43,7 @@ public class Entry
      * @param urlName the string as it is used in HTTP requests
      * @param displayName the string as it is displayed to the user
      */
-    public Entry( String urlName, String displayName )
+    public Entry(String urlName, String displayName)
     {
         this.urlName = urlName;
         this.displayName = displayName;

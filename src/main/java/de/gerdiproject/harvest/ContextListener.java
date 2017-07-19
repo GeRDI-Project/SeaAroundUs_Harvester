@@ -36,11 +36,11 @@ public class ContextListener extends AbstractContextListener
     }
 
 
-	@Override
-	protected String createServiceName()
-	{
-		return "SeaAroundUsHarvesterService";
-	}
-    
-    
+    @Override
+    protected String createServiceName()
+    {
+        return "SeaAroundUsHarvesterService";
+    }
+
+
 }

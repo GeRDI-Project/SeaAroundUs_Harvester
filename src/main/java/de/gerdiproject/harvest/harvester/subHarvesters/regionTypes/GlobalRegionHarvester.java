@@ -36,11 +36,11 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
     private final Entry subRegion;
 
 
-    public GlobalRegionHarvester( Entry subRegion )
+    public GlobalRegionHarvester(Entry subRegion)
     {
-        super( SeaAroundUsConst.REGION_GLOBAL,
-                SeaAroundUsConst.DIMENSIONS_GENERIC,
-                SeaAroundUsConst.GLOBAL_OCEAN_URL_VO );
+        super(SeaAroundUsConst.REGION_GLOBAL,
+              SeaAroundUsConst.DIMENSIONS_GENERIC,
+              SeaAroundUsConst.GLOBAL_OCEAN_URL_VO);
 
         this.subRegion = subRegion;
         this.name += " " + subRegion.displayName;
@@ -50,60 +50,57 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
     @Override
     protected IJsonArray getJsonArray()
     {
-        IJsonObject globalRegion = httpRequester.getJsonObjectFromUrl( downloadUrlPrefix + "1" );
-        IJsonArray regionArray = jsonBuilder.createArrayFromObjects( globalRegion );
+        IJsonObject globalRegion = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + "1");
+        IJsonArray regionArray = jsonBuilder.createArrayFromObjects(globalRegion);
 
         return regionArray;
     }
 
 
     @Override
-    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject entry )
+    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject entry)
     {
-        int subRegionId = Integer.parseInt( subRegion.urlName );
+        int subRegionId = Integer.parseInt(subRegion.urlName);
 
         // get name
         String subRegionName = subRegion.displayName;
 
         // get default search tags
-        List<String> tags = getDefaultSearchTags( (IJsonObject) entry );
+        List<String> tags = getDefaultSearchTags((IJsonObject) entry);
 
         // create and add documents
-        return createDocuments( subRegionId, null, subRegionName, null, tags );
+        return createDocuments(subRegionId, null, subRegionName, null, tags);
     }
 
 
     @Override
-    protected IJsonObject createMarineTrophicIndexDocument( int subRegionId, String regionName, IJsonArray geoData, List<String> defaultTags )
+    protected IJsonObject createMarineTrophicIndexDocument(int subRegionId, String regionName, IJsonArray geoData, List<String> defaultTags)
     {
         final String regionNameExtended = MARINE_TROPHIC_INDEX_LABEL_GLOBAL + regionName;
-        return super.createMarineTrophicIndexDocument( subRegionId, regionNameExtended, geoData, defaultTags );
+        return super.createMarineTrophicIndexDocument(subRegionId, regionNameExtended, geoData, defaultTags);
     }
 
 
     @Override
-    protected IJsonObject createCatchesByDimensionDocument( int regionId, String regionName, Entry dimension, Entry measure, IJsonArray geoData, List<String> defaultTags )
+    protected IJsonObject createCatchesByDimensionDocument(int regionId, String regionName, Entry dimension, Entry measure, IJsonArray geoData, List<String> defaultTags)
     {
         String apiUrl;
 
         // the url differs for the Global Ocean region
         if (regionId == 0)
-        {
-            apiUrl = SeaAroundUsConst.GENERIC_URL_VO.getCatchesDownloadUrl( downloadUrlPrefix, 1, dimension.urlName, measure.urlName );
-        }
+            apiUrl = SeaAroundUsConst.GENERIC_URL_VO.getCatchesDownloadUrl(downloadUrlPrefix, 1, dimension.urlName, measure.urlName);
         else
-        {
-            apiUrl = urls.getCatchesDownloadUrl( downloadUrlPrefix, regionId, dimension.urlName, measure.urlName );
-        }
-        String label = String.format( CATCHES_LABEL, measure.displayName, dimension.displayName, regionType.displayName, regionName );
-        String viewUrl = urls.getCatchesViewUrl( viewUrlPrefix, regionId, dimension.urlName, measure.urlName );
+            apiUrl = urls.getCatchesDownloadUrl(downloadUrlPrefix, regionId, dimension.urlName, measure.urlName);
 
-        return createDocument( label, apiUrl, viewUrl, geoData, defaultTags );
+        String label = String.format(CATCHES_LABEL, measure.displayName, dimension.displayName, regionType.displayName, regionName);
+        String viewUrl = urls.getCatchesViewUrl(viewUrlPrefix, regionId, dimension.urlName, measure.urlName);
+
+        return createDocument(label, apiUrl, viewUrl, geoData, defaultTags);
     }
-    
+
 
     @Override
-    protected IJsonArray getGeoData( IJsonObject regionObject )
+    protected IJsonArray getGeoData(IJsonObject regionObject)
     {
         return null;
     }
