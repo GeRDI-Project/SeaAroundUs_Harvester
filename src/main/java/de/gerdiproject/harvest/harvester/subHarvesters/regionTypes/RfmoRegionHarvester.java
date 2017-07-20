@@ -33,69 +33,63 @@ public class RfmoRegionHarvester extends GenericRegionHarvester
 {
     public RfmoRegionHarvester()
     {
-        super( SeaAroundUsConst.REGION_RFMO, SeaAroundUsConst.DIMENSIONS_GENERIC, SeaAroundUsConst.GENERIC_URL_VO );
+        super(SeaAroundUsConst.REGION_RFMO, SeaAroundUsConst.DIMENSIONS_GENERIC, SeaAroundUsConst.GENERIC_URL_VO);
     }
 
 
     @Override
-    protected List<String> getDefaultSearchTags( IJsonObject regionObject )
+    protected List<String> getDefaultSearchTags(IJsonObject regionObject)
     {
-        List<String> tags = super.getDefaultSearchTags( regionObject );
+        List<String> tags = super.getDefaultSearchTags(regionObject);
 
-        tags = addTaxa( tags, regionObject.getJsonArray( JsonConst.PRIMARY_TAXA ) );
-        tags = addTaxa( tags, regionObject.getJsonArray( JsonConst.SECONDARY_TAXA ) );
-        tags = addContractingCountries( tags, regionObject.getJsonArray( JsonConst.CONTRACTING_COUNTRIES ) );
+        tags = addTaxa(tags, regionObject.getJsonArray(JsonConst.PRIMARY_TAXA));
+        tags = addTaxa(tags, regionObject.getJsonArray(JsonConst.SECONDARY_TAXA));
+        tags = addContractingCountries(tags, regionObject.getJsonArray(JsonConst.CONTRACTING_COUNTRIES));
 
         return tags;
     }
 
 
-    private List<String> addTaxa( List<String> tags, IJsonArray taxa )
+    private List<String> addTaxa(List<String> tags, IJsonArray taxa)
     {
-        if (taxa != null)
-        {
-            for (Object attribute : taxa)
-            {
-            	IJsonObject metric = (IJsonObject) attribute;
+        if (taxa != null) {
+            for (Object attribute : taxa) {
+                IJsonObject metric = (IJsonObject) attribute;
 
-                String commonName = metric.getString( JsonConst.COMMON_NAME, null );
+                String commonName = metric.getString(JsonConst.COMMON_NAME, null);
+
                 if (commonName != null)
-                {
-                    tags.add( commonName );
-                }
+                    tags.add(commonName);
 
-                String scientificName = metric.getString( JsonConst.SCIENTIFIC_NAME, null );
+                String scientificName = metric.getString(JsonConst.SCIENTIFIC_NAME, null);
+
                 if (scientificName != null)
-                {
-                    tags.add( scientificName );
-                }
+                    tags.add(scientificName);
             }
         }
+
         return tags;
     }
 
 
-    private List<String> addContractingCountries( List<String> tags, IJsonArray countries )
+    private List<String> addContractingCountries(List<String> tags, IJsonArray countries)
     {
-        if (countries != null)
-        {
-            for (Object c : countries)
-            {
-            	IJsonObject metric = (IJsonObject) c;
+        if (countries != null) {
+            for (Object c : countries) {
+                IJsonObject metric = (IJsonObject) c;
 
-                String iso3 = metric.getString( JsonConst.ISO3, null );
+                String iso3 = metric.getString(JsonConst.ISO3, null);
+
                 if (iso3 != null)
-                {
-                    tags.add( iso3 );
-                }
+                    tags.add(iso3);
 
-                String name = metric.getString( JsonConst.NAME, null );
+                String name = metric.getString(JsonConst.NAME, null);
+
                 if (name != null)
-                {
-                    tags.add( name );
-                }
+                    tags.add(name);
             }
         }
+
         return tags;
     }
 }

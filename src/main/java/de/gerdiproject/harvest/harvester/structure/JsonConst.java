@@ -42,23 +42,23 @@ public class JsonConst
     public static final String KEY = "key";
     public static final String VALUES = "values";
     public static final String TYPE = "type";
-    
+
     public static final String FEATURES = "features";
     public static final String TITLE = "title";
     public static final String GEOMETRY = "geometry";
     public static final String COORDINATES = "coordinates";
-    
+
     public static final String LONG_TITLE = "long_title";
-    
+
     public static final String GEO_ENTITY_ID = "geo_entity_id";
     public static final String OHI_LINK = "ohi_link";
-    
+
     public static final String FISH_BASE = "fish_base";
     public static final String FAO_CODE = "fao_code";
     public static final String COUNTRY = "country";
     public static final String COUNTRIES = "countries";
     public static final String COUNTRY_ID = "c_number";
-    
+
     public static final String CSS = "css";
     public static final String START_YEAR = "start_year";
     public static final String FISHING_ACCESS = "fishing_access";
@@ -71,20 +71,20 @@ public class JsonConst
     public static final String PRIMARY_TAXA = "primary_taxa";
     public static final String SECONDARY_TAXA = "secondary_taxa";
     public static final String CONTRACTING_COUNTRIES = "contracting_countries";
-    
+
     public static final String UN_NAME = "un_name";
     public static final String GOV_MARINE_FISH = "gov_marine_fish";
     public static final String GOV_PROTECT_MARINE_ENV = "gov_protect_marine_env";
     public static final String FISH_MGT_PLAN = "fish_mgt_plan";
-    
+
     public static final String FAO_RFB = "fao_rfb";
     public static final String ACRONYM = "acronym";
-	public static final String POINT_GEOJSON = "point_geojson";
-    
-    
+    public static final String POINT_GEOJSON = "point_geojson";
+
+
     /**
      * Since this is a static class, no constructor is needed.
      */
-    private JsonConst(){}
-    
+    private JsonConst() {}
+
 }

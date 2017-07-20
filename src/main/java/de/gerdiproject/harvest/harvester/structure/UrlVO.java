@@ -37,14 +37,14 @@ public class UrlVO
     private final String catchesDownloadSuffix;
 
 
-    public UrlVO( String primaryProductionViewSuffix,
-            String primaryProductionDownloadSuffix,
-            String stockStatusViewSuffix,
-            String stockStatusDownloadSuffix,
-            String marineTrophicIndexViewSuffix,
-            String marineTrophicIndexDownloadSuffix,
-            String catchesViewSuffix,
-            String catchesDownloadSuffix )
+    public UrlVO(String primaryProductionViewSuffix,
+                 String primaryProductionDownloadSuffix,
+                 String stockStatusViewSuffix,
+                 String stockStatusDownloadSuffix,
+                 String marineTrophicIndexViewSuffix,
+                 String marineTrophicIndexDownloadSuffix,
+                 String catchesViewSuffix,
+                 String catchesDownloadSuffix)
     {
         this.primaryProductionViewSuffix = primaryProductionViewSuffix;
         this.primaryProductionDownloadSuffix = primaryProductionDownloadSuffix;
@@ -57,51 +57,51 @@ public class UrlVO
     }
 
 
-    public String getPrimaryProductionViewUrl( String prefix, int regionId )
+    public String getPrimaryProductionViewUrl(String prefix, int regionId)
     {
-        return prefix + String.format( primaryProductionViewSuffix, regionId );
+        return prefix + String.format(primaryProductionViewSuffix, regionId);
     }
 
 
-    public String getPrimaryProductionDownloadUrl( String prefix, int regionId )
+    public String getPrimaryProductionDownloadUrl(String prefix, int regionId)
     {
-        return prefix + String.format( primaryProductionDownloadSuffix, regionId );
+        return prefix + String.format(primaryProductionDownloadSuffix, regionId);
 
     }
 
 
-    public String getStockStatusViewUrl( String prefix, int regionId )
+    public String getStockStatusViewUrl(String prefix, int regionId)
     {
-        return prefix + String.format( stockStatusViewSuffix, regionId );
+        return prefix + String.format(stockStatusViewSuffix, regionId);
     }
 
 
-    public String getStockStatusDownloadUrl( String prefix, int regionId )
+    public String getStockStatusDownloadUrl(String prefix, int regionId)
     {
-        return prefix + String.format( stockStatusDownloadSuffix, regionId );
+        return prefix + String.format(stockStatusDownloadSuffix, regionId);
     }
 
 
-    public String getMarineTrophicIndexViewUrl( String prefix, int regionId )
+    public String getMarineTrophicIndexViewUrl(String prefix, int regionId)
     {
-        return prefix + String.format( marineTrophicIndexViewSuffix, regionId );
+        return prefix + String.format(marineTrophicIndexViewSuffix, regionId);
     }
 
 
-    public String getMarineTrophicIndexDownloadUrl( String prefix, int regionId )
+    public String getMarineTrophicIndexDownloadUrl(String prefix, int regionId)
     {
-        return prefix + String.format( marineTrophicIndexDownloadSuffix, regionId );
+        return prefix + String.format(marineTrophicIndexDownloadSuffix, regionId);
     }
 
 
-    public String getCatchesViewUrl( String prefix, int regionId, String dimension, String measure )
+    public String getCatchesViewUrl(String prefix, int regionId, String dimension, String measure)
     {
-        return prefix + String.format( catchesViewSuffix, regionId, dimension, measure );
+        return prefix + String.format(catchesViewSuffix, regionId, dimension, measure);
     }
 
 
-    public String getCatchesDownloadUrl( String prefix, int regionId, String dimension, String measure )
+    public String getCatchesDownloadUrl(String prefix, int regionId, String dimension, String measure)
     {
-        return prefix + String.format( catchesDownloadSuffix, regionId, dimension, measure );
+        return prefix + String.format(catchesDownloadSuffix, regionId, dimension, measure);
     }
 }

@@ -43,32 +43,30 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     private final static String DOWNLOAD_ALL_URL_SUFFIX = "%s/%d?limit=20" + SeaAroundUsConst.CSV_FORM;
 
     private String apiUrl;
-  //"http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/57?format=csv&limit=10&sciname=&sub_unit_id=413"
+    //"http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/57?format=csv&limit=10&sciname=&sub_unit_id=413"
 
     /**
      * @param harvestedDocuments the list to which harvested documents are added
      */
     public MaricultureHarvester()
     {
-        super( 1 );
+        super(1);
     }
 
 
     @Override
-    public void setProperty( String key, String value )
+    public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals( key ))
-        {
+        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
             apiUrl = value + API_URL_SUFFIX;
-        }
     }
 
 
     @Override
     protected IJsonArray getJsonArray()
     {
-        IJsonObject maricultureData = httpRequester.getJsonObjectFromUrl( apiUrl );
-        IJsonArray maricultureRegions = maricultureData.getJsonArray( JsonConst.FEATURES );
+        IJsonObject maricultureData = httpRequester.getJsonObjectFromUrl(apiUrl);
+        IJsonArray maricultureRegions = maricultureData.getJsonArray(JsonConst.FEATURES);
 
         return maricultureRegions;
     }
@@ -81,80 +79,78 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
      * @return the harvested documents
      */
     @Override
-    protected List<IJsonObject> harvestJsonArrayEntry( IJsonObject mariculture )
+    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject mariculture)
     {
         // get properties
-        IJsonObject properties = mariculture.getJsonObject( JsonConst.PROPERTIES );
-        int regionId = properties.getInt( JsonConst.REGION_ID, -1 );
-        IJsonArray subRegions = httpRequester.getJsonArrayFromUrl( apiUrl + regionId );
+        IJsonObject properties = mariculture.getJsonObject(JsonConst.PROPERTIES);
+        int regionId = properties.getInt(JsonConst.REGION_ID, -1);
+        IJsonArray subRegions = httpRequester.getJsonArrayFromUrl(apiUrl + regionId);
 
         // set up view url
-        String viewUrl = String.format( VIEW_URL, regionId );
-        
-        
+        String viewUrl = String.format(VIEW_URL, regionId);
+
+
         // set up download urls
-        IJsonArray downloadUrls = getDownloadUrls( regionId, subRegions);
+        IJsonArray downloadUrls = getDownloadUrls(regionId, subRegions);
 
         // create search tags
-        IJsonArray tags = createSearchTags( subRegions );
+        IJsonArray tags = createSearchTags(subRegions);
 
         // assemble label
-        String label = LABEL_PREFIX + properties.getString( JsonConst.TITLE, null );
+        String label = LABEL_PREFIX + properties.getString(JsonConst.TITLE, null);
 
         // get shape geo coordinates
-        IJsonArray geoData = getGeoData( mariculture );
-        
+        IJsonArray geoData = getGeoData(mariculture);
+
         // create document
-        IJsonObject document = searchIndexFactory.createSearchableDocument( label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, tags );
+        IJsonObject document = searchIndexFactory.createSearchableDocument(label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, tags);
 
         // return list of documents
         List<IJsonObject> documentList = new LinkedList<>();
-        documentList.add( document );
+        documentList.add(document);
         return documentList;
     }
-    
+
     private IJsonArray getDownloadUrls(int regionId, IJsonArray subRegions)
     {
-    	IJsonArray urls = jsonBuilder.createArray();
-    	
-    	for( Entry dimension : SeaAroundUsConst.DIMENSIONS_MARICULTURE)
-		{
-    		// add download for all sub regions
-    		urls.add( apiUrl + String.format( DOWNLOAD_ALL_URL_SUFFIX, dimension.urlName, regionId ) );
-    		
-    		// add downloads filtered by sub region
-    		subRegions.forEach( (Object o) -> 
-        	{
-        		int subRegionId = ((IJsonObject) o).getInt( JsonConst.REGION_ID );
-        		urls.add( apiUrl + String.format( DOWNLOAD_SUBREGION_URL_SUFFIX, dimension.urlName, regionId, subRegionId ) );
-        	});
-		}
-    	
-    	
-    	return urls;
-    }
+        IJsonArray urls = jsonBuilder.createArray();
 
+        for (Entry dimension : SeaAroundUsConst.DIMENSIONS_MARICULTURE) {
+            // add download for all sub regions
+            urls.add(apiUrl + String.format(DOWNLOAD_ALL_URL_SUFFIX, dimension.urlName, regionId));
 
-    private IJsonArray createSearchTags( IJsonArray subRegions )
-    {
-        List<String> titles = JsonHelper.arrayToStringList( subRegions, JsonConst.TITLE );
-        return jsonBuilder.createArrayFromLists( titles );
-    }
-    
-    
-    protected IJsonArray getGeoData( IJsonObject entry )
-    {
-        IJsonObject geojson = entry.getJsonObject( JsonConst.GEOJSON );
-        IJsonObject geoPoint = entry.getJsonObject( JsonConst.POINT_GEOJSON );
-        
-        // check if the geojson exists and add it to an array, if so
-        if (geojson != null || geoPoint != null)
-        {
-        	IJsonArray geoObjects = jsonBuilder.createArray();
-        	geoObjects.addNotNull( geojson );
-        	geoObjects.addNotNull( geoPoint );
-        	return geoObjects;
+            // add downloads filtered by sub region
+            subRegions.forEach((Object o) -> {
+                int subRegionId = ((IJsonObject) o).getInt(JsonConst.REGION_ID);
+                urls.add(apiUrl + String.format(DOWNLOAD_SUBREGION_URL_SUFFIX, dimension.urlName, regionId, subRegionId));
+            });
         }
+
+
+        return urls;
+    }
+
+
+    private IJsonArray createSearchTags(IJsonArray subRegions)
+    {
+        List<String> titles = JsonHelper.arrayToStringList(subRegions, JsonConst.TITLE);
+        return jsonBuilder.createArrayFromLists(titles);
+    }
+
+
+    protected IJsonArray getGeoData(IJsonObject entry)
+    {
+        IJsonObject geojson = entry.getJsonObject(JsonConst.GEOJSON);
+        IJsonObject geoPoint = entry.getJsonObject(JsonConst.POINT_GEOJSON);
+
+        // check if the geojson exists and add it to an array, if so
+        if (geojson != null || geoPoint != null) {
+            IJsonArray geoObjects = jsonBuilder.createArray();
+            geoObjects.addNotNull(geojson);
+            geoObjects.addNotNull(geoPoint);
+            return geoObjects;
+        }
+
         return null;
     }
 
