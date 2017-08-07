@@ -46,7 +46,7 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
         super(SeaAroundUsConst.REGION_FISHING_ENTITY,
               SeaAroundUsConst.DIMENSIONS_FAO,
               SeaAroundUsConst.GENERIC_URL_VO,
-              1 + SeaAroundUsConst.DIMENSIONS_FAO.length * MEASURES.length);
+              1 + SeaAroundUsConst.DIMENSIONS_FAO.size() * MEASURES.length);
     }
 
 

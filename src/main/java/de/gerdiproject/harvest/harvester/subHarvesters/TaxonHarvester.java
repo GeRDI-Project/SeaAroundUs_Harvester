@@ -54,8 +54,8 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
         MEASURE_VALUE, MEASURE_TONNAGE
     };
 
-    private HashMap<Integer, String> taxonGroups;
-    private HashMap<Integer, String> taxonLevels;
+    private Map<Integer, String> taxonGroups;
+    private Map<Integer, String> taxonLevels;
     private String taxaUrl;
 
 
@@ -64,7 +64,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
      */
     public TaxonHarvester()
     {
-        super(1 + MEASURES.length * SeaAroundUsConst.DIMENSIONS_TAXON.length);
+        super(1 + MEASURES.length * SeaAroundUsConst.DIMENSIONS_TAXON.size());
     }
 
 
@@ -117,9 +117,9 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
      * @param baseUrl the Sea Around Us API base url
      * @return a ist of taxon group names
      */
-    private HashMap<Integer, String> getTaxonGroups(String baseUrl)
+    private Map<Integer, String> getTaxonGroups(String baseUrl)
     {
-        HashMap<Integer, String> taxonGroupMap = new HashMap<>();
+        Map<Integer, String> taxonGroupMap = new HashMap<>();
 
         String url = baseUrl + TAXON_GROUP_URL_SUFFIX;
         IJsonArray taxonGroupList = httpRequester.getJsonArrayFromUrl(url);
@@ -143,9 +143,9 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
      * @param baseUrl the Sea Around Us API base url
      * @return a ist of taxon level names
      */
-    private HashMap<Integer, String> getTaxonLevels(String baseUrl)
+    private Map<Integer, String> getTaxonLevels(String baseUrl)
     {
-        HashMap<Integer, String> taxonLevelMap = new HashMap<>();
+        Map<Integer, String> taxonLevelMap = new HashMap<>();
 
         String url = baseUrl + TAXON_LEVEL_URL_SUFFIX;
         IJsonArray taxonGroupList = httpRequester.getJsonArrayFromUrl(url);

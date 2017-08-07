@@ -18,6 +18,9 @@
  */
 package de.gerdiproject.harvest.harvester.structure;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -60,56 +63,86 @@ public class SeaAroundUsConst
     public final static Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
     public final static Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
 
-    public static final Entry[] DIMENSIONS_GENERIC = {
-        SeaAroundUsConst.DIMENSION_TAXON,
-        SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP,
-        SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP,
-        SeaAroundUsConst.DIMENSION_COUNTRY,
-        SeaAroundUsConst.DIMENSION_SECTOR,
-        SeaAroundUsConst.DIMENSION_CATCH_TYPE,
-        SeaAroundUsConst.DIMENSION_REPORTING_STATUS
-    };
+    public static final List<Entry> DIMENSIONS_GENERIC;
+    static
+    {
+        final List<Entry> genericDims = new LinkedList<>();
+        genericDims.add(SeaAroundUsConst.DIMENSION_TAXON);
+        genericDims.add(SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP);
+        genericDims.add(SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP);
+        genericDims.add(SeaAroundUsConst.DIMENSION_COUNTRY);
+        genericDims.add(SeaAroundUsConst.DIMENSION_SECTOR);
+        genericDims.add(SeaAroundUsConst.DIMENSION_CATCH_TYPE);
+        genericDims.add(SeaAroundUsConst.DIMENSION_REPORTING_STATUS);
 
-    public static final Entry[] DIMENSIONS_MARICULTURE = {
-        SeaAroundUsConst.DIMENSION_TAXON,
-        SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP,
-        SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP
-    };
+        // guarantee immutability
+        DIMENSIONS_GENERIC = Collections.unmodifiableList(genericDims);
+    }
 
-    public static final Entry[] DIMENSIONS_FAO = {
-        SeaAroundUsConst.DIMENSION_TAXON,
-        SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP,
-        SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP,
-        SeaAroundUsConst.DIMENSION_COUNTRY,
-        SeaAroundUsConst.DIMENSION_SECTOR,
-        SeaAroundUsConst.DIMENSION_CATCH_TYPE,
-        SeaAroundUsConst.DIMENSION_REPORTING_STATUS,
-        SeaAroundUsConst.DIMENSION_EEZ,
-        SeaAroundUsConst.DIMENSION_HIGH_SEAS,
-    };
+    public static final List<Entry> DIMENSIONS_MARICULTURE;
+    static
+    {
+        final List<Entry> maricultureDims = new LinkedList<>();
+        maricultureDims.add(SeaAroundUsConst.DIMENSION_TAXON);
+        maricultureDims.add(SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP);
+        maricultureDims.add(SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP);
 
-    public static final Entry[] DIMENSIONS_EEZ = {
-        SeaAroundUsConst.DIMENSION_TAXON,
-        SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP,
-        SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP,
-        SeaAroundUsConst.DIMENSION_COUNTRY,
-        SeaAroundUsConst.DIMENSION_SECTOR,
-        SeaAroundUsConst.DIMENSION_CATCH_TYPE,
-        SeaAroundUsConst.DIMENSION_REPORTING_STATUS,
-        SeaAroundUsConst.DIMENSION_LAYER
-    };
+        // guarantee immutability
+        DIMENSIONS_MARICULTURE = Collections.unmodifiableList(maricultureDims);
+    }
 
-    public static final Entry[] DIMENSIONS_TAXON = {
-        SeaAroundUsConst.DIMENSION_EEZ,
-        SeaAroundUsConst.DIMENSION_LME,
-        SeaAroundUsConst.DIMENSION_HIGH_SEAS,
-        SeaAroundUsConst.DIMENSION_COUNTRY,
-        SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP,
-        SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP,
-        SeaAroundUsConst.DIMENSION_SECTOR,
-        SeaAroundUsConst.DIMENSION_CATCH_TYPE,
-        SeaAroundUsConst.DIMENSION_REPORTING_STATUS
-    };
+    public static final List<Entry> DIMENSIONS_FAO;
+    static
+    {
+        final List<Entry> faoDims = new LinkedList<>();
+        faoDims.add(SeaAroundUsConst.DIMENSION_TAXON);
+        faoDims.add(SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP);
+        faoDims.add(SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP);
+        faoDims.add(SeaAroundUsConst.DIMENSION_COUNTRY);
+        faoDims.add(SeaAroundUsConst.DIMENSION_SECTOR);
+        faoDims.add(SeaAroundUsConst.DIMENSION_CATCH_TYPE);
+        faoDims.add(SeaAroundUsConst.DIMENSION_REPORTING_STATUS);
+        faoDims.add(SeaAroundUsConst.DIMENSION_EEZ);
+        faoDims.add(SeaAroundUsConst.DIMENSION_HIGH_SEAS);
+
+        // guarantee immutability
+        DIMENSIONS_FAO = Collections.unmodifiableList(faoDims);
+    }
+
+    public static final List<Entry> DIMENSIONS_EEZ;
+    static
+    {
+        final List<Entry> eezDims = new LinkedList<>();
+        eezDims.add(SeaAroundUsConst.DIMENSION_TAXON);
+        eezDims.add(SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP);
+        eezDims.add(SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP);
+        eezDims.add(SeaAroundUsConst.DIMENSION_COUNTRY);
+        eezDims.add(SeaAroundUsConst.DIMENSION_SECTOR);
+        eezDims.add(SeaAroundUsConst.DIMENSION_CATCH_TYPE);
+        eezDims.add(SeaAroundUsConst.DIMENSION_REPORTING_STATUS);
+        eezDims.add(SeaAroundUsConst.DIMENSION_LAYER);
+
+        // guarantee immutability
+        DIMENSIONS_EEZ = Collections.unmodifiableList(eezDims);
+    }
+
+    public static final List<Entry> DIMENSIONS_TAXON;
+    static
+    {
+        final List<Entry> taxonDims = new LinkedList<>();
+        taxonDims.add(SeaAroundUsConst.DIMENSION_EEZ);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_LME);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_HIGH_SEAS);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_COUNTRY);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_COMMERCIAL_GROUP);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_FUNCTIONAL_GROUP);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_SECTOR);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_CATCH_TYPE);
+        taxonDims.add(SeaAroundUsConst.DIMENSION_REPORTING_STATUS);
+
+        // guarantee immutability
+        DIMENSIONS_TAXON = Collections.unmodifiableList(taxonDims);
+    }
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(
         "%d?chart=multinational-footprint",

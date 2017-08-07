@@ -28,6 +28,7 @@ import de.gerdiproject.json.IJsonObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -44,8 +45,8 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
     private final String viewUrlPrefix;
     private String downloadUrlPrefix;
 
-    private final HashMap<Integer, IJsonObject> profileDocuments = new HashMap<>();
-    private final HashMap<Integer, IJsonObject> treatiesDocuments = new HashMap<>();
+    private final Map<Integer, IJsonObject> profileDocuments = new HashMap<>();
+    private final Map<Integer, IJsonObject> treatiesDocuments = new HashMap<>();
 
 
     public CountryHarvester()
@@ -74,7 +75,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
 
 
     @Override
-    protected boolean harvestInternal(int from, int to) throws Exception
+    protected boolean harvestInternal(int from, int to) throws Exception // NOPMD - see explanation in AbstractHarvester
     {
         profileDocuments.clear();
         treatiesDocuments.clear();
@@ -93,7 +94,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
 
         // check if a document with the same countryId was already harvested
         if (profileDocuments.containsKey(countryId))
-            return updateDocuments(countryId, properties, geoData);
+            return updateDocuments(countryId, geoData);
         else
             return createDocuments(countryId, properties, geoData);
     }
@@ -123,7 +124,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
         return docs;
     }
 
-    private List<IJsonObject> updateDocuments(int countryId, IJsonObject properties, IJsonObject geoJson)
+    private List<IJsonObject> updateDocuments(int countryId, IJsonObject geoJson)
     {
         // retrieve region info from URL
         IJsonObject countryObj = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + countryId);
