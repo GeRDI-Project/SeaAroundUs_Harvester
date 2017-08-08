@@ -26,21 +26,6 @@ import javax.servlet.annotation.WebListener;
  * @author row
  */
 @WebListener
-public class ContextListener extends AbstractContextListener
+public class ContextListener extends AbstractContextListener<SeaAroundUsHarvester>
 {
-    @Override
-    @SuppressWarnings("unchecked")
-    protected Class<SeaAroundUsHarvester> getMainHarvesterClass()
-    {
-        return SeaAroundUsHarvester.class;
-    }
-
-
-    @Override
-    protected String getServiceName()
-    {
-        return "SeaAroundUsHarvesterService";
-    }
-
-
 }
