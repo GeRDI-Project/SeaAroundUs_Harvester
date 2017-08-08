@@ -26,6 +26,6 @@ import javax.servlet.annotation.WebListener;
  * @author row
  */
 @WebListener
-public class ContextListener extends AbstractContextListener<SeaAroundUsHarvester>
+public class SeaAroundUsContextListener extends ContextListener<SeaAroundUsHarvester>
 {
 }
