@@ -49,51 +49,49 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
     private final static List<String> VALID_PROPERTIES = Arrays.asList(PROPERTY_VERSION);
 
 
-    public static SeaAroundUsHarvester createInstance()
+    /**
+     * Creates all sub-harvesters that harvest SeaAroundUs.
+     * @return all required sub-harvesters
+     */
+    private static List<AbstractHarvester> createSubHarvesters()
     {
-        LinkedList<AbstractHarvester> subHarvesters = new LinkedList<>();
-        subHarvesters.add(new TaxonHarvester());
-        subHarvesters.add(new MaricultureHarvester());
-        subHarvesters.add(new CountryHarvester());
-        subHarvesters.add(new FishingEntityRegionHarvester());
-        subHarvesters.add(new RfmoRegionHarvester());
-        subHarvesters.add(new EezRegionHarvester());
-        subHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_GLOBAL));
-        subHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_EEZS));
-        subHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_HIGH_SEAS));
-        subHarvesters.add(new GenericRegionHarvester(
-                              SeaAroundUsConst.REGION_LME,
-                              SeaAroundUsConst.DIMENSIONS_GENERIC,
-                              SeaAroundUsConst.GENERIC_URL_VO));
-        subHarvesters.add(new GenericRegionHarvester(
-                              SeaAroundUsConst.REGION_FAO,
-                              SeaAroundUsConst.DIMENSIONS_FAO,
-                              SeaAroundUsConst.GENERIC_URL_VO));
-        subHarvesters.add(new GenericRegionHarvester(
-                              SeaAroundUsConst.REGION_HIGH_SEAS,
-                              SeaAroundUsConst.DIMENSIONS_GENERIC,
-                              SeaAroundUsConst.GENERIC_URL_VO));
+        LinkedList<AbstractHarvester> newSubHarvesters = new LinkedList<>();
 
-        return new SeaAroundUsHarvester(subHarvesters);
+        newSubHarvesters.add(new TaxonHarvester());
+        newSubHarvesters.add(new MaricultureHarvester());
+        newSubHarvesters.add(new CountryHarvester());
+        newSubHarvesters.add(new FishingEntityRegionHarvester());
+        newSubHarvesters.add(new RfmoRegionHarvester());
+        newSubHarvesters.add(new EezRegionHarvester());
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_GLOBAL));
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_EEZS));
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsConst.SUB_REGION_HIGH_SEAS));
+        newSubHarvesters.add(new GenericRegionHarvester(
+                                 SeaAroundUsConst.REGION_LME,
+                                 SeaAroundUsConst.DIMENSIONS_GENERIC,
+                                 SeaAroundUsConst.GENERIC_URL_VO));
+        newSubHarvesters.add(new GenericRegionHarvester(
+                                 SeaAroundUsConst.REGION_FAO,
+                                 SeaAroundUsConst.DIMENSIONS_FAO,
+                                 SeaAroundUsConst.GENERIC_URL_VO));
+        newSubHarvesters.add(new GenericRegionHarvester(
+                                 SeaAroundUsConst.REGION_HIGH_SEAS,
+                                 SeaAroundUsConst.DIMENSIONS_GENERIC,
+                                 SeaAroundUsConst.GENERIC_URL_VO));
+
+        return newSubHarvesters;
     }
 
 
     /**
      * Default Constructor. Sets version to "v1".
-     *
-     * @param harvestedDocuments
-     * @param subHarvesters
      */
-    public SeaAroundUsHarvester(Iterable<AbstractHarvester> subHarvesters)
+    public SeaAroundUsHarvester()
     {
-        super(subHarvesters);
-        super.setProperty(PROPERTY_VERSION, DEFAULT_VERSION);
+        super(createSubHarvesters());
 
-        // set sub-harvester URLs
-        final String url = BASE_URL_PREFIX + DEFAULT_VERSION;
-
-        for (AbstractHarvester subHarvester : subHarvesters)
-            subHarvester.setProperty(SeaAroundUsConst.PROPERTY_URL, url);
+        // set default version
+        setProperty(PROPERTY_VERSION, DEFAULT_VERSION);
     }
 
 
@@ -103,11 +101,10 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         super.setProperty(key, value);
 
         if (key.equals(PROPERTY_VERSION)) {
-            for (AbstractHarvester subHarvester : subHarvesters)
-                subHarvester.setProperty(SeaAroundUsConst.PROPERTY_URL, BASE_URL_PREFIX + value);
+            final String url = BASE_URL_PREFIX + value;
 
-            // re-initialize everything
-            init();
+            for (AbstractHarvester subHarvester : subHarvesters)
+                subHarvester.setProperty(SeaAroundUsConst.PROPERTY_URL, url);
         }
     }
 

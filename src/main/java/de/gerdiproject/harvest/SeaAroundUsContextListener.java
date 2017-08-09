@@ -18,7 +18,6 @@
  */
 package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.harvester.AbstractHarvester;
 import de.gerdiproject.harvest.harvester.SeaAroundUsHarvester;
 import javax.servlet.annotation.WebListener;
 
@@ -27,20 +26,6 @@ import javax.servlet.annotation.WebListener;
  * @author row
  */
 @WebListener
-public class ContextListener extends AbstractContextListener
+public class SeaAroundUsContextListener extends ContextListener<SeaAroundUsHarvester>
 {
-    @Override
-    protected AbstractHarvester createHarvester()
-    {
-        return SeaAroundUsHarvester.createInstance();
-    }
-
-
-    @Override
-    protected String createServiceName()
-    {
-        return "SeaAroundUsHarvesterService";
-    }
-
-
 }

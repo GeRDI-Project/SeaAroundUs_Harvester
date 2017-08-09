@@ -49,7 +49,7 @@ public class EezRegionHarvester extends GenericRegionHarvester
         super(SeaAroundUsConst.REGION_EEZ,
               SeaAroundUsConst.DIMENSIONS_EEZ,
               SeaAroundUsConst.GENERIC_URL_VO,
-              6 + SeaAroundUsConst.DIMENSIONS_EEZ.length * MEASURES.length
+              6 + SeaAroundUsConst.DIMENSIONS_EEZ.size() * MEASURES.length
              );
     }
 

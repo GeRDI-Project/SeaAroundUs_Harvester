@@ -49,14 +49,12 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
     protected final static String PRIMARY_PRODUCTION_LABEL = "Primary Production Required for catches %s %s";
     protected final static String STOCK_STATUS_LABEL = "Stock status %s %s";
 
-    protected static final Entry[] MEASURES = {
-        MEASURE_VALUE, MEASURE_TONNAGE
-    };
+    static final Entry[] MEASURES = { MEASURE_VALUE, MEASURE_TONNAGE };
 
     protected final String viewUrlPrefix;
     protected String downloadUrlPrefix;
     protected final Entry regionType;
-    protected final Entry[] dimensions;
+    protected final List<Entry> dimensions;
     protected final UrlVO urls;
     protected final int documentsPerEntry;
 
@@ -73,9 +71,9 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
      *            a value object of URLs that are used to retrieve region
      *            metadata
      */
-    public GenericRegionHarvester(Entry regionType, Entry[] dimensions, UrlVO urls)
+    public GenericRegionHarvester(Entry regionType, List<Entry> dimensions, UrlVO urls)
     {
-        this(regionType, dimensions, urls, 3 + dimensions.length * MEASURES.length);
+        this(regionType, dimensions, urls, 3 + dimensions.size() * MEASURES.length);
     }
 
 
@@ -94,7 +92,7 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
      *            the maximum number of documents that can be retrieved from a
      *            single entry
      */
-    public GenericRegionHarvester(Entry regionType, Entry[] dimensions, UrlVO urls, int numberOfDocumentsPerEntry)
+    public GenericRegionHarvester(Entry regionType, List<Entry> dimensions, UrlVO urls, int numberOfDocumentsPerEntry)
     {
         super(
             String.format(NAME_FORMAT, regionType.urlName.charAt(0), regionType.urlName.substring(1)),
@@ -104,7 +102,7 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
         this.regionType = regionType;
         this.dimensions = dimensions;
         this.urls = urls;
-        this.documentsPerEntry = 3 + dimensions.length * MEASURES.length;
+        this.documentsPerEntry = 3 + dimensions.size() * MEASURES.length;
     }
 
 
