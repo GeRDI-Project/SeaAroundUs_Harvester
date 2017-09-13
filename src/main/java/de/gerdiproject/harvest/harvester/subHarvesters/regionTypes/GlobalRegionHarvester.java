@@ -18,8 +18,10 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -38,9 +40,9 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
     public GlobalRegionHarvester(Entry subRegion)
     {
-        super(SeaAroundUsConst.REGION_GLOBAL,
-              SeaAroundUsConst.DIMENSIONS_GENERIC,
-              SeaAroundUsConst.GLOBAL_OCEAN_URL_VO);
+        super(RegionConstants.REGION_GLOBAL,
+              DimensionConstants.DIMENSIONS_GENERIC,
+              UrlConstants.GLOBAL_OCEAN_URL_VO);
 
         this.subRegion = subRegion;
         this.name += " " + subRegion.displayName;
@@ -88,7 +90,7 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
         // the url differs for the Global Ocean region
         if (regionId == 0)
-            apiUrl = SeaAroundUsConst.GENERIC_URL_VO.getCatchesDownloadUrl(downloadUrlPrefix, 1, dimension.urlName, measure.urlName);
+            apiUrl = UrlConstants.GENERIC_URL_VO.getCatchesDownloadUrl(downloadUrlPrefix, 1, dimension.urlName, measure.urlName);
         else
             apiUrl = urls.getCatchesDownloadUrl(downloadUrlPrefix, regionId, dimension.urlName, measure.urlName);
 

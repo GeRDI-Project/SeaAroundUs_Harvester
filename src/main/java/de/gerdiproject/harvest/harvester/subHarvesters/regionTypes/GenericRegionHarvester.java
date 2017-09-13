@@ -20,10 +20,10 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 
 import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
-import de.gerdiproject.harvest.harvester.structure.UrlVO;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlVO;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -98,7 +98,7 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
             String.format(NAME_FORMAT, regionType.urlName.charAt(0), regionType.urlName.substring(1)),
             numberOfDocumentsPerEntry);
 
-        this.viewUrlPrefix = String.format(SeaAroundUsConst.VIEW_URL_PREFIX, regionType.urlName);
+        this.viewUrlPrefix = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
         this.regionType = regionType;
         this.dimensions = dimensions;
         this.urls = urls;
@@ -109,8 +109,8 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
     @Override
     public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
-            downloadUrlPrefix = value + String.format(SeaAroundUsConst.REGION_IDS_URL, regionType.urlName);
+        if (UrlConstants.PROPERTY_URL.equals(key))
+            downloadUrlPrefix = value + String.format(UrlConstants.REGION_IDS_URL, regionType.urlName);
     }
 
 
@@ -254,14 +254,14 @@ public class GenericRegionHarvester extends AbstractJsonArrayHarvester
             IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags, keyNames);
 
             // try to offer a CSV file download
-            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl + SeaAroundUsConst.CSV_FORM);
+            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl + UrlConstants.CSV_FORM);
 
             document = searchIndexFactory.createSearchableDocument(
                            label,
                            null,
                            viewUrl,
                            downloadUrls,
-                           SeaAroundUsConst.LOGO_URL,
+                           UrlConstants.LOGO_URL,
                            null,
                            geoData,
                            years,

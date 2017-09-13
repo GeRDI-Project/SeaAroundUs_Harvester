@@ -19,9 +19,10 @@
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 import de.gerdiproject.json.utils.JsonHelper;
@@ -39,8 +40,8 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     private static final String LABEL_PREFIX = "Mariculture Production in ";
     private static final String VIEW_URL = "http://www.seaaroundus.org/data/#/mariculture/%d?chart=mariculture-chart";
     private final static String API_URL_SUFFIX = "/mariculture/";
-    private final static String DOWNLOAD_SUBREGION_URL_SUFFIX = "%s/%d?limit=20&sub_unit_id=%d" + SeaAroundUsConst.CSV_FORM;
-    private final static String DOWNLOAD_ALL_URL_SUFFIX = "%s/%d?limit=20" + SeaAroundUsConst.CSV_FORM;
+    private final static String DOWNLOAD_SUBREGION_URL_SUFFIX = "%s/%d?limit=20&sub_unit_id=%d" + UrlConstants.CSV_FORM;
+    private final static String DOWNLOAD_ALL_URL_SUFFIX = "%s/%d?limit=20" + UrlConstants.CSV_FORM;
 
     private String apiUrl;
     //"http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/57?format=csv&limit=10&sciname=&sub_unit_id=413"
@@ -57,7 +58,7 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     @Override
     public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
+        if (UrlConstants.PROPERTY_URL.equals(key))
             apiUrl = value + API_URL_SUFFIX;
     }
 
@@ -103,7 +104,7 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
         IJsonArray geoData = getGeoData(mariculture);
 
         // create document
-        IJsonObject document = searchIndexFactory.createSearchableDocument(label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, tags);
+        IJsonObject document = searchIndexFactory.createSearchableDocument(label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, null, tags);
 
         // return list of documents
         List<IJsonObject> documentList = new LinkedList<>();
@@ -115,7 +116,7 @@ public class MaricultureHarvester extends AbstractJsonArrayHarvester
     {
         IJsonArray urls = jsonBuilder.createArray();
 
-        for (Entry dimension : SeaAroundUsConst.DIMENSIONS_MARICULTURE) {
+        for (Entry dimension : DimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for all sub regions
             urls.add(apiUrl + String.format(DOWNLOAD_ALL_URL_SUFFIX, dimension.urlName, regionId));
 

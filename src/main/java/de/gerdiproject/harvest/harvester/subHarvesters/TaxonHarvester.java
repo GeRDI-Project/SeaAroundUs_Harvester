@@ -19,9 +19,10 @@
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -64,14 +65,14 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
      */
     public TaxonHarvester()
     {
-        super(1 + MEASURES.length * SeaAroundUsConst.DIMENSIONS_TAXON.size());
+        super(1 + MEASURES.length * DimensionConstants.DIMENSIONS_TAXON.size());
     }
 
 
     @Override
     public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key)) {
+        if (UrlConstants.PROPERTY_URL.equals(key)) {
             taxaUrl = value + API_URL_SUFFIX;
             taxonGroups = getTaxonGroups(value);
             taxonLevels = getTaxonLevels(value);
@@ -100,7 +101,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
 
         // harvest Taxon Catches
         for (Entry measure : MEASURES) {
-            for (Entry dimension : SeaAroundUsConst.DIMENSIONS_TAXON)
+            for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON)
                 documentList.add(createTaxonCatchDocument(taxonKey, commonName, scientificName, measure, dimension));
         }
 
@@ -179,7 +180,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
 
             String label = String.format(CATCH_LABEL, measure.displayName, commonName, scientificName, dimension.displayName);
             String viewUrl = String.format(TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
-            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl + SeaAroundUsConst.CSV_FORM);
+            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl + UrlConstants.CSV_FORM);
 
             // add document to index
             document = searchIndexFactory.createSearchableDocument(
@@ -187,7 +188,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
                            null,
                            viewUrl,
                            downloadUrls,
-                           SeaAroundUsConst.LOGO_URL,
+                           UrlConstants.LOGO_URL,
                            null,
                            null,
                            years,
@@ -215,7 +216,7 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
                    null,
                    viewUrl,
                    downloadUrls,
-                   SeaAroundUsConst.LOGO_URL,
+                   UrlConstants.LOGO_URL,
                    null,
                    geoData,
                    null,

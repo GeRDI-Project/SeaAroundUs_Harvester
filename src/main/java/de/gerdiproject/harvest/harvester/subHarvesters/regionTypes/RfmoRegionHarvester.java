@@ -18,8 +18,10 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -33,7 +35,7 @@ public class RfmoRegionHarvester extends GenericRegionHarvester
 {
     public RfmoRegionHarvester()
     {
-        super(SeaAroundUsConst.REGION_RFMO, SeaAroundUsConst.DIMENSIONS_GENERIC, SeaAroundUsConst.GENERIC_URL_VO);
+        super(RegionConstants.REGION_RFMO, DimensionConstants.DIMENSIONS_GENERIC, UrlConstants.GENERIC_URL_VO);
     }
 
 

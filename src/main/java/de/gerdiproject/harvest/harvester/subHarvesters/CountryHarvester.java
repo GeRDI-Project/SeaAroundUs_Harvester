@@ -19,8 +19,8 @@
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.utils.SearchIndexFactory;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author row
  */
-public class CountryHarvester extends AbstractJsonArrayHarvester
+public class CountryHarvester extends AbstractListHarvester<>
 {
     private static final String COUNTRY = "country";
     private static final String COUNTRY_PROFILE_LABEL_PREFIX = "Country Profile: ";
@@ -52,15 +52,15 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
     public CountryHarvester()
     {
         super(2);
-        this.viewUrlPrefix = String.format(SeaAroundUsConst.VIEW_URL_PREFIX, COUNTRY);
+        this.viewUrlPrefix = String.format(UrlConstants.VIEW_URL_PREFIX, COUNTRY);
     }
 
 
     @Override
     public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
-            downloadUrlPrefix = value + String.format(SeaAroundUsConst.REGION_IDS_URL, COUNTRY);
+        if (UrlConstants.PROPERTY_URL.equals(key))
+            downloadUrlPrefix = value + String.format(UrlConstants.REGION_IDS_URL, COUNTRY);
     }
 
 
@@ -165,7 +165,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
         IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
 
         return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
+                   label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoArray, null, searchTags
                );
     }
 
@@ -185,7 +185,7 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
         IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
 
         return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, null, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
+                   label, null, viewUrl, null, UrlConstants.LOGO_URL, null, geoArray, null, searchTags
                );
     }
 

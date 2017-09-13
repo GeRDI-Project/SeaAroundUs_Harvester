@@ -18,8 +18,10 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -46,10 +48,10 @@ public class EezRegionHarvester extends GenericRegionHarvester
 
     public EezRegionHarvester()
     {
-        super(SeaAroundUsConst.REGION_EEZ,
-              SeaAroundUsConst.DIMENSIONS_EEZ,
-              SeaAroundUsConst.GENERIC_URL_VO,
-              6 + SeaAroundUsConst.DIMENSIONS_EEZ.size() * MEASURES.length
+        super(RegionConstants.REGION_EEZ,
+              DimensionConstants.DIMENSIONS_EEZ,
+              UrlConstants.GENERIC_URL_VO,
+              6 + DimensionConstants.DIMENSIONS_EEZ.size() * MEASURES.length
              );
     }
 
@@ -57,8 +59,8 @@ public class EezRegionHarvester extends GenericRegionHarvester
     @Override
     public void setProperty(String key, String value)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key)) {
-            downloadUrlPrefix = value + String.format(SeaAroundUsConst.REGION_IDS_URL, regionType.urlName);
+        if (UrlConstants.PROPERTY_URL.equals(key)) {
+            downloadUrlPrefix = value + String.format(UrlConstants.REGION_IDS_URL, regionType.urlName);
             fisheriesSubsidiesApiUrl = value + FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX;
         }
     }
@@ -93,7 +95,7 @@ public class EezRegionHarvester extends GenericRegionHarvester
         IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags);
 
         return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, searchTags
+                   label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, null, searchTags
                );
     }
 
@@ -107,7 +109,7 @@ public class EezRegionHarvester extends GenericRegionHarvester
             IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags);
 
             return searchIndexFactory.createSearchableDocument(
-                       label, null, viewUrl, null, SeaAroundUsConst.LOGO_URL, null, geoData, null, searchTags
+                       label, null, viewUrl, null, UrlConstants.LOGO_URL, null, geoData, null, searchTags
                    );
         }
 
@@ -124,7 +126,7 @@ public class EezRegionHarvester extends GenericRegionHarvester
         IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
 
         return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, searchTags
+                   label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, null, searchTags
                );
     }
 

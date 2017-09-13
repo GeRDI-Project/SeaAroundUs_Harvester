@@ -18,9 +18,11 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -43,10 +45,10 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
 
     public FishingEntityRegionHarvester()
     {
-        super(SeaAroundUsConst.REGION_FISHING_ENTITY,
-              SeaAroundUsConst.DIMENSIONS_FAO,
-              SeaAroundUsConst.GENERIC_URL_VO,
-              1 + SeaAroundUsConst.DIMENSIONS_FAO.size() * MEASURES.length);
+        super(RegionConstants.REGION_FISHING_ENTITY,
+              DimensionConstants.DIMENSIONS_FAO,
+              UrlConstants.GENERIC_URL_VO,
+              1 + DimensionConstants.DIMENSIONS_FAO.size() * MEASURES.length);
     }
 
 
@@ -96,7 +98,7 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
             IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
 
             document = searchIndexFactory.createSearchableDocument(
-                           label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, years, searchTags
+                           label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, years, searchTags
                        );
         }
 

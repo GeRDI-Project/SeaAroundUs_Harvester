@@ -16,36 +16,25 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.structure;
+package de.gerdiproject.harvest.seaaroundus.constants;
+
 
 /**
- * An entry in this context is a typical filtering option for showing Sea Around
- * data.
+ *  This static class contains fields and values of SeaAroundUs DataCite documents.
  *
- * @author row
+ *  @author Robin Weiss
  */
-public class Entry
+public class DataCiteConstants
 {
-    /**
-     * The string as it is used in HTTP requests.
-     */
-    public final String urlName;
+    //public final static Entry DIMENSION_TAXON = new Entry("taxon", "Taxon");
+
+    public final static String TERMS_OF_USAGE = "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
+                                                + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.";
 
     /**
-     * The string as it is displayed to the user.
+     * Private constructor, because this is a static class.
      */
-    public final String displayName;
-
-
-    /**
-     * Simple constructor.
-     *
-     * @param urlName the string as it is used in HTTP requests
-     * @param displayName the string as it is displayed to the user
-     */
-    public Entry(String urlName, String displayName)
+    private DataCiteConstants()
     {
-        this.urlName = urlName;
-        this.displayName = displayName;
     }
 }
