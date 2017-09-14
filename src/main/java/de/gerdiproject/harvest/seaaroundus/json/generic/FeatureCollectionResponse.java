@@ -28,5 +28,5 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
  */
 public class FeatureCollectionResponse <T> extends GenericResponse<FeatureCollection<T>>
 {
-    
+
 }

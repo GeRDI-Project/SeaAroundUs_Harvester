@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  *
- * @author row
+ * @author Robin Weiss
  */
 public class RfmoRegionHarvester extends GenericRegionHarvester
 {

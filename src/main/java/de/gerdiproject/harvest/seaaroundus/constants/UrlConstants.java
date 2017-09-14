@@ -31,8 +31,12 @@ public class UrlConstants
 
     public final static String VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/%s/";
     public final static String REGION_IDS_URL = "/%s/";
-    public final static String LOGO_URL = "http://www.seaaroundus.org/data/images/logo_saup.png";
     public final static String CSV_FORM = "&format=csv";
+
+    // COUNTRY
+    public static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";
+    public static final String COUNTRY_VIEW_URL_PREFIX = String.format(VIEW_URL_PREFIX, "country");
+    public static final String COUNTRY_DOWNLOAD_URL_PREFIX = String.format(REGION_IDS_URL, "country");
 
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(
@@ -44,6 +48,7 @@ public class UrlConstants
         "marine-trophic-index/?region_id=%d",
         "%d?chart=catch-chart&dimension=%s&measure=%s&limit=10",
         "%3$s/%2$s/?limit=10&region_id=%1$d");
+
 
     public static final UrlVO GLOBAL_OCEAN_URL_VO = new UrlVO(
         "?chart=multinational-footprint&subRegion=%d",

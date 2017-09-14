@@ -33,7 +33,7 @@ import java.util.Map;
 
 /**
  *
- * @author row
+ * @author Robin Weiss
  */
 public class TaxonHarvester extends AbstractJsonArrayHarvester
 {

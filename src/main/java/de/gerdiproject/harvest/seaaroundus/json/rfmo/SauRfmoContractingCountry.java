@@ -16,54 +16,59 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
+package de.gerdiproject.harvest.seaaroundus.json.rfmo;
+
+
+import com.google.gson.annotations.SerializedName;
 
 
 /**
- * This class represents a JSON object that is part of many Seaaroundus requests.
+ * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/rfmo/14
  *
  * @author Robin Weiss
  */
-public final class Metric
+public class SauRfmoContractingCountry
 {
-    private String title;
-    private double value;
-    private String units;
+    private String name;
+    private String iso3;
+
+    @SerializedName("facp_url")
+    private String facpUrl;
 
 
-    public String getTitle()
+    public String getName()
     {
-        return title;
+        return name;
     }
 
 
-    public void setTitle(String value)
+    public void setName(String value)
     {
-        this.title = value;
+        this.name = value;
     }
 
 
-    public double getValue()
+    public String getIso3()
     {
-        return value;
+        return iso3;
     }
 
 
-    public void setValue(double value)
+    public void setIso3(String value)
     {
-        this.value = value;
+        this.iso3 = value;
     }
 
 
-    public String getUnits()
+    public String getFacpUrl()
     {
-        return units;
+        return facpUrl;
     }
 
 
-    public void setUnits(String value)
+    public void setFacpUrl(String value)
     {
-        this.units = value;
+        this.facpUrl = value;
     }
 }

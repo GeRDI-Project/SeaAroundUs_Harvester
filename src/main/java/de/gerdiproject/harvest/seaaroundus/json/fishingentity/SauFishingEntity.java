@@ -16,54 +16,15 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
-
+package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
 /**
- * This class represents a JSON object that is part of many Seaaroundus requests.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/rfmo/14
+ * This class represents a JSON object response to a Seaaroundus fishing-entity request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/fishing-entity/1
  *
  * @author Robin Weiss
  */
-public final class Metric
+public class SauFishingEntity
 {
-    private String title;
-    private double value;
-    private String units;
 
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
-    }
-
-
-    public double getValue()
-    {
-        return value;
-    }
-
-
-    public void setValue(double value)
-    {
-        this.value = value;
-    }
-
-
-    public String getUnits()
-    {
-        return units;
-    }
-
-
-    public void setUnits(String value)
-    {
-        this.units = value;
-    }
 }

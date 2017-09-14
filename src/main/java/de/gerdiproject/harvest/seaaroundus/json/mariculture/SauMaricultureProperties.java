@@ -16,20 +16,27 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
+package de.gerdiproject.harvest.seaaroundus.json.mariculture;
+
+import com.google.gson.annotations.SerializedName;
 
 
 /**
- * This class represents a JSON object that is part of many Seaaroundus requests.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/rfmo/14
+ * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
  *
  * @author Robin Weiss
  */
-public final class Metric
+public class SauMaricultureProperties
 {
     private String title;
-    private double value;
-    private String units;
+    private String region;
+
+    @SerializedName("region_id")
+    private int regionId;
+
+    @SerializedName("long_title")
+    private String longTitle;
 
 
     public String getTitle()
@@ -44,26 +51,38 @@ public final class Metric
     }
 
 
-    public double getValue()
+    public String getRegion()
     {
-        return value;
+        return region;
     }
 
 
-    public void setValue(double value)
+    public void setRegion(String value)
     {
-        this.value = value;
+        this.region = value;
     }
 
 
-    public String getUnits()
+    public int getRegionId()
     {
-        return units;
+        return regionId;
     }
 
 
-    public void setUnits(String value)
+    public void setRegionId(int value)
     {
-        this.units = value;
+        this.regionId = value;
+    }
+
+
+    public String getLongTitle()
+    {
+        return longTitle;
+    }
+
+
+    public void setLongTitle(String value)
+    {
+        this.longTitle = value;
     }
 }

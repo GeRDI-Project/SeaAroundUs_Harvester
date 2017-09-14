@@ -18,6 +18,14 @@
  */
 package de.gerdiproject.harvest.seaaroundus.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import de.gerdiproject.json.datacite.Creator;
+import de.gerdiproject.json.datacite.Rights;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
 /**
  *  This static class contains fields and values of SeaAroundUs DataCite documents.
@@ -26,15 +34,48 @@ package de.gerdiproject.harvest.seaaroundus.constants;
  */
 public class DataCiteConstants
 {
-    //public final static Entry DIMENSION_TAXON = new Entry("taxon", "Taxon");
+    public static final List<Rights> RIGHTS_LIST = createRightsList();
+    public static final String PROVIDER = "Sea Around Us";
+    public static final String PROVIDER_URI = "http://www.seaaroundus.org/";
+    public static final WebLink LOGO_LINK = createLogoLink();
+    public static final List<Creator> SAU_CREATORS = createSauCreatorList();
+    public static final List<String> JSON_FORMATS = Collections.<String>unmodifiableList(Arrays.asList("json"));
 
-    public final static String TERMS_OF_USAGE = "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
-                                                + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.";
+    // COUNTRY
+    public static final String FAO_COUNTRY_PROFILE_LINK_NAME = "FAO Country Profile";
+    public static final String COUNTRY_PROFILE_LABEL_PREFIX = "Country Profile: ";
+    public static final String TREATIES_LABEL_PREFIX = "Treaties and Conventions to which %s (%s) is a Member";
+
 
     /**
      * Private constructor, because this is a static class.
      */
     private DataCiteConstants()
     {
+    }
+
+
+    private static List<Rights> createRightsList()
+    {
+        Rights termsOfUsage = new Rights();
+        termsOfUsage.setValue("While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
+                              + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
+        return Collections.unmodifiableList(Arrays.asList(termsOfUsage));
+    }
+
+
+    private static WebLink createLogoLink()
+    {
+        WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
+        logoLink.setName("Logo");
+        logoLink.setType(WebLinkType.ProviderLogoURL);
+        return logoLink;
+    }
+
+
+    private static List<Creator> createSauCreatorList()
+    {
+        Creator sauCreator = new Creator(PROVIDER);
+        return Collections.unmodifiableList(Arrays.asList(sauCreator));
     }
 }
