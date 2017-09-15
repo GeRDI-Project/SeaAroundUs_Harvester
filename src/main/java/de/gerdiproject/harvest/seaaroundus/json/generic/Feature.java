@@ -6,9 +6,9 @@ import de.gerdiproject.json.geo.GeoJson;
  * This class represents a SeaAroundUs JSON response of a feature collection.
  * @author Robin Weiss
  *
- * @param <T> the type of properties, carried by the feature
+ * @param <T> the type of {@linkplain FeatureProperties}, carried by the feature
  */
-public class Feature<T>
+public class Feature<T extends FeatureProperties>
 {
     private GeoJson geometry;
     private String type;

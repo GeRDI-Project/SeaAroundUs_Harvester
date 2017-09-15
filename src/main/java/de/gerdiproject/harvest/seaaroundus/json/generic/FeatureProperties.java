@@ -16,18 +16,17 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.mariculture;
+package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import com.google.gson.annotations.SerializedName;
 
-
 /**
- * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
+ * This class represents a JSON object of feature propeties that is part of every Seaaroundus {@linkplain Feature}.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/country/
  *
  * @author Robin Weiss
  */
-public class SauMaricultureProperties
+public class FeatureProperties
 {
     private String title;
     private String region;

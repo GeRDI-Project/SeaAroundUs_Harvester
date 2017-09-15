@@ -19,7 +19,6 @@
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import de.gerdiproject.harvest.IDocument;
-import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauAllCountriesResponse;
@@ -28,66 +27,65 @@ import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.Source;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
+import de.gerdiproject.json.datacite.Title.TitleType;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 
 /**
  * This harvester crawls through all SeaAroundUs countries and generates one document per entry.
+ * <br><br>
+ * All Countries:   http://api.seaaroundus.org/api/v1/country/<br>
+ * Example Country: http://api.seaaroundus.org/api/v1/country/120
  *
  * @author Robin Weiss
  */
-public class CountryHarvester extends AbstractListHarvester<Feature<SauCountryProperties>>
+public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountriesResponse, SauCountryProperties>
 {
-    private String downloadUrlPrefix;
-    private String version = null;
     private final Map<Integer, DataCiteJson> profileDocuments = new HashMap<>();
 
 
     /**
-     * Constructor that defines one document to be created per harvested entry.
+     * Creates a harvester for harvesting all countries.
      */
     public CountryHarvester()
     {
-        super(1);
-    }
-
-
-    /**
-     * Changes a property. If the URL property is changed, the download URL prefix changes as well.
-     */
-    @Override
-    public void setProperty(String key, String value)
-    {
-        super.setProperty(key, value);
-
-        if (UrlConstants.PROPERTY_URL.equals(key))
-            downloadUrlPrefix = value + UrlConstants.COUNTRY_DOWNLOAD_URL_PREFIX;
+        super("country", SauAllCountriesResponse.class);
     }
 
 
     @Override
-    protected Collection<Feature<SauCountryProperties>> loadEntries()
+    protected int getRegionId(SauCountryProperties properties)
     {
-        // request all countries
-        SauAllCountriesResponse allCountries = httpRequester.getObjectFromUrl(downloadUrlPrefix, SauAllCountriesResponse.class);
+        return properties.getCNumber();
+    }
 
-        // get version from metadata
-        version = allCountries.getMetadata().getVersion();
 
-        // return feature array
-        return allCountries.getData().getFeatures();
+    @Override
+    protected String getMainTitleString(String regionName)
+    {
+        return DataCiteConstants.COUNTRY_LABEL_PREFIX + regionName;
+    }
+
+
+    @Override
+    protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<SauCountryProperties> entry)
+    {
+        // get additional info about the country
+        SauCountry country = httpRequester.getObjectFromUrl(apiUrl, SauCountryResponse.class).getData();
+
+        // enrich the document
+        enrichSubjects(document.getSubjects(), country);
+        enrichWebLinks(document.getWebLinks(), country);
+
+        // remember the document
+        profileDocuments.put(getRegionId(entry.getProperties()), document);
     }
 
 
@@ -102,95 +100,66 @@ public class CountryHarvester extends AbstractListHarvester<Feature<SauCountryPr
     @Override
     protected List<IDocument> harvestEntry(Feature<SauCountryProperties> entry)
     {
-        // read country number
+        int countryId = getRegionId(entry.getProperties());
+
+        // check if a document with this id was already harvested
+        if (profileDocuments.containsKey(countryId)) {
+
+            // enrich document if the same countryId was already harvested
+            updateDocument(entry);
+
+            // add no additional document to the search index
+            return null;
+        } else
+            // create the document
+            return super.harvestEntry(entry);
+    }
+
+
+    /**
+     * Adds another GeoLocation, Title, and some subjects to an already harvested country document.
+     *
+     * @param countryId a SeaAroundUs unique identifier of the country
+     * @param geoLocation the (multi-) polygon location that describes the country border
+     * @param countryName the name of the country
+     * @param isoCode the iso code for the country or "-99" if it does not exist
+     */
+    private void updateDocument(Feature<SauCountryProperties> entry)
+    {
         SauCountryProperties properties = entry.getProperties();
-        int countryId = properties.getCNumber();
-
-        // create GeoLocation
-        GeoLocation geoLocation = new GeoLocation();
-        geoLocation.setPlace(properties.getTitle());
-        geoLocation.setPolygon(entry.getGeometry());
-
-        // check if a document with the same countryId was already harvested
-        if (profileDocuments.containsKey(countryId))
-            return updateDocument(countryId, geoLocation);
-        else
-            return createDocument(countryId, properties, geoLocation);
-    }
-
-
-    private List<IDocument> createDocument(int countryId, SauCountryProperties properties, GeoLocation geoLocation)
-    {
-        // retrieve region info from URL
-        SauCountry country = httpRequester.getObjectFromUrl(downloadUrlPrefix + countryId, SauCountryResponse.class).getData();
-        DataCiteJson document = null;
-
-        if (countryId != 0) {
-            document = new DataCiteJson();
-            document.setVersion(version);
-            document.setPublisher(DataCiteConstants.PROVIDER);
-            document.setFormats(DataCiteConstants.JSON_FORMATS);
-            document.setCreators(DataCiteConstants.SAU_CREATORS);
-            document.setRightsList(DataCiteConstants.RIGHTS_LIST);
-
-            // add title
-            Title title = new Title(DataCiteConstants.COUNTRY_PROFILE_LABEL_PREFIX + country.getCountry());
-            document.setTitles(Arrays.asList(title));
-
-            // add source
-            Source source = new Source(downloadUrlPrefix + countryId, DataCiteConstants.PROVIDER);
-            source.setProviderURI(DataCiteConstants.PROVIDER_URI);
-            document.setSources(source);
-
-            // add links
-            document.setWebLinks(createWebLinks(country));
-
-            // add subjects
-            List<Subject> subjects = createSubjects(country, properties);
-            document.setSubjects(subjects);
-
-            // add geo location
-            List<GeoLocation> locations = new LinkedList<>();
-            locations.add(geoLocation);
-            document.setGeoLocations(locations);
-
-            // memorize document references
-            profileDocuments.put(countryId, document);
-        }
-
-        // return created documents
-        return Arrays.asList(document);
-    }
-
-
-    private List<IDocument> updateDocument(int countryId, GeoLocation geoLocation)
-    {
-        // retrieve region info from URL
-        SauCountry countryObj = httpRequester.getObjectFromUrl(downloadUrlPrefix + countryId, SauCountryResponse.class).getData();
+        String countryName = properties.getTitle();
 
         // retrieve existing documents
-        DataCiteJson profileDoc = profileDocuments.get(countryId);
+        DataCiteJson updatedDoc = profileDocuments.get(getRegionId(properties));
 
-        // add title to the search tags
-        Subject title = new Subject(countryObj.getCountry());
-        profileDoc.getSubjects().add(title);
+        // add country name to the titles
+        Title countryTitle = new Title(DataCiteConstants.COUNTRY_LABEL_PREFIX + countryName);
+        countryTitle.setLang(DataCiteConstants.SAU_LANGUAGE);
+        countryTitle.setType(TitleType.AlternativeTitle);
+        updatedDoc.getTitles().add(countryTitle);
+
+        // add country name to the search tags
+        updatedDoc.getSubjects().add(new Subject(countryName));
+
+        // add iso code tag, if it is not a dummy value
+        String isoCode = properties.getCIsoCode();
+
+        if (!isoCode.equals("-99"))
+            updatedDoc.getSubjects().add(new Subject(isoCode));
 
         // add geolocation to geo array
-        profileDoc.getGeoLocations().add(geoLocation);
-
-        // return no documents to increase the harvesting progress
-        return null;
+        updatedDoc.getGeoLocations().addAll(createBasicGeoLocations(entry.getGeometry(), countryName));
     }
 
 
-    private List<WebLink> createWebLinks(SauCountry country)
+    /**
+     * Enriches a list of country related {@linkplain WebLink}s.
+     *
+     * @param country the country JSON object
+     */
+    private void enrichWebLinks(List<WebLink> webLinks, SauCountry country)
     {
-        List<WebLink> webLinks = new LinkedList<>();
         webLinks.add(DataCiteConstants.LOGO_LINK);
-
-        WebLink viewLink = new WebLink(UrlConstants.COUNTRY_VIEW_URL_PREFIX + country.getId());
-        viewLink.setType(WebLinkType.ViewURL);
-        webLinks.add(viewLink);
 
         String faoProfileUrl = country.getFaoProfileUrl();
 
@@ -239,69 +208,33 @@ public class CountryHarvester extends AbstractListHarvester<Feature<SauCountryPr
             relatedLink.setName(String.format(DataCiteConstants.TREATIES_LABEL_PREFIX, country.getCountry(), faoCode));
             webLinks.add(relatedLink);
         }
-
-        return webLinks;
     }
 
 
     /**
-     * Creates search tags for a country object
-     * @param country
-     * @param properties
-     * @return
-     */
-    private List<Subject> createSubjects(SauCountry country, SauCountryProperties properties)
-    {
-        List<Subject> tags = new LinkedList<>();
-
-        // the title does not have to be the country, it can also be an island name
-        String title = properties.getTitle();
-
-        if (title != null)
-            tags.add(new Subject(title));
-
-        String countryName = country.getCountry();
-
-        if (countryName != null)
-            tags.add(new Subject(countryName));
-
-        String unName = country.getUnName();
-
-        if (unName != null)
-            tags.add(new Subject(unName));
-
-        String govMarineFish = country.getGovMarineFish();
-
-        if (govMarineFish != null)
-            tags.add(new Subject(govMarineFish));
-
-        String govProtect = country.getGovProtectMarineEnv();
-
-        if (govProtect != null)
-            tags.add(new Subject(govProtect));
-
-        String fishManagementPlan = country.getFishMgtPlan();
-
-        if (fishManagementPlan != null)
-            tags.add(new Subject(fishManagementPlan));
-
-        String faoCode = country.getFaoCode();
-
-        if (faoCode != null)
-            tags.add(new Subject(faoCode));
-
-        return tags;
-    }
-
-
-    /**
-     * Not required, because this list is not visible via REST.
+     * Enriches a list of {@linkplain Subject}s for a SeaAroundUs country profile.
      *
-     * @return null
+     * @param subjects the subjects that are to be enriched
+     * @param country the country JSON object
      */
-    @Override
-    public List<String> getValidProperties()
+    private void enrichSubjects(List<Subject> subjects, SauCountry country)
     {
-        return null;
+        String[] rawTags = {
+            country.getCountry(),
+            country.getUnName(),
+            country.getGovMarineFish(),
+            country.getGovProtectMarineEnv(),
+            country.getFishMgtPlan(),
+            country.getFaoCode()
+        };
+
+        for (String tag : rawTags) {
+
+            if (tag != null) {
+                Subject s = new Subject(tag);
+                s.setLang(DataCiteConstants.SAU_LANGUAGE);
+                subjects.add(s);
+            }
+        }
     }
 }

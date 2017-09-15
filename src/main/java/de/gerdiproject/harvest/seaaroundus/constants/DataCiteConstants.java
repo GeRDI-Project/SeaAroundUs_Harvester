@@ -40,11 +40,17 @@ public class DataCiteConstants
     public static final WebLink LOGO_LINK = createLogoLink();
     public static final List<Creator> SAU_CREATORS = createSauCreatorList();
     public static final List<String> JSON_FORMATS = Collections.<String>unmodifiableList(Arrays.asList("json"));
+    public static final String SAU_LANGUAGE = "en";
 
     // COUNTRY
     public static final String FAO_COUNTRY_PROFILE_LINK_NAME = "FAO Country Profile";
-    public static final String COUNTRY_PROFILE_LABEL_PREFIX = "Country Profile: ";
+    public static final String COUNTRY_LABEL_PREFIX = "Country Profile: ";
     public static final String TREATIES_LABEL_PREFIX = "Treaties and Conventions to which %s (%s) is a Member";
+
+    // MARICULTURE
+    public static final String MARICULTURE_LABEL_PREFIX = "Mariculture Production in ";
+    public static final String MARICULTURE_FILE_NAME = "Mariculture Production by %s in %s";
+    public static final String MARICULTURE_SUBREGION_FILE_NAME = "Mariculture Production by %s in %s - %s";
 
 
     /**

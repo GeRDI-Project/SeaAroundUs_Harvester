@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @param <T> the type of data, carried by the response
  */
-public class FeatureCollection <T>
+public class FeatureCollection <T extends FeatureProperties>
 {
     private List<Feature<T>> features;
     private String type;

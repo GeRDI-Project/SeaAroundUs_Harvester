@@ -26,7 +26,7 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
  *
  * @param <T> the type of properties, carried by each feature of the feature collection
  */
-public class FeatureCollectionResponse <T> extends GenericResponse<FeatureCollection<T>>
+public class FeatureCollectionResponse <T extends FeatureProperties> extends GenericResponse<FeatureCollection<T>>
 {
 
 }

@@ -20,6 +20,7 @@ package de.gerdiproject.harvest.seaaroundus.json.mariculture;
 
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 
 /**
  * This class represents a JSON response to a Seaaroundus mariculture request.
@@ -27,6 +28,6 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionRespons
  *
  * @author Robin Weiss
  */
-public final class SauAllMariculturesResponse extends FeatureCollectionResponse<SauMaricultureProperties>
+public final class SauAllMariculturesResponse extends FeatureCollectionResponse<FeatureProperties>
 {
 }

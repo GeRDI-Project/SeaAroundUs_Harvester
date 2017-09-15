@@ -19,6 +19,7 @@
 package de.gerdiproject.harvest.seaaroundus.json.rfmo;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 
 /**
  * This class represents a JSON response to a Seaaroundus rfmo request.
@@ -26,6 +27,6 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionRespons
  *
  * @author Robin Weiss
  */
-public final class SauAllRfmoResponse extends FeatureCollectionResponse<SauRfmoProperties>
+public final class SauAllRfmoResponse extends FeatureCollectionResponse<FeatureProperties>
 {
 }

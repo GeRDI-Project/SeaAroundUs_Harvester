@@ -30,13 +30,17 @@ public class UrlConstants
     public final static String PROPERTY_URL = "url";
 
     public final static String VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/%s/";
+    public final static String VIEW_URL = "http://www.seaaroundus.org/data/#/%s/%s";
     public final static String REGION_IDS_URL = "/%s/";
+    public final static String REGION_URL_SUFFIX = "/%s/%d";
     public final static String CSV_FORM = "&format=csv";
 
     // COUNTRY
     public static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";
-    public static final String COUNTRY_VIEW_URL_PREFIX = String.format(VIEW_URL_PREFIX, "country");
-    public static final String COUNTRY_DOWNLOAD_URL_PREFIX = String.format(REGION_IDS_URL, "country");
+
+    // MARICULTURE
+    public static final String MARICULTURE_DOWNLOAD_SUBREGION_URL = "%s%s/%d?limit=20&sub_unit_id=%d" + CSV_FORM;
+    public static final String MARICULTURE_DOWNLOAD_ALL_URL = "%s%s/%d?limit=20" + CSV_FORM;
 
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(
