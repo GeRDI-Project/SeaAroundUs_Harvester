@@ -18,15 +18,67 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.generic;
 
+import java.util.List;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.json.geo.GeoJson;
 
 /**
- * This class represents a JSON response to any Seaaroundus feature collection request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
- *
+ * This class represents a generic SeaAroundUs region response.
  * @author Robin Weiss
+ *
  */
-public final class FeatureCollectionResponse extends GenericResponse<FeatureCollection<FeatureProperties>>
+public class GenericRegion
 {
+    private String title;
+    private int id;
+    private GeoJson geojson;
+    private List<Metric> metrics;
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+
+    public int getId()
+    {
+        return id;
+    }
+
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+
+    public GeoJson getGeojson()
+    {
+        return geojson;
+    }
+
+
+    public void setGeojson(GeoJson geojson)
+    {
+        this.geojson = geojson;
+    }
+
+
+    public List<Metric> getMetrics()
+    {
+        return metrics;
+    }
+
+
+    public void setMetrics(List<Metric> metrics)
+    {
+        this.metrics = metrics;
+    }
 }

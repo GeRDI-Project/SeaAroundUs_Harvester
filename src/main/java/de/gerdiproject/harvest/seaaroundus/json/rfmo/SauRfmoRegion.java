@@ -22,9 +22,8 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonProperties;
-import de.gerdiproject.json.geo.GeoJson;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
@@ -32,51 +31,22 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @author Robin Weiss
  */
-public class SauRfmo
+public class SauRfmoRegion extends GenericRegion
 {
-    private GeoJson geojson;
-    private int id;
-    private List<Metric> metrics;
-    private String title;
-
     @SerializedName("contracting_countries")
     private List<SauRfmoContractingCountry> contractingCountries;
 
     @SerializedName("secondary_taxa")
-    private List<SauTaxonProperties> secondaryTaxa;
+    private List<SauTaxonReduced> secondaryTaxa;
 
     @SerializedName("primary_taxa")
-    private List<SauTaxonProperties> primaryTaxa;
+    private List<SauTaxonReduced> primaryTaxa;
 
     @SerializedName("long_title")
     private String longTitle;
 
     @SerializedName("profile_url")
     private String profileUrl;
-
-
-    public GeoJson getGeojson()
-    {
-        return geojson;
-    }
-
-
-    public void setGeojson(GeoJson value)
-    {
-        this.geojson = value;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public void setId(int value)
-    {
-        this.id = value;
-    }
 
 
     public List<SauRfmoContractingCountry> getContractingCountries()
@@ -91,51 +61,27 @@ public class SauRfmo
     }
 
 
-    public List<SauTaxonProperties> getSecondaryTaxa()
+    public List<SauTaxonReduced> getSecondaryTaxa()
     {
         return secondaryTaxa;
     }
 
 
-    public void setSecondaryTaxa(List<SauTaxonProperties> value)
+    public void setSecondaryTaxa(List<SauTaxonReduced> value)
     {
         this.secondaryTaxa = value;
     }
 
 
-    public List<SauTaxonProperties> getPrimaryTaxa()
+    public List<SauTaxonReduced> getPrimaryTaxa()
     {
         return primaryTaxa;
     }
 
 
-    public void setPrimaryTaxa(List<SauTaxonProperties> value)
+    public void setPrimaryTaxa(List<SauTaxonReduced> value)
     {
         this.primaryTaxa = value;
-    }
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> value)
-    {
-        this.metrics = value;
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
     }
 
 

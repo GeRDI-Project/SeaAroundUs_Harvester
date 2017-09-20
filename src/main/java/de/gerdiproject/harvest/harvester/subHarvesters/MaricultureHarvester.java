@@ -24,7 +24,7 @@ import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
-import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauAllMariculturesResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureResponse;
 import de.gerdiproject.json.datacite.DataCiteJson;
@@ -38,19 +38,19 @@ import java.util.List;
 /**
  * This harvester crawls through all SeaAroundUs maricultures and generates one document per entry.
  * <br><br>
- * All Maricultures     http://api.seaaroundus.org/api/v1/mariculture/<br>
+ * All Maricultures:     http://api.seaaroundus.org/api/v1/mariculture/<br>
  * Example Mariculture: http://api.seaaroundus.org/api/v1/mariculture/57
  *
  * @author Robin Weiss
  */
-public class MaricultureHarvester extends AbstractSauFeatureHarvester<SauAllMariculturesResponse, FeatureProperties>
+public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCollectionResponse, FeatureProperties>
 {
     /**
      * Creates a harvester for harvesting all maricultures.
      */
     public MaricultureHarvester()
     {
-        super("mariculture", SauAllMariculturesResponse.class);
+        super("mariculture", FeatureCollectionResponse.class);
     }
 
 

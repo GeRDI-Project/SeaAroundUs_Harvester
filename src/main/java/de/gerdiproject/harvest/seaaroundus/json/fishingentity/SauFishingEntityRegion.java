@@ -18,13 +18,45 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
+import com.google.gson.annotations.SerializedName;
+
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+
 /**
- * This class is part of the response to a Seaaroundus fishing-entity request.
+ * This class represents a JSON object response to a Seaaroundus fishing-entity request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/fishing-entity/1
  *
  * @author Robin Weiss
  */
-public class SauFishingEntityProperties
+public class SauFishingEntityRegion extends GenericRegion
 {
+    @SerializedName("country_id")
+    int countryId;
 
+    @SerializedName("geo_entity_id")
+    int geoEntityId;
+
+
+    public int getCountryId()
+    {
+        return countryId;
+    }
+
+
+    public void setCountryId(int countryId)
+    {
+        this.countryId = countryId;
+    }
+
+
+    public int getGeoEntityId()
+    {
+        return geoEntityId;
+    }
+
+
+    public void setGeoEntityId(int geoEntityId)
+    {
+        this.geoEntityId = geoEntityId;
+    }
 }

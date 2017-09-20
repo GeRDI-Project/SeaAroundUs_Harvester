@@ -18,6 +18,8 @@
  */
 package de.gerdiproject.harvest.seaaroundus.constants;
 
+
+
 /**
  *  This static class contains descriptions of regions. Regions are filter
  *  criteria applied to SeaAroundUs datasets.
@@ -38,6 +40,50 @@ public class RegionConstants
     public final static Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
     public final static Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
 
+    public final static RegionParameters EEZ_PARAMS = new RegionParameters(
+        REGION_EEZ,
+        DimensionConstants.DIMENSIONS_EEZ,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters LME_PARAMS = new RegionParameters(
+        REGION_LME,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters RFMO_PARAMS = new RegionParameters(
+        REGION_RFMO,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters FAO_PARAMS = new RegionParameters(
+        REGION_FAO,
+        DimensionConstants.DIMENSIONS_FAO,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters HIGH_SEAS_PARAMS = new RegionParameters(
+        REGION_HIGH_SEAS,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters FISHING_ENTITY_PARAMS = new RegionParameters(
+        REGION_FISHING_ENTITY,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public final static RegionParameters GLOBAL_OCEAN_PARAMS = new RegionParameters(
+        REGION_GLOBAL,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        UrlConstants.GLOBAL_OCEAN_URL_VO
+    );
+
+    //Entry regionType, List<Entry> dimensions, UrlVO urls,
+    //Class<? extends GenericRegion> regionClass
 
     /**
      * Private constructor, because this is a static class.

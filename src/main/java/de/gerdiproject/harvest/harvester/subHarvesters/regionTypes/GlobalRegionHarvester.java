@@ -28,21 +28,25 @@ import de.gerdiproject.json.IJsonObject;
 import java.util.List;
 
 /**
+ * This harvester harvests all sub-regions of the Global Seas of SeaAroundUs.
+ * <br>see http://api.seaaroundus.org/api/v1/global/1
  *
  * @author Robin Weiss
  */
-public class GlobalRegionHarvester extends GenericRegionHarvester
+public class GlobalRegionHarvester extends AbstractListHarvester<>
 {
     private final static String MARINE_TROPHIC_INDEX_LABEL_GLOBAL = "the Global Ocean ";
 
     private final Entry subRegion;
 
 
+    /**
+     * Simple constructor that initializes the super class with
+     * Global Ocean parameters.
+     */
     public GlobalRegionHarvester(Entry subRegion)
     {
-        super(RegionConstants.REGION_GLOBAL,
-              DimensionConstants.DIMENSIONS_GENERIC,
-              UrlConstants.GLOBAL_OCEAN_URL_VO);
+        super(RegionConstants.GLOBAL_OCEAN_PARAMS);
 
         this.subRegion = subRegion;
         this.name += " " + subRegion.displayName;
@@ -84,7 +88,7 @@ public class GlobalRegionHarvester extends GenericRegionHarvester
 
 
     @Override
-    protected IJsonObject createCatchesByDimensionDocument(int regionId, String regionName, Entry dimension, Entry measure, IJsonArray geoData, List<String> defaultTags)
+    protected IJsonObject createCatchesByDimensionLink(int regionId, String regionName, Entry dimension, Entry measure, IJsonArray geoData, List<String> defaultTags)
     {
         String apiUrl;
 

@@ -28,8 +28,9 @@ import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
@@ -45,12 +46,12 @@ import de.gerdiproject.json.geo.GeoJson;
 /**
  * An abstract SeaAroundUs harvester, that specifically harvests {@linkplain FeatureCollection}s.
  *
- * @param <R> the class of the {@linkplain FeatureCollectionResponse} of harvesting all regions
+ * @param <R> the class of the generic feature collection response of harvesting all regions
  * @param <T> the class of the {@linkplain FeatureProperties}
  *
  * @author Robin Weiss
  */
-public abstract class AbstractSauFeatureHarvester <R extends FeatureCollectionResponse<T>, T extends FeatureProperties> extends AbstractListHarvester<Feature<T>>
+public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<FeatureCollection<T>>, T extends FeatureProperties> extends AbstractListHarvester<Feature<T>>
 {
     private final String regionApiName;
     private String version;
@@ -65,7 +66,20 @@ public abstract class AbstractSauFeatureHarvester <R extends FeatureCollectionRe
      */
     public AbstractSauFeatureHarvester(String regionApiName, Class<R> responseClass)
     {
-        super(1);
+        this(null, regionApiName, responseClass);
+    }
+
+
+    /**
+     * Basic Constructor for harvesting one document per region.
+     *
+     * @param harvesterName a custom name for the harvester
+     * @param regionApiName the name of the region domain
+     * @param responseClass the class of the {@linkplain FeatureCollectionResponse}
+     */
+    public AbstractSauFeatureHarvester(String harvesterName, String regionApiName, Class<R> responseClass)
+    {
+        super(harvesterName, 1);
         this.regionApiName = regionApiName;
         this.responseClass = responseClass;
     }
@@ -159,6 +173,17 @@ public abstract class AbstractSauFeatureHarvester <R extends FeatureCollectionRe
 
 
     /**
+     * Assembles the URL that leads to the SeaAroundUs website of the region.
+     *
+     * @return the view URL of the region
+     */
+    protected String getViewUrl(int regionId)
+    {
+        return String.format(UrlConstants.VIEW_URL, regionApiName, regionId);
+    }
+
+
+    /**
      * Creates a list of region related {@linkplain WebLink}s.
      *
      * @param regionId a unique ID of a region within its domain
@@ -170,7 +195,7 @@ public abstract class AbstractSauFeatureHarvester <R extends FeatureCollectionRe
         List<WebLink> webLinks = new LinkedList<>();
         webLinks.add(DataCiteConstants.LOGO_LINK);
 
-        WebLink viewLink = new WebLink(String.format(UrlConstants.VIEW_URL, regionApiName) + regionId);
+        WebLink viewLink = new WebLink(String.format(UrlConstants.VIEW_URL, regionApiName, regionId));
         viewLink.setType(WebLinkType.ViewURL);
         webLinks.add(viewLink);
 
@@ -266,7 +291,7 @@ public abstract class AbstractSauFeatureHarvester <R extends FeatureCollectionRe
 
         String longTitle = properties.getLongTitle();
 
-        if (longTitle != null)
+        if (longTitle != null && !longTitle.equals(title))
             subjects.add(new Subject(longTitle));
 
         String region = properties.getRegion();

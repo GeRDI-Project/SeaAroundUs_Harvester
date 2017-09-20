@@ -35,12 +35,19 @@ public class UrlConstants
     public final static String REGION_URL_SUFFIX = "/%s/%d";
     public final static String CSV_FORM = "&format=csv";
 
+    public final static String CATCHES_URL = "/taxa/tonnage/eez/?limit=10&sciname=&region_id=%d";
+
     // COUNTRY
     public static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";
 
     // MARICULTURE
     public static final String MARICULTURE_DOWNLOAD_SUBREGION_URL = "%s%s/%d?limit=20&sub_unit_id=%d" + CSV_FORM;
     public static final String MARICULTURE_DOWNLOAD_ALL_URL = "%s%s/%d?limit=20" + CSV_FORM;
+
+    // TAXA
+    public static final String TAXA_REGION_NAME = "taxa";
+    public static final String TAXON_GROUP_NAME = "taxon-group";
+    public static final String TAXON_LEVEL_NAME = "taxon-level";
 
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(
@@ -51,7 +58,7 @@ public class UrlConstants
         "%d/marine-trophic-index",
         "marine-trophic-index/?region_id=%d",
         "%d?chart=catch-chart&dimension=%s&measure=%s&limit=10",
-        "%3$s/%2$s/?limit=10&region_id=%1$d");
+        "%3$s/%2$s/?limit=20&region_id=%1$d");
 
 
     public static final UrlVO GLOBAL_OCEAN_URL_VO = new UrlVO(

@@ -16,17 +16,48 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.rfmo;
+package de.gerdiproject.harvest.seaaroundus.json.lme;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+
+import com.google.gson.annotations.SerializedName;
+
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 
 /**
- * This class represents a JSON response to a Seaaroundus rfmo request.
- * <br>e.g. http://api.seaaroundus.org/api/v1/rfmo/
+ * This class represents the data object of a SeaAroundUs LME response.
+ * <br> e.g. http://api.seaaroundus.org/api/v1/lme/12
  *
  * @author Robin Weiss
  */
-public final class SauAllRfmoResponse extends FeatureCollectionResponse<FeatureProperties>
+public class SauLmeRegion extends GenericRegion
 {
+    @SerializedName("fishbase_link")
+    private String fishbaseLink;
+
+    @SerializedName("profile_url")
+    private String profileUrl;
+
+
+    public String getFishbaseLink()
+    {
+        return fishbaseLink;
+    }
+
+
+    public void setFishbaseLink(String fishbaseLink)
+    {
+        this.fishbaseLink = fishbaseLink;
+    }
+
+
+    public String getProfileUrl()
+    {
+        return profileUrl;
+    }
+
+
+    public void setProfileUrl(String profileUrl)
+    {
+        this.profileUrl = profileUrl;
+    }
 }

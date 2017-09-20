@@ -18,46 +18,65 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
-import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
+import de.gerdiproject.harvest.IDocument;
+import de.gerdiproject.harvest.harvester.AbstractListHarvester;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.Entry;
-import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
+import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
+import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatchesResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroupResponse;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevelResponse;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.GeoLocation;
+import de.gerdiproject.json.datacite.Source;
+import de.gerdiproject.json.datacite.Subject;
+import de.gerdiproject.json.datacite.Title;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.reflect.TypeToken;
+
 /**
+ * A harvester for harvesting all taxa from SeaAroundUs.
+ * <br><br>
+ * All Taxa:     http://api.seaaroundus.org/api/v1/taxa/<br>
+ * Example Taxon: http://api.seaaroundus.org/api/v1/taxa/600009
  *
  * @author Robin Weiss
  */
-public class TaxonHarvester extends AbstractJsonArrayHarvester
+public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 {
-    private static final String API_URL_SUFFIX = "/taxa/";
-    private static final String TAXON_GROUP_URL_SUFFIX = "/taxon-group/";
-    private static final String TAXON_LEVEL_URL_SUFFIX = "/taxon-level/";
-
     private static final String CENTIMETERS_SUFFIX = " cm";
     private static final String TAXON_LABEL = "%s (%s)";
-    private static final String CATCH_LABEL = "%s of %s (%s) by %s";
+    private static final String CATCH_LABEL = "%s of %s by %s";
 
     private static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
     private static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
-    private static final String TAXON_CATCH_API_URL_SUFFIX = "%s/%s/?limit=10&sciname=&region_id=%d";
+    private static final String TAXON_VIEW_NAME = "View Taxon Profile";
+
 
     private static final Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
     private static final Entry MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
-    private static final Entry[] MEASURES = {
-        MEASURE_VALUE, MEASURE_TONNAGE
-    };
+    private static final Entry[] TAXON_MEASURES = {MEASURE_VALUE, MEASURE_TONNAGE};
 
     private Map<Integer, String> taxonGroups;
     private Map<Integer, String> taxonLevels;
-    private String taxaUrl;
+
+    private String version;
 
 
     /**
@@ -65,169 +84,171 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
      */
     public TaxonHarvester()
     {
-        super(1 + MEASURES.length * DimensionConstants.DIMENSIONS_TAXON.size());
+        super(1);
     }
 
 
     @Override
-    public void setProperty(String key, String value)
+    protected Collection<SauTaxonReduced> loadEntries()
     {
-        if (UrlConstants.PROPERTY_URL.equals(key)) {
-            taxaUrl = value + API_URL_SUFFIX;
-            taxonGroups = getTaxonGroups(value);
-            taxonLevels = getTaxonLevels(value);
-        }
+        // request all taxa
+        String apiUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXA_REGION_NAME);
+        TypeToken<GenericResponse<List<SauTaxonReduced>>> typeToken = new TypeToken<GenericResponse<List<SauTaxonReduced>>>() {};
+        GenericResponse<List<SauTaxonReduced>> allCountries = httpRequester.getObjectFromUrl(apiUrl, typeToken.getType());
+
+        // get version from metadata
+        version = allCountries.getMetadata().getVersion();
+
+        // get taxon group and level names
+        taxonGroups = getTaxonGroups();
+        taxonLevels = getTaxonLevels();
+
+        // return taxa array
+        return allCountries.getData();
     }
 
 
     @Override
-    protected IJsonArray getJsonArray()
+    protected List<IDocument> harvestEntry(SauTaxonReduced entry)
     {
-        IJsonArray taxonList = httpRequester.getJsonArrayFromUrl(taxaUrl);
-        return taxonList;
-    }
+        int taxonKey = entry.getTaxonKey();
+        String apiUrl = DataCiteUtils.instance().getRegionEntryUrl(UrlConstants.TAXA_REGION_NAME, taxonKey);
+        SauTaxon taxon = httpRequester.getObjectFromUrl(apiUrl, SauTaxonResponse.class).getData();
+        String label = createTaxonLabel(taxon);
 
+        DataCiteJson document = new DataCiteJson();
+        document.setVersion(version);
+        document.setPublisher(DataCiteConstants.PROVIDER);
+        document.setFormats(DataCiteConstants.CSV_FORMATS);
+        document.setCreators(DataCiteConstants.SAU_CREATORS);
+        document.setRightsList(DataCiteConstants.RIGHTS_LIST);
+        document.setSources(createSource(apiUrl));
+        document.setWebLinks(createWebLinks(taxonKey, label));
+        document.setFiles(createFiles(taxonKey, label));
+        document.setGeoLocations(createGeoLocations(taxon));
+        document.setTitles(createTitles(label));
+        document.setSubjects(createSubjects(taxon));
 
-    @Override
-    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject taxon)
-    {
-        final int taxonKey = taxon.getInt(JsonConst.TAXON_KEY);
-
-        // get names
-        String commonName = taxon.getString(JsonConst.COMMON_NAME);
-        String scientificName = taxon.getString(JsonConst.SCIENTIFIC_NAME);
-
-        List<IJsonObject> documentList = new ArrayList<>(numberOfDocumentsPerEntry);
-
-        // harvest Taxon Catches
-        for (Entry measure : MEASURES) {
-            for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON)
-                documentList.add(createTaxonCatchDocument(taxonKey, commonName, scientificName, measure, dimension));
-        }
-
-        // harvest Taxon Profile
-        documentList.add(createTaxonProfileDocument(taxonKey, commonName, scientificName));
-
-        return documentList;
+        return Arrays.asList(document);
     }
 
 
     /**
-     * Gets a list of taxon group names.
+     * Creates a list of titles for a taxon.
      *
-     * @param baseUrl the Sea Around Us API base url
-     * @return a ist of taxon group names
+     * @param label a human readable name of the taxon
+     *
+     * @return a list of titles for a taxon
      */
-    private Map<Integer, String> getTaxonGroups(String baseUrl)
+    private List<Title> createTitles(String label)
     {
-        Map<Integer, String> taxonGroupMap = new HashMap<>();
-
-        String url = baseUrl + TAXON_GROUP_URL_SUFFIX;
-        IJsonArray taxonGroupList = httpRequester.getJsonArrayFromUrl(url);
-
-        for (Object attribute : taxonGroupList) {
-            IJsonObject obj = (IJsonObject) attribute;
-
-            int key = obj.getInt(JsonConst.TAXON_GROUP_ID, 0);
-            String value = obj.getString(JsonConst.NAME, null);
-
-            taxonGroupMap.put(key, value);
-        }
-
-        return taxonGroupMap;
+        return Arrays.asList(new Title(label));
     }
 
 
     /**
-     * Gets a list of taxon level names.
+     * Creates the {@linkplain Source} URL object for a SeaAroundUs region.
      *
-     * @param baseUrl the Sea Around Us API base url
-     * @return a ist of taxon level names
+     * @param apiUrl the SeaAroundUs API URL of a single region
+     *
+     * @return the source URL object for a region
      */
-    private Map<Integer, String> getTaxonLevels(String baseUrl)
+    private Source createSource(String apiUrl)
     {
-        Map<Integer, String> taxonLevelMap = new HashMap<>();
-
-        String url = baseUrl + TAXON_LEVEL_URL_SUFFIX;
-        IJsonArray taxonGroupList = httpRequester.getJsonArrayFromUrl(url);
-
-        for (Object attribute : taxonGroupList) {
-            IJsonObject obj = (IJsonObject) attribute;
-
-            int key = obj.getInt(JsonConst.TAXON_LEVEL_ID, 0);
-            String value = obj.getString(JsonConst.NAME, null);
-
-            taxonLevelMap.put(key, value);
-        }
-
-        return taxonLevelMap;
+        Source source = new Source(
+            apiUrl,
+            DataCiteConstants.PROVIDER);
+        source.setProviderURI(DataCiteConstants.PROVIDER_URI);
+        return source;
     }
 
 
-    private IJsonObject createTaxonCatchDocument(int taxonKey, String commonName, String scientificName, Entry measure, Entry dimension)
+    /**
+     * Creates a list of {@linkplain File}s for downloading CSV catch files
+     * of the taxon.
+     *
+     * @param taxonKey the unique taxon ID in SeaAroundUs
+     * @param label a human readable name of the taxon
+     *
+     * @return a list of {@linkplain File}s for downloading CSV catch files
+     * of the taxon
+     */
+    private List<File> createFiles(int taxonKey, String label)
     {
-        // get catch data from URL
-        String apiUrl = taxaUrl + String.format(TAXON_CATCH_API_URL_SUFFIX, measure.urlName, dimension.urlName, taxonKey);
-        IJsonArray catchRegionData = httpRequester.getJsonArrayFromUrl(apiUrl);
+        List<File> files = new LinkedList<>();
 
-        IJsonObject document = null;
+        for (Entry measure : TAXON_MEASURES) {
+            for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
 
-        // only add a taxon document for which sufficient catch data exists
-        if (catchRegionData != null) {
-            // create search tags and years
-            IJsonArray searchTags = getTaxonCatchSearchTags(catchRegionData);
-            IJsonArray years = getTaxonCatchYears(catchRegionData);
+                // add catch value web link and file
+                String catchValueLabel = String.format(CATCH_LABEL, measure.displayName, label, dimension.displayName);
+                String downloadUrl = DataCiteUtils.instance().getCatchesUrl(
+                                         UrlConstants.TAXA_REGION_NAME,
+                                         taxonKey,
+                                         measure,
+                                         dimension)
+                                     + UrlConstants.CSV_FORM;
+                File catchFile = new File(downloadUrl, catchValueLabel);
+                catchFile.setType(DataCiteConstants.CSV_FORMAT);
 
-            String label = String.format(CATCH_LABEL, measure.displayName, commonName, scientificName, dimension.displayName);
-            String viewUrl = String.format(TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
-            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl + UrlConstants.CSV_FORM);
-
-            // add document to index
-            document = searchIndexFactory.createSearchableDocument(
-                           label,
-                           null,
-                           viewUrl,
-                           downloadUrls,
-                           UrlConstants.LOGO_URL,
-                           null,
-                           null,
-                           years,
-                           searchTags
-                       );
+                files.add(catchFile);
+            }
         }
 
-        return document;
+        return files;
     }
 
 
-    private IJsonObject createTaxonProfileDocument(int taxonKey, String commonName, String scientificName)
+    /**
+     * Creates a list of {@linkplain WebLink}s for viewing taxon catches.
+     *
+     * @param taxonKey the unique taxon ID in SeaAroundUs
+     * @param label a human readable name of the taxon
+     *
+     * @return a list of {@linkplain WebLink}s for viewing taxon catches
+     */
+    private List<WebLink> createWebLinks(int taxonKey, String label)
     {
-        String label = createTaxonLabel(commonName, scientificName);
+        List<WebLink> links = new LinkedList<>();
+
         String viewUrl = String.format(TAXON_PROFILE_VIEW_URL, taxonKey);
-        String apiUrl = taxaUrl + taxonKey;
+        WebLink viewLink = new WebLink(viewUrl);
+        viewLink.setName(TAXON_VIEW_NAME);
+        viewLink.setType(WebLinkType.ViewURL);
+        links.add(viewLink);
 
-        IJsonObject profileData = httpRequester.getJsonObjectFromUrl(apiUrl);
-        IJsonArray tags = getTaxonProfileSearchTags(profileData);
-        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
-        IJsonArray geoData = getTaxonGeoData(profileData);
+        // add catch links
+        for (Entry measure : TAXON_MEASURES) {
+            for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
 
-        return searchIndexFactory.createSearchableDocument(
-                   label,
-                   null,
-                   viewUrl,
-                   downloadUrls,
-                   UrlConstants.LOGO_URL,
-                   null,
-                   geoData,
-                   null,
-                   tags
-               );
+                // add catch value web link and file
+                String catchLabel = String.format(CATCH_LABEL, measure.displayName, label, dimension.displayName);
+                String catchUrl = String.format(TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
+
+                WebLink catchLink = new WebLink(catchUrl);
+                catchLink.setName(catchLabel);
+                catchLink.setType(WebLinkType.ViewURL);
+
+                links.add(catchLink);
+            }
+        }
+
+        return links;
     }
 
 
-    private String createTaxonLabel(String commonName, String scientificName)
+    /**
+     * Creates a label for the taxon containing both its common
+     * and scientific name, iff applicable.
+     *
+     * @param taxon a JSON-object that contains taxon data
+     *
+     * @return a label for the taxon
+     */
+    private String createTaxonLabel(SauTaxon taxon)
     {
-
+        String commonName = taxon.getCommonName();
+        String scientificName = taxon.getScientificName();
         String label;
 
         if (commonName != null && scientificName != null)
@@ -237,103 +258,109 @@ public class TaxonHarvester extends AbstractJsonArrayHarvester
         else
             label = scientificName;
 
+
         return label;
     }
 
 
-    private IJsonArray getTaxonCatchSearchTags(IJsonArray catchRegionData)
+    /**
+     * Creates a list of {@linkplain GeoLocation}s out of
+     * the southern and northern latitudes of the taxon.
+     *
+     * @param taxon a JSON-object that contains taxon data
+     *
+     * @return a list of {@linkplain GeoLocation}s
+     */
+    private List<GeoLocation> createGeoLocations(SauTaxon taxon)
     {
-        final IJsonArray tags = jsonBuilder.createArray();
+        List<GeoLocation> geoLocations = null;
 
-        catchRegionData.forEach((region) ->
-                                tags.add(((IJsonObject) region).getString(JsonConst.KEY, null))
-                               );
-        return tags;
-    }
+        Double latNorth = taxon.getLatNorth();
+        Double latSouth = taxon.getLatSouth();
 
+        // check if geo data is available
+        if (latNorth != null && latSouth != null) {
+            geoLocations = new LinkedList<>();
+            GeoLocation geo = new GeoLocation();
+            geo.setBox(-180.0, 180.0, latSouth, latNorth);
 
-    private IJsonArray getTaxonCatchYears(IJsonArray catchRegionData)
-    {
-        final IJsonArray years = jsonBuilder.createArray();
-        final IJsonObject firstRegion = catchRegionData.getJsonObject(0);
-
-        if (firstRegion != null) {
-            IJsonArray catchValues = firstRegion.getJsonArray(JsonConst.VALUES);
-
-            if (catchValues != null) {
-                catchValues.forEach((catchValue) -> {
-                    years.add(((IJsonArray) catchValue).getInt(0));
-                });
-            }
+            geoLocations.add(geo);
         }
 
-        return years;
-    }
-
-
-    private IJsonArray getTaxonGeoData(IJsonObject taxonObj)
-    {
-        // check if geo data is available
-        if (taxonObj.isNull(JsonConst.LATITUDE_NORTH) || taxonObj.isNull(JsonConst.LATITUDE_SOUTH))
-            return null;
-
-        // retrieve geo data
-        Double latitudeNorth = taxonObj.getDouble(JsonConst.LATITUDE_NORTH);
-        Double latitudeSouth = taxonObj.getDouble(JsonConst.LATITUDE_SOUTH);
-
-        IJsonObject geoJson = jsonBuilder.geoBuilder().createHorizontalRing(latitudeNorth, latitudeSouth);
-
-        return jsonBuilder.createArrayFromObjects(geoJson);
+        return geoLocations;
     }
 
 
     /**
      * Creates an array of search tags for a taxon.
      *
-     * @param taxonObj a JSON-object that contains taxon data
+     * @param taxon a JSON-object that contains taxon data
+     *
      * @return a list of search tags
      */
-    private IJsonArray getTaxonProfileSearchTags(IJsonObject taxonObj)
+    private List<Subject> createSubjects(SauTaxon taxon)
     {
-        IJsonArray taxonProfile = jsonBuilder.createArrayFromObjects(
+        List<Subject> subjects = new LinkedList<>();
 
-                                      // functional group name
-                                      taxonObj.getString(JsonConst.FUNCTIONAL_GROUP),
+        // add generic taxon fields
+        subjects.add(new Subject(taxon.getCommonName()));
+        subjects.add(new Subject(taxon.getScientificName()));
+        subjects.add(new Subject(taxon.getFunctionalGroup()));
+        subjects.add(new Subject(taxon.getCommercialGroup()));
+        subjects.add(new Subject(taxon.getSlMaxCm() + CENTIMETERS_SUFFIX));
+        subjects.add(new Subject(taxonGroups.get(taxon.getTaxonGroupId())));
+        subjects.add(new Subject(taxonLevels.get(taxon.getTaxonLevelId())));
 
-                                      // commercial group name
-                                      taxonObj.getString(JsonConst.COMMERCIAL_GROUP),
+        // add names of all habitats occupied by the taxon
+        Map<String, Double> habitatIndex = taxon.getHabitatIndex();
 
-                                      // taxon maximum length
-                                      taxonObj.getInt(JsonConst.TAXON_LENGTH) + CENTIMETERS_SUFFIX,
+        if (habitatIndex != null) {
+            habitatIndex.forEach((String name, Double value) -> {
 
-                                      // taxon group name
-                                      taxonGroups.get(taxonObj.getInt(JsonConst.TAXON_GROUP_ID)),
-
-                                      // taxon level name
-                                      taxonLevels.get(taxonObj.getInt(JsonConst.TAXON_LEVEL_ID))
-                                  );
-
-        // habitat data
-        IJsonObject habitatObject = taxonObj.getJsonObject(JsonConst.HABITAT_INDEX);
-
-        if (habitatObject != null) {
-            // get names of all habitats occupied by the taxon
-            habitatObject.forEach((Map.Entry<String, Object> entry) -> {
-                Object value = entry.getValue();
-
-                if (value instanceof Double)
-                {
-                    double d = (Double)
-                    value;
-
-                    if (d > 0.0 && d <= 1.0)
-                        taxonProfile.add(entry.getKey());
-                }
-            }
-                                 );
+                if (value != null && value > 0.0 && !name.equals("habitat_diversity_index"))
+                    subjects.add(new Subject(name));
+            });
         }
 
-        return taxonProfile;
+        // add catch regions
+        int taxonKey = taxon.getTaxonKey();
+
+        for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
+            String valueUrl = DataCiteUtils.instance().getCatchesUrl(UrlConstants.TAXA_REGION_NAME, taxonKey, MEASURE_VALUE, dimension);
+            List<SauCatch> catchValues = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class).getData();
+            // add catch zone names
+            catchValues.forEach((SauCatch c) -> subjects.add(new Subject(c.getKey())));
+        }
+
+        return subjects;
+    }
+
+
+    /**
+     * Gets a map of taxon group names.
+     *
+     * @return a map of taxon group names
+     */
+    private Map<Integer, String> getTaxonGroups()
+    {
+        String taxonGroupUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXON_GROUP_NAME);
+        SauTaxonGroupResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
+
+        return taxonGroupResponse.toMap();
+    }
+
+
+    /**
+     * Gets a map of taxon level names.
+     *
+     * @return a map of taxon level names
+     */
+    private Map<Integer, String> getTaxonLevels()
+    {
+        String taxonGroupUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXON_LEVEL_NAME);
+        SauTaxonLevelResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
+
+        return taxonGroupResponse.toMap();
     }
 
 

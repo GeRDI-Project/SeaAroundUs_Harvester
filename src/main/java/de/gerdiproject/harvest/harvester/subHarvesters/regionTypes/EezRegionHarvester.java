@@ -18,145 +18,153 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
+import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
+import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
+import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
 import java.util.List;
 
 /**
+ * This harvester harvests all EEZs of SeaAroundUs.
+ * <br>see http://api.seaaroundus.org/api/v1/eez/
  *
  * @author Robin Weiss
  */
-public class EezRegionHarvester extends GenericRegionHarvester
+public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
 {
-    private static final String INTERNAL_FISHING_ACCESS_LABEL_PREFIX = "Foreign fishing access in the waters of ";
-    private static final String INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX = "/internal-fishing-access";
-    private static final String INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX = "/access-agreement-internal/";
-
-    private static final String FISHERIES_SUBSIDIES_LABEL_PREFIX = "Fisheries Subsidies in ";
-    private static final String FISHERIES_SUBSIDIES_VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/subsidy/";
-    private static final String FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX = "/geo-entity/%d/subsidies/";
-
-    private static final String OCEAN_HEALTH_INDEX_LABEL_PREFIX = "Ocean Health Index of ";
-
-    private String fisheriesSubsidiesApiUrl;
-
-
+    /**
+     * Simple constructor that initializes the super class with
+     * EEZ parameters.
+     */
     public EezRegionHarvester()
     {
-        super(RegionConstants.REGION_EEZ,
-              DimensionConstants.DIMENSIONS_EEZ,
-              UrlConstants.GENERIC_URL_VO,
-              6 + DimensionConstants.DIMENSIONS_EEZ.size() * MEASURES.length
-             );
+        super(RegionConstants.EEZ_PARAMS);
     }
 
 
     @Override
-    public void setProperty(String key, String value)
+    protected void enrichWebLinksAndFiles(List<WebLink> weblinks, List<File> files, String apiUrl, SauEezRegion regionObject)
     {
-        if (UrlConstants.PROPERTY_URL.equals(key)) {
-            downloadUrlPrefix = value + String.format(UrlConstants.REGION_IDS_URL, regionType.urlName);
-            fisheriesSubsidiesApiUrl = value + FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX;
-        }
-    }
+        super.enrichWebLinksAndFiles(weblinks, files, apiUrl, regionObject);
 
+        // External Links
+        enrichWebLinksByExternalLinks(weblinks, regionObject);
 
-    @Override
-    protected List<IJsonObject> createDocuments(int regionId, IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        List<IJsonObject> documentList = super.createDocuments(regionId, regionObject, regionName, geoData, defaultTags);
+        // Fishery Subsidies
+        enrichWebLinksAndFilesByFisheriesSubsidies(weblinks, files, regionObject);
 
         // Internal Fishing Access
-        documentList.add(createInternalFishingAccessDocument(regionId, regionName, geoData, defaultTags));
+        enrichWebLinksAndFilesByFishingAccess(weblinks, files, apiUrl, regionObject);
+    }
 
-        // Subsidies
-        documentList.add(createFisheriesSubsidiesDocument(regionObject, regionName, geoData, defaultTags));
+
+    /**
+     * Adds external {@linkplain WebLink}s to a harvested document.
+     *
+     * @param weblinks the weblinks list of the document
+     * @param files the file list of the document
+     * @param regionObject the region object source
+     */
+    private void enrichWebLinksByExternalLinks(List<WebLink> weblinks, SauEezRegion regionObject)
+    {
+        String countryName = regionObject.getCountryName();
 
         // Ocean Health Index
-        documentList.add(createOceanHealthIndexDocument(regionObject, regionName, geoData, defaultTags));
-
-        return documentList;
-    }
-
-
-    private IJsonObject createFisheriesSubsidiesDocument(IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        int geoEntityId = regionObject.getInt(JsonConst.GEO_ENTITY_ID);
-
-        String label = FISHERIES_SUBSIDIES_LABEL_PREFIX + regionName;
-        String viewUrl = FISHERIES_SUBSIDIES_VIEW_URL_PREFIX + geoEntityId;
-        String apiUrl = String.format(fisheriesSubsidiesApiUrl, geoEntityId);
-        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
-        IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags);
-
-        return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, null, searchTags
-               );
-    }
-
-
-    private IJsonObject createOceanHealthIndexDocument(IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        String viewUrl = regionObject.getString(JsonConst.OHI_LINK, null);
-
-        if (viewUrl != null) {
-            String label = OCEAN_HEALTH_INDEX_LABEL_PREFIX + regionName;
-            IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags);
-
-            return searchIndexFactory.createSearchableDocument(
-                       label, null, viewUrl, null, UrlConstants.LOGO_URL, null, geoData, null, searchTags
-                   );
+        if (regionObject.getOhiLink() != null) {
+            WebLink ohiLink = new WebLink(regionObject.getOhiLink());
+            ohiLink.setName(DataCiteConstants.OCEAN_HEALTH_INDEX_LABEL_PREFIX + countryName);
+            ohiLink.setType(WebLinkType.Related);
+            weblinks.add(ohiLink);
         }
 
-        return null;
-    }
-
-
-    private IJsonObject createInternalFishingAccessDocument(int regionId, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        String label = INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionName;
-        String viewUrl = viewUrlPrefix + regionId + INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
-        String apiUrl = downloadUrlPrefix + regionId + INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
-        IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags);
-        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
-
-        return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, null, searchTags
-               );
-    }
-
-
-    @Override
-    protected List<String> getDefaultSearchTags(IJsonObject regionObject)
-    {
-        final List<String> tags = super.getDefaultSearchTags(regionObject);
-
-        IJsonArray faoRfb = regionObject.getJsonArray(JsonConst.FAO_RFB);
-
-        if (faoRfb != null) {
-            for (Object attribute : faoRfb) {
-                IJsonObject faoObj = (IJsonObject) attribute;
-
-                // get name
-                String tagName = faoObj.getString(JsonConst.NAME);
-
-                if (tagName != null)
-                    tags.add(tagName);
-
-                // get acronym
-                String acronym = faoObj.getString(JsonConst.ACRONYM);
-
-                if (acronym != null)
-                    tags.add(acronym);
-            }
+        // Global Slavery Index
+        if (regionObject.getGsiLink() != null) {
+            WebLink gsiLink = new WebLink(regionObject.getGsiLink());
+            gsiLink.setName(DataCiteConstants.GLOBAL_SLAVERY_INDEX_LABEL_PREFIX + countryName);
+            gsiLink.setType(WebLinkType.Related);
+            weblinks.add(gsiLink);
         }
 
-        return tags;
+        // FAO Profile
+        if (regionObject.getFaoProfileUrl() != null) {
+            WebLink gsiLink = new WebLink(regionObject.getFaoProfileUrl());
+            gsiLink.setName(DataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
+            gsiLink.setType(WebLinkType.Related);
+            weblinks.add(gsiLink);
+        }
+
+        // FAO RFB
+        if (regionObject.getFaoRfb() != null) {
+            regionObject.getFaoRfb().forEach((SauFaoRfb rfb) -> {
+                WebLink rfbLink = new WebLink(rfb.getUrl());
+                rfbLink.setName(rfb.getName());
+                rfbLink.setType(WebLinkType.Related);
+                weblinks.add(rfbLink);
+            });
+        }
+
+        // Reconstruction Documents
+        if (regionObject.getReconstructionDocuments() != null) {
+            regionObject.getReconstructionDocuments().forEach((SauReconstructionDocument rd) -> {
+                WebLink rdLink = new WebLink(rd.getUrl());
+                rdLink.setName(rd.getName());
+                rdLink.setType(WebLinkType.Related);
+                weblinks.add(rdLink);
+            });
+        }
     }
 
+
+    /**
+     * Adds Fisheries Subsidies {@linkplain File}s and {@linkplain WebLink}s to a harvested document.
+     *
+     * @param weblinks the weblinks list of the document
+     * @param files the file list of the document
+     * @param regionObject the region object source
+     */
+    private void enrichWebLinksAndFilesByFisheriesSubsidies(List<WebLink> weblinks, List<File> files, SauEezRegion regionObject)
+    {
+        int geoEntityId = regionObject.getGeoEntityId();
+        String fisherySubsidiesLabel = DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName();
+
+        WebLink fisherySubsidiesLink = new WebLink(DataCiteConstants.FISHERIES_SUBSIDIES_VIEW_URL_PREFIX + geoEntityId);
+        fisherySubsidiesLink.setName(fisherySubsidiesLabel);
+        fisherySubsidiesLink.setType(WebLinkType.Related);
+        weblinks.add(fisherySubsidiesLink);
+
+        File fisherySubsidiesFile = new File(
+            DataCiteUtils.instance().getRegionEntryUrl(DataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, geoEntityId) + DataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
+            fisherySubsidiesLabel);
+        fisherySubsidiesFile.setType(DataCiteConstants.JSON_FORMAT);
+        files.add(fisherySubsidiesFile);
+    }
+
+
+    /**
+     * Adds Fishing Access {@linkplain File}s and {@linkplain WebLink}s to a harvested document.
+     *
+     * @param weblinks the weblinks list of the document
+     * @param files the file list of the document
+     * @param apiUrl a download URL prefix
+     * @param regionObject the region object source
+     */
+    private void enrichWebLinksAndFilesByFishingAccess(List<WebLink> weblinks, List<File> files, String apiUrl, SauEezRegion regionObject)
+    {
+        String fishingAccessLabel = DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName();
+
+        WebLink fishingAccessLink = new WebLink(getViewUrl(regionObject.getId()) + DataCiteConstants.INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX);
+        fishingAccessLink.setName(fishingAccessLabel);
+        fishingAccessLink.setType(WebLinkType.Related);
+        weblinks.add(fishingAccessLink);
+
+        File fishingAccessFile = new File(apiUrl + DataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX, fishingAccessLabel);
+        fishingAccessFile.setType(DataCiteConstants.JSON_FORMAT);
+        files.add(fishingAccessFile);
+    }
 }

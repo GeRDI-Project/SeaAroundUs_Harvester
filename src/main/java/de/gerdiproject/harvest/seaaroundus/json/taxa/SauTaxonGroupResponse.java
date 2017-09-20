@@ -16,17 +16,34 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.country;
+package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON response to a Seaaroundus country request.
- * <br>e.g. http://api.seaaroundus.org/api/v1/country/
+ * This class represents the JSON response to a Seaaroundus taxon-group request.
+ * <br>see http://api.seaaroundus.org/api/v1/taxon-group/
  *
  * @author Robin Weiss
  */
-public final class SauAllCountriesResponse extends GenericResponse<FeatureCollection<SauCountryProperties>>
+public final class SauTaxonGroupResponse extends GenericResponse<List<SauTaxonGroup>>
 {
+    /**
+     * Maps the taxon group IDs to their respective names.
+     *
+     * @return a map of taxon group names
+     */
+    public Map<Integer, String> toMap()
+    {
+        // create map out of group list
+        Map<Integer, String> taxonLevelMap = new HashMap<>();
+        getData().forEach((SauTaxonGroup g) ->
+                          taxonLevelMap.put(g.getTaxonGroupId(), g.getName())
+                         );
+        return taxonLevelMap;
+    }
 }

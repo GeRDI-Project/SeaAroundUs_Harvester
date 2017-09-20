@@ -18,17 +18,32 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON object response to a Seaaroundus taxa request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/taxa/
+ * This class represents the JSON response to a Seaaroundus taxon-level request.
+ * <br>see http://api.seaaroundus.org/api/v1/taxon-level/
  *
  * @author Robin Weiss
  */
-public final class SauAllTaxaResponse extends GenericResponse<List<SauTaxonProperties>>
+public final class SauTaxonLevelResponse extends GenericResponse<List<SauTaxonLevel>>
 {
+    /**
+     * Maps the taxon level IDs to their respective names.
+     *
+     * @return a map of taxon level names
+     */
+    public Map<Integer, String> toMap()
+    {
+        // create map out of group list
+        Map<Integer, String> taxonLevelMap = new HashMap<>();
+        getData().forEach((SauTaxonLevel l) ->
+                          taxonLevelMap.put(l.getTaxonLevelId(), l.getName())
+                         );
+        return taxonLevelMap;
+    }
 }

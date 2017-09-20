@@ -23,13 +23,17 @@ import de.gerdiproject.harvest.harvester.subHarvesters.MaricultureHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.TaxonHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.CountryHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.EezRegionHarvester;
+import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.FaoRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.FishingEntityRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GenericRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GlobalRegionHarvester;
+import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.HighSeasRegionHarvester;
+import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.LmeRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.RfmoRegionHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
 
 import java.util.Arrays;
@@ -38,8 +42,9 @@ import java.util.List;
 
 
 /**
+ * The Main Harvester of SeaAroundUs. Has numerous sub-harvesters for each domain of SeaAroundUs data.
  *
- * @author row
+ * @author Robin Weiss
  */
 public class SeaAroundUsHarvester extends AbstractCompositeHarvester
 {
@@ -51,6 +56,7 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
 
     /**
      * Creates all sub-harvesters that harvest SeaAroundUs.
+     *
      * @return all required sub-harvesters
      */
     private static List<AbstractHarvester> createSubHarvesters()
@@ -66,18 +72,9 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_GLOBAL));
         newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_EEZS));
         newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_HIGH_SEAS));
-        newSubHarvesters.add(new GenericRegionHarvester(
-                                 RegionConstants.REGION_LME,
-                                 DimensionConstants.DIMENSIONS_GENERIC,
-                                 UrlConstants.GENERIC_URL_VO));
-        newSubHarvesters.add(new GenericRegionHarvester(
-                                 RegionConstants.REGION_FAO,
-                                 DimensionConstants.DIMENSIONS_FAO,
-                                 UrlConstants.GENERIC_URL_VO));
-        newSubHarvesters.add(new GenericRegionHarvester(
-                                 RegionConstants.REGION_HIGH_SEAS,
-                                 DimensionConstants.DIMENSIONS_GENERIC,
-                                 UrlConstants.GENERIC_URL_VO));
+        newSubHarvesters.add(new LmeRegionHarvester());
+        newSubHarvesters.add(new HighSeasRegionHarvester());
+        newSubHarvesters.add(new FaoRegionHarvester());
 
         return newSubHarvesters;
     }

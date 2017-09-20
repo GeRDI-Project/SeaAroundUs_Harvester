@@ -26,7 +26,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Robin Weiss
  */
-public class SauTaxonProperties
+public class SauTaxonReduced
 {
     @SerializedName("common_name")
     private String commonName;

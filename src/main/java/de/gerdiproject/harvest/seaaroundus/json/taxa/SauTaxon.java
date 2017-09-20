@@ -18,6 +18,8 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 
 
@@ -65,7 +67,7 @@ public class SauTaxon
     private boolean hasHabitatIndex;
 
     @SerializedName("habitat_index")
-    private SauTaxonHabitatIndex habitatIndex;
+    private Map<String, Double> habitatIndex;
 
     @SerializedName("is_baltic_only")
     private boolean isBalticOnly;
@@ -77,7 +79,7 @@ public class SauTaxon
     private int functionalGroupId;
 
     @SerializedName("lat_north")
-    private int latNorth;
+    private Double latNorth;
 
     @SerializedName("is_taxon_distribution_backfilled")
     private boolean isTaxonDistributionBackfilled;
@@ -101,7 +103,7 @@ public class SauTaxon
     private String scientificName;
 
     @SerializedName("lat_south")
-    private int latSouth;
+    private Double latSouth;
 
     @SerializedName("max_depth")
     private int maxDepth;
@@ -263,13 +265,13 @@ public class SauTaxon
     }
 
 
-    public SauTaxonHabitatIndex getHabitatIndex()
+    public Map<String, Double> getHabitatIndex()
     {
         return habitatIndex;
     }
 
 
-    public void setHabitatIndex(SauTaxonHabitatIndex value)
+    public void setHabitatIndex(Map<String, Double> value)
     {
         this.habitatIndex = value;
     }
@@ -323,13 +325,13 @@ public class SauTaxon
     }
 
 
-    public int getLatNorth()
+    public Double getLatNorth()
     {
         return latNorth;
     }
 
 
-    public void setLatNorth(int value)
+    public void setLatNorth(Double value)
     {
         this.latNorth = value;
     }
@@ -419,13 +421,13 @@ public class SauTaxon
     }
 
 
-    public int getLatSouth()
+    public Double getLatSouth()
     {
         return latSouth;
     }
 
 
-    public void setLatSouth(int value)
+    public void setLatSouth(Double value)
     {
         this.latSouth = value;
     }

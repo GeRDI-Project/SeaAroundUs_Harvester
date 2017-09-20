@@ -1,8 +1,7 @@
 package de.gerdiproject.harvest.seaaroundus.utils;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.json.datacite.Source;
 
 /**
  * A static helper class for creating DataCite fields.
@@ -15,6 +14,8 @@ public final class DataCiteUtils
 
     private String singleEntryApiUrl = null;
     private String allEntriesApiUrl = null;
+    private String catchesApiUrl = null;
+
 
     /**
      * Private constructor, because this is a static class
@@ -24,6 +25,12 @@ public final class DataCiteUtils
 
     }
 
+
+    /**
+     * Retrieves the singleton instance of this class.
+     *
+     * @return the singleton instance of this class
+     */
     public static DataCiteUtils instance()
     {
         return instance;
@@ -32,6 +39,7 @@ public final class DataCiteUtils
 
     /**
      * Assembles a URL to download an overview of specified regions.
+     *
      * @param regionName the SeaAroundUs API name of the region
      *
      * @return a URL to download all regions
@@ -41,8 +49,10 @@ public final class DataCiteUtils
         return String.format(allEntriesApiUrl, regionName);
     }
 
+
     /**
-     * Assembles a URL to download a single region.
+     * Assembles a URL to view the JSON response of a single region.
+     *
      * @param regionName the SeaAroundUs API name of the region
      * @param regionId a SeaAroundUs unique identifier of a region
      *
@@ -54,11 +64,32 @@ public final class DataCiteUtils
     }
 
 
-    public void setVersion(String version)
+    /**
+     * Assembles a URL to download the catch data of a single region.
+     *
+     * @param regionName the SeaAroundUs API name of the region
+     * @param regionId a SeaAroundUs unique identifier of a region
+     * @param measure the catch measure
+     * @param dimension the catch dimension
+     *
+     * @return a URL to download the catch data of a single region
+     */
+    public String getCatchesUrl(String regionName, int regionId, Entry measure, Entry dimension)
     {
-        singleEntryApiUrl = String.format(UrlConstants.API_URL, version) + UrlConstants.REGION_URL_SUFFIX;
-        allEntriesApiUrl = String.format(UrlConstants.API_URL, version) + UrlConstants.REGION_IDS_URL;
+        return String.format(catchesApiUrl, regionName, measure.urlName, dimension.urlName, regionId);
     }
 
 
+    /**
+     * Changes the SeaAroundUs API version.
+     *
+     * @param version the SeaAroundUs API version
+     */
+    public void setVersion(String version)
+    {
+        String apiPrefix = String.format(UrlConstants.API_URL, version);
+        singleEntryApiUrl = apiPrefix + UrlConstants.REGION_URL_SUFFIX;
+        allEntriesApiUrl = apiPrefix + UrlConstants.REGION_IDS_URL;
+        catchesApiUrl = apiPrefix + UrlConstants.CATCHES_URL;
+    }
 }

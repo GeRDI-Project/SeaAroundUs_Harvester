@@ -16,18 +16,19 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.mariculture;
+package de.gerdiproject.harvest.seaaroundus.json.catches;
 
+import java.util.List;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON response to a Seaaroundus mariculture request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
+ * This class represents the JSON response to a Seaaroundus catches request.
+ * <br> e.g. see http://api.seaaroundus.org/api/v1/eez/value/taxon/?limit=10&region_id=12
  *
  * @author Robin Weiss
  */
-public final class SauAllMariculturesResponse extends FeatureCollectionResponse<FeatureProperties>
+public final class SauCatchesResponse extends GenericResponse<List<SauCatch>>
 {
+
 }

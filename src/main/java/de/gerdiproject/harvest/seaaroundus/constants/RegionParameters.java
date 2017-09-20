@@ -16,17 +16,48 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
+package de.gerdiproject.harvest.seaaroundus.constants;
 
+import java.util.List;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GenericRegionHarvester;
+
 
 /**
- * This class represents a JSON response to any Seaaroundus feature collection request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
+ * This class provides parameters that are required to set up a {@linkplain GenericRegionHarvester}.
  *
  * @author Robin Weiss
  */
-public final class FeatureCollectionResponse extends GenericResponse<FeatureCollection<FeatureProperties>>
+public class RegionParameters
 {
+    private final Entry regionType;
+    private final List<Entry> dimensions;
+    private final UrlVO urls;
+
+
+    public RegionParameters(Entry regionType, List<Entry> dimensions, UrlVO urls)
+    {
+        super();
+        this.regionType = regionType;
+        this.dimensions = dimensions;
+        this.urls = urls;
+    }
+
+
+    public Entry getRegionType()
+    {
+        return regionType;
+    }
+
+
+    public List<Entry> getDimensions()
+    {
+        return dimensions;
+    }
+
+
+    public UrlVO getUrls()
+    {
+        return urls;
+    }
 }

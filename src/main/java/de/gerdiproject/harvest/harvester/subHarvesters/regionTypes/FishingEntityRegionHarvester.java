@@ -23,6 +23,7 @@ import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRegion;
 import de.gerdiproject.json.IJsonArray;
 import de.gerdiproject.json.IJsonObject;
 
@@ -31,10 +32,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * This harvester harvests all Fishing Entities of SeaAroundUs.
+ * <br>see http://api.seaaroundus.org/api/v1/fishing-entity/
  *
  * @author Robin Weiss
  */
-public class FishingEntityRegionHarvester extends GenericRegionHarvester
+public class FishingEntityRegionHarvester extends GenericRegionHarvester<SauFishingEntityRegion>
 {
     private final static String FUNCTIONAL_GROUP_SEPERATOR = "; ";
 
@@ -43,20 +46,15 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
     private final static String EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX = "/access-agreement-external/";
 
 
+    /**
+     * Simple constructor that initializes the super class with
+     * Fishing Entity parameters.
+     */
     public FishingEntityRegionHarvester()
     {
-        super(RegionConstants.REGION_FISHING_ENTITY,
-              DimensionConstants.DIMENSIONS_FAO,
-              UrlConstants.GENERIC_URL_VO,
-              1 + DimensionConstants.DIMENSIONS_FAO.size() * MEASURES.length);
+        super(RegionConstants.FISHING_ENTITY_PARAMS);
     }
 
-
-    @Override
-    protected IJsonArray getJsonArray()
-    {
-        return httpRequester.getJsonArrayFromUrl(downloadUrlPrefix);
-    }
 
 
     @Override
@@ -67,7 +65,7 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
         // Catches and Values
         for (Entry measure : MEASURES) {
             for (Entry dimension : dimensions)
-                documentList.add(createCatchesByDimensionDocument(regionId, regionName, dimension, measure, geoData, defaultTags));
+                documentList.add(createCatchesByDimensionLink(regionId, regionName, dimension, measure, geoData, defaultTags));
         }
 
         // External Fishing Access
@@ -146,12 +144,5 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester
         }
 
         return aaTags;
-    }
-
-
-    @Override
-    protected int getRegionId(IJsonObject region)
-    {
-        return region.getInt(JsonConst.ID);
     }
 }

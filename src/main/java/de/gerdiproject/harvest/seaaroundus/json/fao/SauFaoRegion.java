@@ -16,16 +16,32 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.rfmo;
+package de.gerdiproject.harvest.seaaroundus.json.fao;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import com.google.gson.annotations.SerializedName;
+
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 
 /**
- * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/rfmo/14
+ * This class represents a JSON object response to a Seaaroundus FAO request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/fao/12
  *
  * @author Robin Weiss
  */
-public final class SauRfmoResponse extends GenericResponse<SauRfmo>
+public class SauFaoRegion extends GenericRegion
 {
+    @SerializedName("long_title")
+    private String longTitle;
+
+
+    public String getLongTitle()
+    {
+        return longTitle;
+    }
+
+
+    public void setLongTitle(String value)
+    {
+        this.longTitle = value;
+    }
 }

@@ -16,15 +16,44 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.eez;
+package de.gerdiproject.harvest.seaaroundus.json.taxa;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
- * This class represents a JSON object response to a Seaaroundus eez request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/eez/12
+ * This class represents a JSON object that is part of the response to a Seaaroundus taxon-group request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/taxon-group/
  *
  * @author Robin Weiss
  */
-public class SauEez
+public final class SauTaxonGroup
 {
+    private String name;
 
+    @SerializedName("taxon_group_id")
+    private int taxonGroupId;
+
+
+    public String getName()
+    {
+        return name;
+    }
+
+
+    public void setName(String value)
+    {
+        this.name = value;
+    }
+
+
+    public int getTaxonGroupId()
+    {
+        return taxonGroupId;
+    }
+
+
+    public void setTaxonGroupId(int value)
+    {
+        this.taxonGroupId = value;
+    }
 }

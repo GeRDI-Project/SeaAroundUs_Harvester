@@ -18,80 +18,97 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
+import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoContractingCountry;
+import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
+import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.Subject;
+import de.gerdiproject.json.datacite.WebLink;
 
 import java.util.List;
 
 /**
+ * This harvester harvests all RFMOs of SeaAroundUs.
+ * <br>see http://api.seaaroundus.org/api/v1/rfmo/
  *
  * @author Robin Weiss
  */
-public class RfmoRegionHarvester extends GenericRegionHarvester
+public class RfmoRegionHarvester extends GenericRegionHarvester<SauRfmoRegion>
 {
+    /**
+     * Simple constructor that initializes the super class with
+     * RFMO parameters.
+     */
     public RfmoRegionHarvester()
     {
-        super(RegionConstants.REGION_RFMO, DimensionConstants.DIMENSIONS_GENERIC, UrlConstants.GENERIC_URL_VO);
+        super(RegionConstants.RFMO_PARAMS);
     }
 
 
     @Override
-    protected List<String> getDefaultSearchTags(IJsonObject regionObject)
+    protected void enrichSubjects(List<Subject> subjects, SauRfmoRegion regionObject)
     {
-        List<String> tags = super.getDefaultSearchTags(regionObject);
-
-        tags = addTaxa(tags, regionObject.getJsonArray(JsonConst.PRIMARY_TAXA));
-        tags = addTaxa(tags, regionObject.getJsonArray(JsonConst.SECONDARY_TAXA));
-        tags = addContractingCountries(tags, regionObject.getJsonArray(JsonConst.CONTRACTING_COUNTRIES));
-
-        return tags;
+        super.enrichSubjects(subjects, regionObject);
+        enrichSubjectsByTaxa(subjects, regionObject.getPrimaryTaxa());
+        enrichSubjectsByTaxa(subjects, regionObject.getSecondaryTaxa());
     }
 
 
-    private List<String> addTaxa(List<String> tags, IJsonArray taxa)
+    /**
+     * Adds {@linkplain Subject}s of taxa of the RFMO to the document's weblinks.
+     *
+     * @param subjects the weblink list of the document that is to be enriched
+     * @param taxa a list of taxon data
+     */
+    private void enrichSubjectsByTaxa(List<Subject> subjects, List<SauTaxonReduced> taxa)
     {
-        if (taxa != null) {
-            for (Object attribute : taxa) {
-                IJsonObject metric = (IJsonObject) attribute;
+        if (taxa != null && !taxa.isEmpty()) {
 
-                String commonName = metric.getString(JsonConst.COMMON_NAME, null);
+            taxa.forEach((SauTaxonReduced taxon) -> {
+
+                String commonName = taxon.getCommonName();
 
                 if (commonName != null)
-                    tags.add(commonName);
+                    subjects.add(new Subject(commonName));
 
-                String scientificName = metric.getString(JsonConst.SCIENTIFIC_NAME, null);
-
+                String scientificName = taxon.getScientificName();
                 if (scientificName != null)
-                    tags.add(scientificName);
-            }
+                    subjects.add(new Subject(scientificName));
+            });
         }
-
-        return tags;
     }
 
 
-    private List<String> addContractingCountries(List<String> tags, IJsonArray countries)
+    @Override
+    protected void enrichWebLinksAndFiles(List<WebLink> weblinks, List<File> files, String apiUrl, SauRfmoRegion regionObject)
     {
-        if (countries != null) {
-            for (Object c : countries) {
-                IJsonObject metric = (IJsonObject) c;
+        super.enrichWebLinksAndFiles(weblinks, files, apiUrl, regionObject);
+        enrichWebLinksByContractingCountries(weblinks, regionObject.getContractingCountries());
+    }
 
-                String iso3 = metric.getString(JsonConst.ISO3, null);
 
-                if (iso3 != null)
-                    tags.add(iso3);
+    /**
+     * Adds {@linkplain WebLink}s of contracting countries of the RFMO to the document's weblinks.
+     *
+     * @param webLinks the weblink list of the document that is to be enriched
+     * @param countries a list of contracting countries from the region source object
+     */
+    private void enrichWebLinksByContractingCountries(List<WebLink> webLinks, List<SauRfmoContractingCountry> countries)
+    {
+        if (countries != null && !countries.isEmpty()) {
+            countries.forEach((SauRfmoContractingCountry c) -> {
 
-                String name = metric.getString(JsonConst.NAME, null);
+                WebLink cLink = new WebLink(c.getFacpUrl());
+                cLink.setName(String.format(
+                                  DataCiteConstants.CONTRACTING_COUNTRY_NAME,
+                                  c.getName(),
+                                  c.getIso3())
+                             );
 
-                if (name != null)
-                    tags.add(name);
-            }
+                webLinks.add(cLink);
+            });
         }
-
-        return tags;
     }
 }
