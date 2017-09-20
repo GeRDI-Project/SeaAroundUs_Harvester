@@ -26,17 +26,16 @@ import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
 import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatchesResponse;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauAllTaxaResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroupResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevelResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.Source;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.WebLink;
@@ -48,7 +47,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.reflect.TypeToken;
 
 /**
  * A harvester for harvesting all taxa from SeaAroundUs.
@@ -60,19 +58,6 @@ import com.google.gson.reflect.TypeToken;
  */
 public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 {
-    private static final String CENTIMETERS_SUFFIX = " cm";
-    private static final String TAXON_LABEL = "%s (%s)";
-    private static final String CATCH_LABEL = "%s of %s by %s";
-
-    private static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
-    private static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
-    private static final String TAXON_VIEW_NAME = "View Taxon Profile";
-
-
-    private static final Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
-    private static final Entry MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
-    private static final Entry[] TAXON_MEASURES = {MEASURE_VALUE, MEASURE_TONNAGE};
-
     private Map<Integer, String> taxonGroups;
     private Map<Integer, String> taxonLevels;
 
@@ -92,10 +77,9 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
     protected Collection<SauTaxonReduced> loadEntries()
     {
         // request all taxa
-        String apiUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXA_REGION_NAME);
-        TypeToken<GenericResponse<List<SauTaxonReduced>>> typeToken = new TypeToken<GenericResponse<List<SauTaxonReduced>>>() {};
-        GenericResponse<List<SauTaxonReduced>> allCountries = httpRequester.getObjectFromUrl(apiUrl, typeToken.getType());
-
+        String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(UrlConstants.TAXA_REGION_NAME);
+        SauAllTaxaResponse allCountries = httpRequester.getObjectFromUrl(apiUrl, SauAllTaxaResponse.class);
+        
         // get version from metadata
         version = allCountries.getMetadata().getVersion();
 
@@ -112,7 +96,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
     protected List<IDocument> harvestEntry(SauTaxonReduced entry)
     {
         int taxonKey = entry.getTaxonKey();
-        String apiUrl = DataCiteUtils.instance().getRegionEntryUrl(UrlConstants.TAXA_REGION_NAME, taxonKey);
+        String apiUrl = DataCiteFactory.instance().getRegionEntryUrl(UrlConstants.TAXA_REGION_NAME, taxonKey);
         SauTaxon taxon = httpRequester.getObjectFromUrl(apiUrl, SauTaxonResponse.class).getData();
         String label = createTaxonLabel(taxon);
 
@@ -122,7 +106,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         document.setFormats(DataCiteConstants.CSV_FORMATS);
         document.setCreators(DataCiteConstants.SAU_CREATORS);
         document.setRightsList(DataCiteConstants.RIGHTS_LIST);
-        document.setSources(createSource(apiUrl));
+        document.setSources(DataCiteFactory.instance().createSource(apiUrl));
         document.setWebLinks(createWebLinks(taxonKey, label));
         document.setFiles(createFiles(taxonKey, label));
         document.setGeoLocations(createGeoLocations(taxon));
@@ -147,23 +131,6 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     /**
-     * Creates the {@linkplain Source} URL object for a SeaAroundUs region.
-     *
-     * @param apiUrl the SeaAroundUs API URL of a single region
-     *
-     * @return the source URL object for a region
-     */
-    private Source createSource(String apiUrl)
-    {
-        Source source = new Source(
-            apiUrl,
-            DataCiteConstants.PROVIDER);
-        source.setProviderURI(DataCiteConstants.PROVIDER_URI);
-        return source;
-    }
-
-
-    /**
      * Creates a list of {@linkplain File}s for downloading CSV catch files
      * of the taxon.
      *
@@ -177,12 +144,12 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
     {
         List<File> files = new LinkedList<>();
 
-        for (Entry measure : TAXON_MEASURES) {
+        for (Entry measure : DataCiteConstants.TAXON_MEASURES) {
             for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchValueLabel = String.format(CATCH_LABEL, measure.displayName, label, dimension.displayName);
-                String downloadUrl = DataCiteUtils.instance().getCatchesUrl(
+                String catchValueLabel = String.format(DataCiteConstants.TAXON_CATCHES_LABEL, measure.displayName, label, dimension.displayName);
+                String downloadUrl = DataCiteFactory.instance().getCatchesUrl(
                                          UrlConstants.TAXA_REGION_NAME,
                                          taxonKey,
                                          measure,
@@ -211,19 +178,19 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
     {
         List<WebLink> links = new LinkedList<>();
 
-        String viewUrl = String.format(TAXON_PROFILE_VIEW_URL, taxonKey);
+        String viewUrl = String.format(DataCiteConstants.TAXON_PROFILE_VIEW_URL, taxonKey);
         WebLink viewLink = new WebLink(viewUrl);
-        viewLink.setName(TAXON_VIEW_NAME);
+        viewLink.setName(DataCiteConstants.TAXON_VIEW_NAME);
         viewLink.setType(WebLinkType.ViewURL);
         links.add(viewLink);
 
         // add catch links
-        for (Entry measure : TAXON_MEASURES) {
+        for (Entry measure : DataCiteConstants.TAXON_MEASURES) {
             for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchLabel = String.format(CATCH_LABEL, measure.displayName, label, dimension.displayName);
-                String catchUrl = String.format(TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
+                String catchLabel = String.format(DataCiteConstants.TAXON_CATCHES_LABEL, measure.displayName, label, dimension.displayName);
+                String catchUrl = String.format(DataCiteConstants.TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
 
                 WebLink catchLink = new WebLink(catchUrl);
                 catchLink.setName(catchLabel);
@@ -252,7 +219,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         String label;
 
         if (commonName != null && scientificName != null)
-            label = String.format(TAXON_LABEL, commonName, scientificName);
+            label = String.format(DataCiteConstants.TAXON_LABEL, commonName, scientificName);
         else if (commonName != null)
             label = commonName;
         else
@@ -307,7 +274,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         subjects.add(new Subject(taxon.getScientificName()));
         subjects.add(new Subject(taxon.getFunctionalGroup()));
         subjects.add(new Subject(taxon.getCommercialGroup()));
-        subjects.add(new Subject(taxon.getSlMaxCm() + CENTIMETERS_SUFFIX));
+        subjects.add(new Subject(taxon.getSlMaxCm() + DataCiteConstants.CENTIMETERS_SUFFIX));
         subjects.add(new Subject(taxonGroups.get(taxon.getTaxonGroupId())));
         subjects.add(new Subject(taxonLevels.get(taxon.getTaxonLevelId())));
 
@@ -326,7 +293,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         int taxonKey = taxon.getTaxonKey();
 
         for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
-            String valueUrl = DataCiteUtils.instance().getCatchesUrl(UrlConstants.TAXA_REGION_NAME, taxonKey, MEASURE_VALUE, dimension);
+            String valueUrl = DataCiteFactory.instance().getCatchesUrl(UrlConstants.TAXA_REGION_NAME, taxonKey, DataCiteConstants.TAXON_MEASURE_VALUE, dimension);
             List<SauCatch> catchValues = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class).getData();
             // add catch zone names
             catchValues.forEach((SauCatch c) -> subjects.add(new Subject(c.getKey())));
@@ -343,7 +310,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
      */
     private Map<Integer, String> getTaxonGroups()
     {
-        String taxonGroupUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXON_GROUP_NAME);
+        String taxonGroupUrl = DataCiteFactory.instance().getAllRegionsUrl(UrlConstants.TAXON_GROUP_NAME);
         SauTaxonGroupResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
 
         return taxonGroupResponse.toMap();
@@ -357,7 +324,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
      */
     private Map<Integer, String> getTaxonLevels()
     {
-        String taxonGroupUrl = DataCiteUtils.instance().getAllRegionsUrl(UrlConstants.TAXON_LEVEL_NAME);
+        String taxonGroupUrl = DataCiteFactory.instance().getAllRegionsUrl(UrlConstants.TAXON_LEVEL_NAME);
         SauTaxonLevelResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
 
         return taxonGroupResponse.toMap();

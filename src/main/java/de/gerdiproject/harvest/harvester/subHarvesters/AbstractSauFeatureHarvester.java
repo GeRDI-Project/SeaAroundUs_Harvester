@@ -31,10 +31,9 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.Source;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.Title.TitleType;
@@ -122,7 +121,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     protected Collection<Feature<T>> loadEntries()
     {
         // request all countries
-        String apiUrl = DataCiteUtils.instance().getAllRegionsUrl(regionApiName);
+        String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(regionApiName);
         R allCountries = httpRequester.getObjectFromUrl(apiUrl, responseClass);
 
         // get version from metadata
@@ -138,7 +137,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     {
         T properties = entry.getProperties();
         int regionId = getRegionId(properties);
-        String apiUrl = DataCiteUtils.instance().getRegionEntryUrl(regionApiName, regionId);
+        String apiUrl = DataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
@@ -147,7 +146,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
         document.setCreators(DataCiteConstants.SAU_CREATORS);
         document.setRightsList(DataCiteConstants.RIGHTS_LIST);
         document.setTitles(createBasicTitles(properties));
-        document.setSources(createSource(apiUrl));
+        document.setSources(DataCiteFactory.instance().createSource(apiUrl));
         document.setWebLinks(createBasicWebLinks(regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
         document.setGeoLocations(createBasicGeoLocations(
@@ -200,23 +199,6 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
         webLinks.add(viewLink);
 
         return webLinks;
-    }
-
-
-    /**
-     * Creates the {@linkplain Source} URL object for a SeaAroundUs region.
-     *
-     * @param regionApiUrl the SeaAroundUs API URL of a single region
-     *
-     * @return the source URL object for a region
-     */
-    private Source createSource(String regionApiUrl)
-    {
-        Source source = new Source(
-            regionApiUrl,
-            DataCiteConstants.PROVIDER);
-        source.setProviderURI(DataCiteConstants.PROVIDER_URI);
-        return source;
     }
 
 

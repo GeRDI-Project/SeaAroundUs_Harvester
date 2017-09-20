@@ -27,19 +27,19 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
  */
 public class GenericResponse <T>
 {
-    private GenericResponseMetadata metadata;
+    private GenericResponseMetadata meta;
     private T data;
 
 
     public GenericResponseMetadata getMetadata()
     {
-        return metadata;
+        return meta;
     }
 
 
     public void setMetadata(GenericResponseMetadata metadata)
     {
-        this.metadata = metadata;
+        this.meta = metadata;
     }
 
 

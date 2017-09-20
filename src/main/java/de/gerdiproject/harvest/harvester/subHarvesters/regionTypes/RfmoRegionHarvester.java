@@ -23,7 +23,6 @@ import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoContractingCountry;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.WebLink;
 
@@ -82,21 +81,12 @@ public class RfmoRegionHarvester extends GenericRegionHarvester<SauRfmoRegion>
 
 
     @Override
-    protected void enrichWebLinksAndFiles(List<WebLink> weblinks, List<File> files, String apiUrl, SauRfmoRegion regionObject)
+    protected void enrichWebLinks(List<WebLink> links, SauRfmoRegion regionObject)
     {
-        super.enrichWebLinksAndFiles(weblinks, files, apiUrl, regionObject);
-        enrichWebLinksByContractingCountries(weblinks, regionObject.getContractingCountries());
-    }
+        super.enrichWebLinks(links, regionObject);
 
+        List<SauRfmoContractingCountry> countries = regionObject.getContractingCountries();
 
-    /**
-     * Adds {@linkplain WebLink}s of contracting countries of the RFMO to the document's weblinks.
-     *
-     * @param webLinks the weblink list of the document that is to be enriched
-     * @param countries a list of contracting countries from the region source object
-     */
-    private void enrichWebLinksByContractingCountries(List<WebLink> webLinks, List<SauRfmoContractingCountry> countries)
-    {
         if (countries != null && !countries.isEmpty()) {
             countries.forEach((SauRfmoContractingCountry c) -> {
 
@@ -106,8 +96,7 @@ public class RfmoRegionHarvester extends GenericRegionHarvester<SauRfmoRegion>
                                   c.getName(),
                                   c.getIso3())
                              );
-
-                webLinks.add(cLink);
+                links.add(cLink);
             });
         }
     }

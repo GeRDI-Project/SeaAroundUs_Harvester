@@ -18,7 +18,9 @@
  */
 package de.gerdiproject.harvest.seaaroundus.constants;
 
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *  This static class contains descriptions of regions. Regions are filter
@@ -40,45 +42,71 @@ public class RegionConstants
     public final static Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
     public final static Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
 
+    private final static Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$)");
+    private final static Entry MEASURE_TONNAGE = new Entry("tonnage", "Catches");
+
+    static final List<Entry> GENERIC_MEASURES = Collections.unmodifiableList(Arrays.asList(MEASURE_VALUE, MEASURE_TONNAGE));
+
     public final static RegionParameters EEZ_PARAMS = new RegionParameters(
         REGION_EEZ,
         DimensionConstants.DIMENSIONS_EEZ,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters LME_PARAMS = new RegionParameters(
         REGION_LME,
         DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters RFMO_PARAMS = new RegionParameters(
         REGION_RFMO,
         DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters FAO_PARAMS = new RegionParameters(
         REGION_FAO,
         DimensionConstants.DIMENSIONS_FAO,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters HIGH_SEAS_PARAMS = new RegionParameters(
         REGION_HIGH_SEAS,
         DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters FISHING_ENTITY_PARAMS = new RegionParameters(
         REGION_FISHING_ENTITY,
         DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
     public final static RegionParameters GLOBAL_OCEAN_PARAMS = new RegionParameters(
-        REGION_GLOBAL,
+        SUB_REGION_GLOBAL,
         DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
+        UrlConstants.GLOBAL_OCEAN_URL_VO
+    );
+
+    public final static RegionParameters GLOBAL_OCEAN_HIGH_SEAS_PARAMS = new RegionParameters(
+        SUB_REGION_HIGH_SEAS,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
+        UrlConstants.GLOBAL_OCEAN_URL_VO
+    );
+
+    public final static RegionParameters GLOBAL_OCEAN_EEZ_PARAMS = new RegionParameters(
+        SUB_REGION_EEZS,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
         UrlConstants.GLOBAL_OCEAN_URL_VO
     );
 

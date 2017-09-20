@@ -32,14 +32,16 @@ public class RegionParameters
 {
     private final Entry regionType;
     private final List<Entry> dimensions;
+    private final List<Entry> measures;
     private final UrlVO urls;
 
 
-    public RegionParameters(Entry regionType, List<Entry> dimensions, UrlVO urls)
+    public RegionParameters(Entry regionType, List<Entry> dimensions, List<Entry> measures, UrlVO urls)
     {
         super();
         this.regionType = regionType;
         this.dimensions = dimensions;
+        this.measures = measures;
         this.urls = urls;
     }
 
@@ -60,4 +62,11 @@ public class RegionParameters
     {
         return urls;
     }
+
+
+    public List<Entry> getMeasures()
+    {
+        return measures;
+    }
+
 }

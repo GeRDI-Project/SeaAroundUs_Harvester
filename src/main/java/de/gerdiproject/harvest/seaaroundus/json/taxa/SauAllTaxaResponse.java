@@ -16,31 +16,18 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.global;
+package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
 import java.util.List;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON object response to a Seaaroundus global request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/global/1
+ * This class represents the JSON response to a Seaaroundus taxa request.
+ * <br>see http://api.seaaroundus.org/api/v1/taxa/
  *
  * @author Robin Weiss
  */
-public class SauGlobal
+public final class SauAllTaxaResponse extends GenericResponse<List<SauTaxonReduced>>
 {
-    private List<Metric> metrics;
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> metrics)
-    {
-        this.metrics = metrics;
-    }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
@@ -28,9 +27,9 @@ public class LmeRegionHarvester extends GenericRegionHarvester<SauLmeRegion>
 
 
     @Override
-    protected void enrichWebLinksAndFiles(List<WebLink> weblinks, List<File> files, String apiUrl, SauLmeRegion regionObject)
+    protected void enrichWebLinks(List<WebLink> links, SauLmeRegion regionObject)
     {
-        super.enrichWebLinksAndFiles(weblinks, files, apiUrl, regionObject);
+        super.enrichWebLinks(links, regionObject);
 
         // add a link to fishbase
         if (regionObject.getFishbaseLink() != null) {
@@ -38,7 +37,7 @@ public class LmeRegionHarvester extends GenericRegionHarvester<SauLmeRegion>
             fishBaseLink.setName(DataCiteConstants.FISHBASE_TAXA_LINK_NAME);
             fishBaseLink.setType(WebLinkType.Related);
 
-            weblinks.add(fishBaseLink);
+            links.add(fishBaseLink);
         }
 
         // add a link to the LME website
@@ -47,7 +46,7 @@ public class LmeRegionHarvester extends GenericRegionHarvester<SauLmeRegion>
             lmeLink.setName(DataCiteConstants.LME_NOAA_LINK_NAME);
             lmeLink.setType(WebLinkType.Related);
 
-            weblinks.add(lmeLink);
+            links.add(lmeLink);
         }
     }
 }

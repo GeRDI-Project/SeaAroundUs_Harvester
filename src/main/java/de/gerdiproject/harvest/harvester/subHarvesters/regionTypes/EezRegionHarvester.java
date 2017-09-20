@@ -23,7 +23,7 @@ import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
@@ -49,30 +49,10 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
 
 
     @Override
-    protected void enrichWebLinksAndFiles(List<WebLink> weblinks, List<File> files, String apiUrl, SauEezRegion regionObject)
+    protected void enrichWebLinks(List<WebLink> weblinks, SauEezRegion regionObject)
     {
-        super.enrichWebLinksAndFiles(weblinks, files, apiUrl, regionObject);
+        super.enrichWebLinks(weblinks, regionObject);
 
-        // External Links
-        enrichWebLinksByExternalLinks(weblinks, regionObject);
-
-        // Fishery Subsidies
-        enrichWebLinksAndFilesByFisheriesSubsidies(weblinks, files, regionObject);
-
-        // Internal Fishing Access
-        enrichWebLinksAndFilesByFishingAccess(weblinks, files, apiUrl, regionObject);
-    }
-
-
-    /**
-     * Adds external {@linkplain WebLink}s to a harvested document.
-     *
-     * @param weblinks the weblinks list of the document
-     * @param files the file list of the document
-     * @param regionObject the region object source
-     */
-    private void enrichWebLinksByExternalLinks(List<WebLink> weblinks, SauEezRegion regionObject)
-    {
         String countryName = regionObject.getCountryName();
 
         // Ocean Health Index
@@ -118,52 +98,38 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
                 weblinks.add(rdLink);
             });
         }
-    }
 
-
-    /**
-     * Adds Fisheries Subsidies {@linkplain File}s and {@linkplain WebLink}s to a harvested document.
-     *
-     * @param weblinks the weblinks list of the document
-     * @param files the file list of the document
-     * @param regionObject the region object source
-     */
-    private void enrichWebLinksAndFilesByFisheriesSubsidies(List<WebLink> weblinks, List<File> files, SauEezRegion regionObject)
-    {
-        int geoEntityId = regionObject.getGeoEntityId();
-        String fisherySubsidiesLabel = DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName();
-
-        WebLink fisherySubsidiesLink = new WebLink(DataCiteConstants.FISHERIES_SUBSIDIES_VIEW_URL_PREFIX + geoEntityId);
-        fisherySubsidiesLink.setName(fisherySubsidiesLabel);
+        // Fisheries Subsidies
+        WebLink fisherySubsidiesLink = new WebLink(DataCiteConstants.FISHERIES_SUBSIDIES_VIEW_URL_PREFIX + regionObject.getGeoEntityId());
+        fisherySubsidiesLink.setName(DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
         fisherySubsidiesLink.setType(WebLinkType.Related);
         weblinks.add(fisherySubsidiesLink);
 
-        File fisherySubsidiesFile = new File(
-            DataCiteUtils.instance().getRegionEntryUrl(DataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, geoEntityId) + DataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
-            fisherySubsidiesLabel);
-        fisherySubsidiesFile.setType(DataCiteConstants.JSON_FORMAT);
-        files.add(fisherySubsidiesFile);
+        // Internal Fishing Access
+        WebLink fishingAccessLink = new WebLink(getViewUrl(regionObject.getId()) + DataCiteConstants.INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX);
+        fishingAccessLink.setName(DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
+        fishingAccessLink.setType(WebLinkType.Related);
+        weblinks.add(fishingAccessLink);
     }
 
 
-    /**
-     * Adds Fishing Access {@linkplain File}s and {@linkplain WebLink}s to a harvested document.
-     *
-     * @param weblinks the weblinks list of the document
-     * @param files the file list of the document
-     * @param apiUrl a download URL prefix
-     * @param regionObject the region object source
-     */
-    private void enrichWebLinksAndFilesByFishingAccess(List<WebLink> weblinks, List<File> files, String apiUrl, SauEezRegion regionObject)
+    @Override
+    protected void enrichFiles(List<File> files, SauEezRegion regionObject)
     {
-        String fishingAccessLabel = DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName();
+        super.enrichFiles(files, regionObject);
 
-        WebLink fishingAccessLink = new WebLink(getViewUrl(regionObject.getId()) + DataCiteConstants.INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX);
-        fishingAccessLink.setName(fishingAccessLabel);
-        fishingAccessLink.setType(WebLinkType.Related);
-        weblinks.add(fishingAccessLink);
+        // Fisheries Subsidies
+        File fisherySubsidiesFile = new File(
+            DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + DataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
+            DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
+        fisherySubsidiesFile.setType(DataCiteConstants.JSON_FORMAT);
+        files.add(fisherySubsidiesFile);
 
-        File fishingAccessFile = new File(apiUrl + DataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX, fishingAccessLabel);
+        // Internal Fishing Access
+        String faUrl = DataCiteFactory.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
+                       + DataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
+
+        File fishingAccessFile = new File(faUrl, DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
         fishingAccessFile.setType(DataCiteConstants.JSON_FORMAT);
         files.add(fishingAccessFile);
     }

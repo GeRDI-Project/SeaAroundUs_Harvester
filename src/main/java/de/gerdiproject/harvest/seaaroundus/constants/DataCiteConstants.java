@@ -84,6 +84,20 @@ public class DataCiteConstants
     public static final String OCEAN_HEALTH_INDEX_LABEL_PREFIX = "Ocean Health Index of ";
     public static final String GLOBAL_SLAVERY_INDEX_LABEL_PREFIX = "Global Slavery Index of ";
 
+    // TAXON
+    public static final String CENTIMETERS_SUFFIX = " cm";
+    public static final String TAXON_LABEL = "%s (%s)";
+    public static final String TAXON_CATCHES_LABEL = "%s of %s by %s";
+
+    public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
+    public static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
+    public static final String TAXON_VIEW_NAME = "View Taxon Profile";
+
+
+    public static final Entry TAXON_MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
+    public static final Entry TAXON_MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
+    public static final List<Entry> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
+
 
     /**
      * Private constructor, because this is a static class.

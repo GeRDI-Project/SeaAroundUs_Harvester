@@ -24,8 +24,6 @@ import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRegion;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,93 +54,94 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester<SauFish
     }
 
 
+    /*
+        @Override
+        protected List<IJsonObject> createDocuments(int regionId, IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
+        {
+            final List<IJsonObject> documentList = new ArrayList<>(numberOfDocumentsPerEntry);
 
-    @Override
-    protected List<IJsonObject> createDocuments(int regionId, IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        final List<IJsonObject> documentList = new ArrayList<>(numberOfDocumentsPerEntry);
-
-        // Catches and Values
-        for (Entry measure : MEASURES) {
-            for (Entry dimension : dimensions)
-                documentList.add(createCatchesByDimensionLink(regionId, regionName, dimension, measure, geoData, defaultTags));
-        }
-
-        // External Fishing Access
-        documentList.add(createExternalFishingAccessDocument(regionId, regionName, geoData, defaultTags));
-
-        return documentList;
-    }
-
-
-    private IJsonObject createExternalFishingAccessDocument(int regionId, String regionName, IJsonArray geoData, List<String> defaultTags)
-    {
-        IJsonObject document = null;
-
-        String apiUrl = downloadUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
-        IJsonArray accessAgreements = httpRequester.getJsonArrayFromUrl(apiUrl);
-
-        // skip this document if no data is available
-        if (accessAgreements != null) {
-            // get years
-            IJsonArray years = getAccessAgreementStartYears(accessAgreements);
-
-            // get and combine search tags
-            List<String> aaSearchTags = getAccessAgreementSearchTags(accessAgreements);
-            IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags, aaSearchTags);
-
-            String label = regionName + EXTERNAL_FISHING_ACCESS_LABEL;
-            String viewUrl = viewUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
-            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
-
-            document = searchIndexFactory.createSearchableDocument(
-                           label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, years, searchTags
-                       );
-        }
-
-        return document;
-    }
-
-
-    private IJsonArray getAccessAgreementStartYears(IJsonArray accessAgreements)
-    {
-        IJsonArray years = jsonBuilder.createArray();
-        accessAgreements.forEach((Object a) -> ((IJsonObject) a).getInt(JsonConst.START_YEAR));
-        return years;
-    }
-
-
-    private List<String> getAccessAgreementSearchTags(IJsonArray accessAgreements)
-    {
-        List<String> aaTags = new LinkedList<>();
-
-        for (Object attribute : accessAgreements) {
-            IJsonObject obj = (IJsonObject) attribute;
-            String fishingAccess = obj.getString(JsonConst.FISHING_ACCESS, null);
-
-            if (fishingAccess != null)
-                aaTags.add(fishingAccess);
-
-            String title = obj.getString(JsonConst.TITLE, null);
-
-            if (title != null)
-                aaTags.add(title);
-
-            String eez = obj.getString(JsonConst.EEZ_NAME, null);
-
-            if (eez != null)
-                aaTags.add(eez);
-
-            String functionalGroupDetails = obj.getString(JsonConst.FUNCTIONAL_GROUP_DETAILS, null);
-
-            if (functionalGroupDetails != null) {
-                String[] functionalGroups = functionalGroupDetails.split(FUNCTIONAL_GROUP_SEPERATOR);
-
-                for (String fg : functionalGroups)
-                    aaTags.add(fg);
+            // Catches and Values
+            for (Entry measure : MEASURES) {
+                for (Entry dimension : dimensions)
+                    documentList.add(createCatchesByDimensionLink(regionId, regionName, dimension, measure, geoData, defaultTags));
             }
+
+            // External Fishing Access
+            documentList.add(createExternalFishingAccessDocument(regionId, regionName, geoData, defaultTags));
+
+            return documentList;
         }
 
-        return aaTags;
-    }
+
+        private IJsonObject createExternalFishingAccessDocument(int regionId, String regionName, IJsonArray geoData, List<String> defaultTags)
+        {
+            IJsonObject document = null;
+
+            String apiUrl = downloadUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
+            IJsonArray accessAgreements = httpRequester.getJsonArrayFromUrl(apiUrl);
+
+            // skip this document if no data is available
+            if (accessAgreements != null) {
+                // get years
+                IJsonArray years = getAccessAgreementStartYears(accessAgreements);
+
+                // get and combine search tags
+                List<String> aaSearchTags = getAccessAgreementSearchTags(accessAgreements);
+                IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags, aaSearchTags);
+
+                String label = regionName + EXTERNAL_FISHING_ACCESS_LABEL;
+                String viewUrl = viewUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
+                IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
+
+                document = searchIndexFactory.createSearchableDocument(
+                               label, null, viewUrl, downloadUrls, UrlConstants.LOGO_URL, null, geoData, years, searchTags
+                           );
+            }
+
+            return document;
+        }
+
+
+        private IJsonArray getAccessAgreementStartYears(IJsonArray accessAgreements)
+        {
+            IJsonArray years = jsonBuilder.createArray();
+            accessAgreements.forEach((Object a) -> ((IJsonObject) a).getInt(JsonConst.START_YEAR));
+            return years;
+        }
+
+
+        private List<String> getAccessAgreementSearchTags(IJsonArray accessAgreements)
+        {
+            List<String> aaTags = new LinkedList<>();
+
+            for (Object attribute : accessAgreements) {
+                IJsonObject obj = (IJsonObject) attribute;
+                String fishingAccess = obj.getString(JsonConst.FISHING_ACCESS, null);
+
+                if (fishingAccess != null)
+                    aaTags.add(fishingAccess);
+
+                String title = obj.getString(JsonConst.TITLE, null);
+
+                if (title != null)
+                    aaTags.add(title);
+
+                String eez = obj.getString(JsonConst.EEZ_NAME, null);
+
+                if (eez != null)
+                    aaTags.add(eez);
+
+                String functionalGroupDetails = obj.getString(JsonConst.FUNCTIONAL_GROUP_DETAILS, null);
+
+                if (functionalGroupDetails != null) {
+                    String[] functionalGroups = functionalGroupDetails.split(FUNCTIONAL_GROUP_SEPERATOR);
+
+                    for (String fg : functionalGroups)
+                        aaTags.add(fg);
+                }
+            }
+
+            return aaTags;
+        }
+        */
 }

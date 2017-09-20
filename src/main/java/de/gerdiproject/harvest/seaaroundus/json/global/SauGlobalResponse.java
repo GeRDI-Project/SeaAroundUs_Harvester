@@ -18,29 +18,14 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.global;
 
-import java.util.List;
-
-import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON object response to a Seaaroundus global request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/global/1
+ * This class represents a JSON object that is part of the response to a Seaaroundus taxa request.
+ * <br>see http://api.seaaroundus.org/api/v1/global/1
  *
  * @author Robin Weiss
  */
-public class SauGlobal
+public final class SauGlobalResponse extends GenericResponse<SauGlobal>
 {
-    private List<Metric> metrics;
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> metrics)
-    {
-        this.metrics = metrics;
-    }
 }

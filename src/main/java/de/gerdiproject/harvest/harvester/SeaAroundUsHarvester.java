@@ -25,16 +25,13 @@ import de.gerdiproject.harvest.harvester.subHarvesters.CountryHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.EezRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.FaoRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.FishingEntityRegionHarvester;
-import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GenericRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GlobalRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.HighSeasRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.LmeRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.RfmoRegionHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteUtils;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -66,12 +63,12 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         newSubHarvesters.add(new TaxonHarvester());
         newSubHarvesters.add(new MaricultureHarvester());
         newSubHarvesters.add(new CountryHarvester());
-        newSubHarvesters.add(new FishingEntityRegionHarvester());
+        //newSubHarvesters.add(new FishingEntityRegionHarvester());
         newSubHarvesters.add(new RfmoRegionHarvester());
         newSubHarvesters.add(new EezRegionHarvester());
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_GLOBAL));
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_EEZS));
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_HIGH_SEAS));
+        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_PARAMS));
+        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_EEZ_PARAMS));
+        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_HIGH_SEAS_PARAMS));
         newSubHarvesters.add(new LmeRegionHarvester());
         newSubHarvesters.add(new HighSeasRegionHarvester());
         newSubHarvesters.add(new FaoRegionHarvester());
@@ -98,7 +95,7 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         super.setProperty(key, value);
 
         if (key.equals(PROPERTY_VERSION)) {
-            DataCiteUtils.instance().setVersion(value);
+            DataCiteFactory.instance().setVersion(value);
             final String url = String.format(UrlConstants.API_URL, value);
 
             for (AbstractHarvester subHarvester : subHarvesters)
