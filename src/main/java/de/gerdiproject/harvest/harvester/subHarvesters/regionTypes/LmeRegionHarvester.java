@@ -2,8 +2,11 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 import java.util.List;
 
+import com.google.gson.reflect.TypeToken;
+
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
@@ -22,7 +25,7 @@ public class LmeRegionHarvester extends GenericRegionHarvester<SauLmeRegion>
      */
     public LmeRegionHarvester()
     {
-        super(RegionConstants.LME_PARAMS);
+        super(new TypeToken<GenericResponse<SauLmeRegion>>() {}, RegionConstants.LME_PARAMS);
     }
 
 

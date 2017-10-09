@@ -23,12 +23,15 @@ import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * This harvester harvests all EEZs of SeaAroundUs.
@@ -44,7 +47,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
      */
     public EezRegionHarvester()
     {
-        super(RegionConstants.EEZ_PARAMS);
+        super(new TypeToken<GenericResponse<SauEezRegion>>() {}, RegionConstants.EEZ_PARAMS);
     }
 
 

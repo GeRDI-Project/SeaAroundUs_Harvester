@@ -13,7 +13,7 @@ public class GenericResponseMetadata
     private String title;
     private String date;
     private String version;
-    
+
 
     @SerializedName("request_path")
     private String requestPath;
@@ -55,15 +55,15 @@ public class GenericResponseMetadata
     }
 
 
-	public String getRequestPath()
-	{
-		return requestPath;
-	}
+    public String getRequestPath()
+    {
+        return requestPath;
+    }
 
 
-	public void setRequestPath( String requestPath )
-	{
-		this.requestPath = requestPath;
-	}
-    
+    public void setRequestPath(String requestPath)
+    {
+        this.requestPath = requestPath;
+    }
+
 }

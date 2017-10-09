@@ -1,7 +1,10 @@
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
+import com.google.gson.reflect.TypeToken;
+
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.fao.SauFaoRegion;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
  * This harvester harvests all FAOs of SeaAroundUs.
@@ -17,6 +20,6 @@ public class FaoRegionHarvester extends GenericRegionHarvester<SauFaoRegion>
      */
     public FaoRegionHarvester()
     {
-        super(RegionConstants.FAO_PARAMS);
+        super(new TypeToken<GenericResponse<SauFaoRegion>>() {}, RegionConstants.FAO_PARAMS);
     }
 }

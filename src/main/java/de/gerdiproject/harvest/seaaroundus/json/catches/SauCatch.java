@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName;
 public final class SauCatch
 {
     private String key;
-    private List<List<Integer>> values;
+    private List<List<Double>> values;
 
     @SerializedName("entity_id")
     private int entityId;
@@ -43,7 +43,7 @@ public final class SauCatch
      */
     public int getEarliestYear()
     {
-        return values.get(0).get(0);
+        return values.get(0).get(0).intValue();
     }
 
 
@@ -54,7 +54,7 @@ public final class SauCatch
      */
     public int getLatestYear()
     {
-        return values.get(values.size()).get(0);
+        return values.get(values.size()).get(0).intValue();
     }
 
 
@@ -82,13 +82,13 @@ public final class SauCatch
     }
 
 
-    public List<List<Integer>> getValues()
+    public List<List<Double>> getValues()
     {
         return values;
     }
 
 
-    public void setValues(List<List<Integer>> value)
+    public void setValues(List<List<Double>> value)
     {
         this.values = value;
     }

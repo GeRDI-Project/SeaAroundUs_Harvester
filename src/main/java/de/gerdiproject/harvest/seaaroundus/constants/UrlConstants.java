@@ -30,12 +30,12 @@ public class UrlConstants
     public final static String PROPERTY_URL = "url";
 
     public final static String VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/%s/";
-    public final static String VIEW_URL = "http://www.seaaroundus.org/data/#/%s/%s";
+    public final static String VIEW_URL = "http://www.seaaroundus.org/data/#/%s/%d";
     public final static String REGION_IDS_URL = "/%s/";
     public final static String REGION_URL_SUFFIX = "/%s/%d";
     public final static String CSV_FORM = "&format=csv";
 
-    public final static String CATCHES_URL = "/taxa/tonnage/eez/?limit=10&sciname=&region_id=%d";
+    public final static String CATCHES_URL = "/%s/%s/%s/?limit=10&sciname=&region_id=%d";
 
     // COUNTRY
     public static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";

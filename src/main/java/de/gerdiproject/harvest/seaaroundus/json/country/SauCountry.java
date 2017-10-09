@@ -45,7 +45,7 @@ public class SauCountry
     private boolean isActive;
 
     @SerializedName("eez_ppr")
-    private int eezPpr;
+    private double eezPpr;
 
     @SerializedName("fao_profile_url_direct_link")
     private String faoProfileUrlDirectLink;
@@ -90,7 +90,7 @@ public class SauCountry
     private String unName;
 
     @SerializedName("shelf_area")
-    private int shelfArea;
+    private double shelfArea;
 
     @SerializedName("major_law_plan")
     private String majorLawPlan;
@@ -120,13 +120,13 @@ public class SauCountry
     private int adminCNumber;
 
     @SerializedName("eez_area")
-    private int eezArea;
+    private double eezArea;
 
     @SerializedName("has_estuary")
     private int hasEstuary;
 
     @SerializedName("per_sea_mount")
-    private int perSeaMount;
+    private double perSeaMount;
 
     @SerializedName("fao_profile_url_v1")
     private String faoProfileUrlV1;
@@ -168,13 +168,13 @@ public class SauCountry
     }
 
 
-    public int getEezPpr()
+    public double getEezPpr()
     {
         return eezPpr;
     }
 
 
-    public void setEezPpr(int value)
+    public void setEezPpr(double value)
     {
         this.eezPpr = value;
     }
@@ -360,13 +360,13 @@ public class SauCountry
     }
 
 
-    public int getShelfArea()
+    public double getShelfArea()
     {
         return shelfArea;
     }
 
 
-    public void setShelfArea(int value)
+    public void setShelfArea(double value)
     {
         this.shelfArea = value;
     }
@@ -528,13 +528,13 @@ public class SauCountry
     }
 
 
-    public int getEezArea()
+    public double getEezArea()
     {
         return eezArea;
     }
 
 
-    public void setEezArea(int value)
+    public void setEezArea(double value)
     {
         this.eezArea = value;
     }
@@ -552,13 +552,13 @@ public class SauCountry
     }
 
 
-    public int getPerSeaMount()
+    public double getPerSeaMount()
     {
         return perSeaMount;
     }
 
 
-    public void setPerSeaMount(int value)
+    public void setPerSeaMount(double value)
     {
         this.perSeaMount = value;
     }

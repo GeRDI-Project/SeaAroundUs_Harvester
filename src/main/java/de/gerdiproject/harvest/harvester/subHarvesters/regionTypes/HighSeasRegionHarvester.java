@@ -1,7 +1,10 @@
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
+import com.google.gson.reflect.TypeToken;
+
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
  * This harvester harvests all HighSeas of SeaAroundUs.
@@ -17,6 +20,6 @@ public class HighSeasRegionHarvester extends GenericRegionHarvester<GenericRegio
      */
     public HighSeasRegionHarvester()
     {
-        super(RegionConstants.HIGH_SEAS_PARAMS);
+        super(new TypeToken<GenericResponse<GenericRegion>>() {}, RegionConstants.HIGH_SEAS_PARAMS);
     }
 }

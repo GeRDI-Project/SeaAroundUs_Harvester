@@ -79,7 +79,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         // request all taxa
         String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(UrlConstants.TAXA_REGION_NAME);
         SauAllTaxaResponse allCountries = httpRequester.getObjectFromUrl(apiUrl, SauAllTaxaResponse.class);
-        
+
         // get version from metadata
         version = allCountries.getMetadata().getVersion();
 
@@ -294,9 +294,14 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
         for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
             String valueUrl = DataCiteFactory.instance().getCatchesUrl(UrlConstants.TAXA_REGION_NAME, taxonKey, DataCiteConstants.TAXON_MEASURE_VALUE, dimension);
-            List<SauCatch> catchValues = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class).getData();
-            // add catch zone names
-            catchValues.forEach((SauCatch c) -> subjects.add(new Subject(c.getKey())));
+
+            SauCatchesResponse catchResponse = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class);
+
+            // not all taxa have catch data
+            if (catchResponse != null && catchResponse.getData() != null) {
+                // add catch zone names
+                catchResponse.getData().forEach((SauCatch c) -> subjects.add(new Subject(c.getKey())));
+            }
         }
 
         return subjects;

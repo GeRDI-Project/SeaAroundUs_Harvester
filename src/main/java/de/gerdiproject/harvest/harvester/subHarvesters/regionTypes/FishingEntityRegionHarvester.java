@@ -23,11 +23,15 @@ import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.JsonConst;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRegion;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * This harvester harvests all Fishing Entities of SeaAroundUs.
@@ -50,7 +54,7 @@ public class FishingEntityRegionHarvester extends GenericRegionHarvester<SauFish
      */
     public FishingEntityRegionHarvester()
     {
-        super(RegionConstants.FISHING_ENTITY_PARAMS);
+        super(new TypeToken<GenericResponse<SauFishingEntityRegion>>() {}, RegionConstants.FISHING_ENTITY_PARAMS);
     }
 
 

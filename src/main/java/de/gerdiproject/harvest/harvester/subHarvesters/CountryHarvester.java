@@ -27,6 +27,7 @@ import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.Title.TitleType;
@@ -147,8 +148,15 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
         if (!isoCode.equals("-99"))
             updatedDoc.getSubjects().add(new Subject(isoCode));
 
-        // add geolocation to geo array
-        updatedDoc.getGeoLocations().addAll(createBasicGeoLocations(entry.getGeometry(), countryName));
+        // add geolocations to geo array
+        List<GeoLocation> geoLocations = createBasicGeoLocations(entry.getGeometry(), countryName);
+
+        if (!geoLocations.isEmpty()) {
+            if (updatedDoc.getGeoLocations() == null)
+                updatedDoc.setGeoLocations(geoLocations);
+            else
+                updatedDoc.getGeoLocations().addAll(geoLocations);
+        }
     }
 
 

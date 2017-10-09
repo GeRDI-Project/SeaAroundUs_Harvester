@@ -20,6 +20,7 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoContractingCountry;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
@@ -27,6 +28,8 @@ import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.WebLink;
 
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * This harvester harvests all RFMOs of SeaAroundUs.
@@ -42,7 +45,7 @@ public class RfmoRegionHarvester extends GenericRegionHarvester<SauRfmoRegion>
      */
     public RfmoRegionHarvester()
     {
-        super(RegionConstants.RFMO_PARAMS);
+        super(new TypeToken<GenericResponse<SauRfmoRegion>>() {}, RegionConstants.RFMO_PARAMS);
     }
 
 

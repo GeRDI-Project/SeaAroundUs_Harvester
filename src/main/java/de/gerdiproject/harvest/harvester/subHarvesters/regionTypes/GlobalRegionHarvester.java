@@ -45,10 +45,6 @@ import java.util.List;
  */
 public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 {
-    private final static String MARINE_TROPHIC_INDEX_LABEL_GLOBAL = "the Global Ocean ";
-    private final static String GLOBAL_OCEAN_TITLE = "The Global Ocean ";
-    private final static String GLOBAL_REGION_NAME = "global";
-
     private final RegionParameters params;
     private String version;
     private String apiUrl;
@@ -70,7 +66,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     protected Collection<SauGlobal> loadEntries()
     {
         // request all countries
-        apiUrl = DataCiteFactory.instance().getRegionEntryUrl(GLOBAL_REGION_NAME, 1);
+        apiUrl = DataCiteFactory.instance().getRegionEntryUrl( DataCiteConstants.GLOBAL_REGION_NAME, 1);
         SauGlobalResponse globalResponse = httpRequester.getObjectFromUrl(apiUrl, SauGlobalResponse.class);
 
         // get version from metadata
@@ -105,7 +101,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
     private List<Title> createTitles(String regionName)
     {
-        String titleString = (GLOBAL_OCEAN_TITLE + regionName).trim();
+        String titleString = (DataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim();
         Title mainTitle = new Title(titleString);
         return Arrays.asList(mainTitle);
     }
@@ -137,7 +133,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         files.add(DataCiteFactory.instance().createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
-        File marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, MARINE_TROPHIC_INDEX_LABEL_GLOBAL);
+        File marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim());
         files.add(marineTrophicIndex);
 
@@ -160,7 +156,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         links.add(DataCiteFactory.instance().createStockStatusLink(params, subRegionId, regionName));
 
         // marine trophic index
-        WebLink marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexLink(params, subRegionId, MARINE_TROPHIC_INDEX_LABEL_GLOBAL);
+        WebLink marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexLink(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().displayName).trim());
         links.add(marineTrophicIndex);
 

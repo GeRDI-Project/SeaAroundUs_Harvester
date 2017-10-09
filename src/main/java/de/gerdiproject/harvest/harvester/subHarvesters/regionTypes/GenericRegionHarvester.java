@@ -35,6 +35,8 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.WebLink;
 
+import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
@@ -47,8 +49,9 @@ import com.google.gson.reflect.TypeToken;
 public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSauFeatureHarvester<FeatureCollectionResponse, FeatureProperties>
 {
     protected final RegionParameters params;
+    private final Type responseType;
 
-
+    
     /**
      *
      * @param harvestedDocuments
@@ -64,7 +67,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
      *            the maximum number of documents that can be retrieved from a
      *            single entry
      */
-    public GenericRegionHarvester(RegionParameters params)
+    public GenericRegionHarvester(TypeToken<GenericResponse<T>> responseTypeToken, RegionParameters params)
     {
         super(
             String.format(
@@ -75,19 +78,29 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
             FeatureCollectionResponse.class
         );
 
+        this.responseType = responseTypeToken.getType();
         this.params = params;
     }
 
-
+    
     @Override
     protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<FeatureProperties> entry)
     {
-        TypeToken<GenericResponse<T>> typeToken = new TypeToken<GenericResponse<T>>() {};
-        T regionObject = httpRequester.<GenericResponse<T>>getObjectFromUrl(apiUrl, typeToken.getType()).getData();
+        GenericResponse<T> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
+        T regionObject = response.getData();
 
         enrichSubjects(document.getSubjects(), regionObject);
         enrichWebLinks(document.getWebLinks(), regionObject);
+
+        if( document.getFiles() == null)
+        	document.setFiles( new LinkedList<File>() );
+        	
         enrichFiles(document.getFiles(), regionObject);
+
+        if( document.getGeoLocations() == null)
+        	document.setGeoLocations( new LinkedList<GeoLocation>() );
+        
+        enrichGeoLocations( document.getGeoLocations(), regionObject );
     }
 
 

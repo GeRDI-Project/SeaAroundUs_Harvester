@@ -93,12 +93,16 @@ public class DataCiteConstants
     public static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
     public static final String TAXON_VIEW_NAME = "View Taxon Profile";
 
-
     public static final Entry TAXON_MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
     public static final Entry TAXON_MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
     public static final List<Entry> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
 
-
+    // GLOBAL OCEAN
+    public static final String GLOBAL_MARINE_TROPHIC_INDEX_LABEL = "the Global Ocean ";
+    public static final String GLOBAL_OCEAN_TITLE = "The Global Ocean ";
+    public static final String GLOBAL_REGION_NAME = "global";
+    
+    
     /**
      * Private constructor, because this is a static class.
      */

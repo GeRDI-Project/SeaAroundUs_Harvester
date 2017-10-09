@@ -33,7 +33,7 @@ public class SauTaxon
 {
     private double k;
     private double tl;
-    private int woo;
+    private double woo;
     private double loo;
 
     @SerializedName("common_name")
@@ -97,7 +97,7 @@ public class SauTaxon
     private int minDepth;
 
     @SerializedName("sl_max_cm")
-    private int slMaxCm;
+    private double slMaxCm;
 
     @SerializedName("scientific_name")
     private String scientificName;
@@ -217,13 +217,13 @@ public class SauTaxon
     }
 
 
-    public int getWoo()
+    public double getWoo()
     {
         return woo;
     }
 
 
-    public void setWoo(int value)
+    public void setWoo(double value)
     {
         this.woo = value;
     }
@@ -397,13 +397,13 @@ public class SauTaxon
     }
 
 
-    public int getSlMaxCm()
+    public double getSlMaxCm()
     {
         return slMaxCm;
     }
 
 
-    public void setSlMaxCm(int value)
+    public void setSlMaxCm(double value)
     {
         this.slMaxCm = value;
     }
