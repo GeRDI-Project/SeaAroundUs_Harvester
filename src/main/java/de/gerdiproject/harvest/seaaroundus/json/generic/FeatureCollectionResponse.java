@@ -19,8 +19,6 @@
 package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
-
 /**
  * This class represents a JSON response to any Seaaroundus feature collection request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
