@@ -127,6 +127,13 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
     }
 
 
+    /**
+     * Creates a list of (related) {@linkplain WebLink}s of a fishing-entity region.
+     *
+     * @param regionObject an object describing the fishing-entity
+     *
+     * @return a list of (related) {@linkplain WebLink}s of a fishing-entity region
+     */
     private List<WebLink> createWebLinks(SauFishingEntityRegion regionObject)
     {
         int regionId = regionObject.getId();

@@ -60,13 +60,12 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
     {
         LinkedList<AbstractHarvester> newSubHarvesters = new LinkedList<>();
 
-        /*newSubHarvesters.add(new TaxonHarvester());
+        newSubHarvesters.add(new TaxonHarvester());
         newSubHarvesters.add(new MaricultureHarvester());
         newSubHarvesters.add(new CountryHarvester());
-        */
         newSubHarvesters.add(new FishingEntityRegionHarvester());
 
-        /*newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_PARAMS));
+        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_PARAMS));
         newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_EEZ_PARAMS));
         newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.GLOBAL_OCEAN_HIGH_SEAS_PARAMS));
 
@@ -74,7 +73,7 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         newSubHarvesters.add(new EezRegionHarvester());
         newSubHarvesters.add(new LmeRegionHarvester());
         newSubHarvesters.add(new HighSeasRegionHarvester());
-        newSubHarvesters.add(new FaoRegionHarvester());*/
+        newSubHarvesters.add(new FaoRegionHarvester());
 
         return newSubHarvesters;
     }
