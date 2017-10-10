@@ -30,80 +30,90 @@ import java.util.List;
  */
 public class RegionConstants
 {
-    public final static Entry REGION_EEZ = new Entry("eez", "in the Waters of");
-    public final static Entry REGION_LME = new Entry("lme", "in the Waters of");
-    public final static Entry REGION_RFMO = new Entry("rfmo", "in the");
-    public final static Entry REGION_FISHING_ENTITY = new Entry("fishing-entity", "by the Fleets of");
-    public final static Entry REGION_FAO = new Entry("fao", "in the Waters of FAO Area");
-    public final static Entry REGION_HIGH_SEAS = new Entry("highseas", "in the Non-EEZ Waters of the");
-    public final static Entry REGION_GLOBAL = new Entry("global", "in the Global Ocean");
+    public static final String COUNTRY_API_NAME = "country";
 
-    public final static Entry SUB_REGION_GLOBAL = new Entry("0", "");
-    public final static Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
-    public final static Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
+    public static final Entry REGION_EEZ = new Entry("eez", "in the Waters of");
+    public static final Entry REGION_LME = new Entry("lme", "in the Waters of");
+    public static final Entry REGION_RFMO = new Entry("rfmo", "in the");
+    public static final Entry REGION_FISHING_ENTITY = new Entry("fishing-entity", "by the Fleets of");
+    public static final Entry REGION_FAO = new Entry("fao", "in the Waters of FAO Area");
+    public static final Entry REGION_HIGH_SEAS = new Entry("highseas", "in the Non-EEZ Waters of the");
+    public static final Entry REGION_GLOBAL = new Entry("global", "in the Global Ocean");
 
-    private final static Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$)");
-    private final static Entry MEASURE_TONNAGE = new Entry("tonnage", "Catches");
+    public static final Entry SUB_REGION_GLOBAL = new Entry("0", "");
+    public static final Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
+    public static final Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
 
-    static final List<Entry> GENERIC_MEASURES = Collections.unmodifiableList(Arrays.asList(MEASURE_VALUE, MEASURE_TONNAGE));
+    private static final Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$)");
+    private static final Entry MEASURE_TONNAGE = new Entry("tonnage", "Catches");
+    private static final List<Entry> GENERIC_MEASURES = Collections.unmodifiableList(Arrays.asList(MEASURE_VALUE, MEASURE_TONNAGE));
 
-    public final static RegionParameters EEZ_PARAMS = new RegionParameters(
+    // TAXON
+    public static final String TAXA_API_NAME = "taxa";
+    public static final String TAXON_GROUP_API_NAME = "taxon-group";
+    public static final String TAXON_LEVEL_API_NAME = "taxon-level";
+    public static final Entry TAXON_MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
+    public static final Entry TAXON_MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
+    public static final List<Entry> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
+
+
+    public static final RegionParameters EEZ_PARAMS = new RegionParameters(
         REGION_EEZ,
         DimensionConstants.DIMENSIONS_EEZ,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters LME_PARAMS = new RegionParameters(
+    public static final RegionParameters LME_PARAMS = new RegionParameters(
         REGION_LME,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters RFMO_PARAMS = new RegionParameters(
+    public static final RegionParameters RFMO_PARAMS = new RegionParameters(
         REGION_RFMO,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters FAO_PARAMS = new RegionParameters(
+    public static final RegionParameters FAO_PARAMS = new RegionParameters(
         REGION_FAO,
         DimensionConstants.DIMENSIONS_FAO,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters HIGH_SEAS_PARAMS = new RegionParameters(
+    public static final RegionParameters HIGH_SEAS_PARAMS = new RegionParameters(
         REGION_HIGH_SEAS,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters FISHING_ENTITY_PARAMS = new RegionParameters(
+    public static final RegionParameters FISHING_ENTITY_PARAMS = new RegionParameters(
         REGION_FISHING_ENTITY,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GENERIC_URL_VO
     );
 
-    public final static RegionParameters GLOBAL_OCEAN_PARAMS = new RegionParameters(
+    public static final RegionParameters GLOBAL_OCEAN_PARAMS = new RegionParameters(
         SUB_REGION_GLOBAL,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GLOBAL_OCEAN_URL_VO
     );
 
-    public final static RegionParameters GLOBAL_OCEAN_HIGH_SEAS_PARAMS = new RegionParameters(
+    public static final RegionParameters GLOBAL_OCEAN_HIGH_SEAS_PARAMS = new RegionParameters(
         SUB_REGION_HIGH_SEAS,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GLOBAL_OCEAN_URL_VO
     );
 
-    public final static RegionParameters GLOBAL_OCEAN_EEZ_PARAMS = new RegionParameters(
+    public static final RegionParameters GLOBAL_OCEAN_EEZ_PARAMS = new RegionParameters(
         SUB_REGION_EEZS,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,

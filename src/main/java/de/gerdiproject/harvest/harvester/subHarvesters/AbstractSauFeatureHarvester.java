@@ -33,13 +33,9 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.Title.TitleType;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
-import de.gerdiproject.json.geo.GeoJson;
 
 
 /**
@@ -147,9 +143,9 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
         document.setRightsList(DataCiteConstants.RIGHTS_LIST);
         document.setTitles(createBasicTitles(properties));
         document.setSources(DataCiteFactory.instance().createSource(apiUrl));
-        document.setWebLinks(createBasicWebLinks(regionId));
+        document.setWebLinks(DataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
-        document.setGeoLocations(createBasicGeoLocations(
+        document.setGeoLocations(DataCiteFactory.instance().createBasicGeoLocations(
                                      entry.getGeometry(),
                                      entry.getProperties().getTitle()
                                  ));
@@ -179,50 +175,6 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     protected String getViewUrl(int regionId)
     {
         return String.format(UrlConstants.VIEW_URL, regionApiName, regionId);
-    }
-
-
-    /**
-     * Creates a list of region related {@linkplain WebLink}s.
-     *
-     * @param regionId a unique ID of a region within its domain
-     *
-     * @return the ViewURL and LogoURL
-     */
-    protected List<WebLink> createBasicWebLinks(int regionId)
-    {
-        List<WebLink> webLinks = new LinkedList<>();
-        webLinks.add(DataCiteConstants.LOGO_LINK);
-
-        WebLink viewLink = new WebLink(String.format(UrlConstants.VIEW_URL, regionApiName, regionId));
-        viewLink.setType(WebLinkType.ViewURL);
-        webLinks.add(viewLink);
-
-        return webLinks;
-    }
-
-
-    /**
-     * Creates a {@linkplain GeoLocation} object for the region.
-     *
-     * @param regionBorders a {@linkplain GeoJson} describing the region border or null
-     * @param regionName a descriptive name of the region
-     *
-     * @return a {@linkplain GeoLocation} describing the region border or null
-     *      if no {@linkplain GeoJson} data exists for the region feature
-     */
-    protected List<GeoLocation> createBasicGeoLocations(GeoJson regionBorders, String regionName)
-    {
-        List<GeoLocation> geoLocations = new LinkedList<>();
-
-        if (regionBorders != null) {
-            GeoLocation g = new GeoLocation();
-            g.setPlace(regionName);
-            g.setPolygon(regionBorders);
-            geoLocations.add(g);
-        }
-
-        return geoLocations;
     }
 
 

@@ -43,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 /**
+ * This harvester deals with creating documents for a generic SeaAroundUs region type, such as EEZ, LME, or RFMO.
  *
  * @author Robin Weiss
  */
@@ -51,7 +52,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     protected final RegionParameters params;
     private final Type responseType;
 
-    
+
     /**
      *
      * @param harvestedDocuments
@@ -82,7 +83,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         this.params = params;
     }
 
-    
+
     @Override
     protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<FeatureProperties> entry)
     {
@@ -92,15 +93,11 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         enrichSubjects(document.getSubjects(), regionObject);
         enrichWebLinks(document.getWebLinks(), regionObject);
 
-        if( document.getFiles() == null)
-        	document.setFiles( new LinkedList<File>() );
-        	
+        document.setFiles(new LinkedList<File>());
         enrichFiles(document.getFiles(), regionObject);
 
-        if( document.getGeoLocations() == null)
-        	document.setGeoLocations( new LinkedList<GeoLocation>() );
-        
-        enrichGeoLocations( document.getGeoLocations(), regionObject );
+        document.setGeoLocations(new LinkedList<GeoLocation>());
+        enrichGeoLocations(document.getGeoLocations(), regionObject);
     }
 
 

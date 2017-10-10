@@ -66,7 +66,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     protected Collection<SauGlobal> loadEntries()
     {
         // request all countries
-        apiUrl = DataCiteFactory.instance().getRegionEntryUrl( DataCiteConstants.GLOBAL_REGION_NAME, 1);
+        apiUrl = DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.GLOBAL_REGION_NAME, 1);
         SauGlobalResponse globalResponse = httpRequester.getObjectFromUrl(apiUrl, SauGlobalResponse.class);
 
         // get version from metadata

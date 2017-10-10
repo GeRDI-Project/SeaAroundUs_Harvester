@@ -26,6 +26,7 @@ package de.gerdiproject.harvest.seaaroundus.constants;
  */
 public class UrlConstants
 {
+    public static final String PROVIDER_URI = "http://www.seaaroundus.org/";
     public final static String API_URL = "http://api.seaaroundus.org/api/%s";
     public final static String PROPERTY_URL = "url";
 
@@ -37,17 +38,22 @@ public class UrlConstants
 
     public final static String CATCHES_URL = "/%s/%s/%s/?limit=10&sciname=&region_id=%d";
 
+
+    public static final String FISHERIES_SUBSIDIES_VIEW_URL = "http://www.seaaroundus.org/data/#/subsidy/%d";
+
     // COUNTRY
-    public static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";
+    public static final String TREATIES_VIEW_URL = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=%s";
 
     // MARICULTURE
     public static final String MARICULTURE_DOWNLOAD_SUBREGION_URL = "%s%s/%d?limit=20&sub_unit_id=%d" + CSV_FORM;
     public static final String MARICULTURE_DOWNLOAD_ALL_URL = "%s%s/%d?limit=20" + CSV_FORM;
 
+    // FISHING-ENTITY
+    public static final String CATCH_ALLOCATIONS_URL = "http://www.seaaroundus.org/data/#/spatial-catch?entities=%d";
+
     // TAXA
-    public static final String TAXA_REGION_NAME = "taxa";
-    public static final String TAXON_GROUP_NAME = "taxon-group";
-    public static final String TAXON_LEVEL_NAME = "taxon-level";
+    public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
+    public static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
 
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(

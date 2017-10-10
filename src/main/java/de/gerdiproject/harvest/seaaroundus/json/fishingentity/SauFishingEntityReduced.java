@@ -16,34 +16,35 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
+package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.json.geo.GeoJson;
 
 /**
- * This class represents a generic SeaAroundUs region response.
+ * This class represents a JSON array element of the response to a Seaaroundus fishing-entity request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/fishing-entity/
  *
  * @author Robin Weiss
  */
-public class GenericRegion
+public class SauFishingEntityReduced
 {
-    private String title;
-    private int id;
-    private GeoJson geojson;
-    private List<Metric> metrics;
+    int id;
+    String title;
+
+    @SerializedName("country_id")
+    int countryId;
 
 
-    public String getTitle()
+    public int getCountryId()
     {
-        return title;
+        return countryId;
     }
 
 
-    public void setTitle(String title)
+    public void setCountryId(int countryId)
     {
-        this.title = title;
+        this.countryId = countryId;
     }
 
 
@@ -59,26 +60,14 @@ public class GenericRegion
     }
 
 
-    public GeoJson getGeojson()
+    public String getTitle()
     {
-        return geojson;
+        return title;
     }
 
 
-    public void setGeojson(GeoJson geojson)
+    public void setTitle(String title)
     {
-        this.geojson = geojson;
-    }
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> metrics)
-    {
-        this.metrics = metrics;
+        this.title = title;
     }
 }

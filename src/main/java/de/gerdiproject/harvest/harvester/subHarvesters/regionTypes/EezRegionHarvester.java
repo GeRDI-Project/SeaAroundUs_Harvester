@@ -20,6 +20,7 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
@@ -103,7 +104,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         }
 
         // Fisheries Subsidies
-        WebLink fisherySubsidiesLink = new WebLink(DataCiteConstants.FISHERIES_SUBSIDIES_VIEW_URL_PREFIX + regionObject.getGeoEntityId());
+        WebLink fisherySubsidiesLink = new WebLink(String.format(UrlConstants.FISHERIES_SUBSIDIES_VIEW_URL, regionObject.getGeoEntityId()));
         fisherySubsidiesLink.setName(DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
         fisherySubsidiesLink.setType(WebLinkType.Related);
         weblinks.add(fisherySubsidiesLink);

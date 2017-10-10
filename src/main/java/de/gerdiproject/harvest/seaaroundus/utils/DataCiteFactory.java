@@ -9,9 +9,11 @@ import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlVO;
 import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Source;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.geo.GeoJson;
 
 /**
  * A static helper class for creating DataCite fields.
@@ -73,7 +75,7 @@ public final class DataCiteFactory
         Source source = new Source(
             apiUrl,
             DataCiteConstants.PROVIDER);
-        source.setProviderURI(DataCiteConstants.PROVIDER_URI);
+        source.setProviderURI(UrlConstants.PROVIDER_URI);
         return source;
     }
 
@@ -331,5 +333,49 @@ public final class DataCiteFactory
         }
 
         return links;
+    }
+
+
+    /**
+     * Creates a list of region related {@linkplain WebLink}s.
+     *
+     * @param regionId a unique ID of a region within its domain
+     *
+     * @return the ViewURL and LogoURL
+     */
+    public List<WebLink> createBasicWebLinks(String regionApiName, int regionId)
+    {
+        List<WebLink> webLinks = new LinkedList<>();
+        webLinks.add(DataCiteConstants.LOGO_LINK);
+
+        WebLink viewLink = new WebLink(String.format(UrlConstants.VIEW_URL, regionApiName, regionId));
+        viewLink.setType(WebLinkType.ViewURL);
+        webLinks.add(viewLink);
+
+        return webLinks;
+    }
+
+
+    /**
+     * Creates a {@linkplain GeoLocation} object for the region.
+     *
+     * @param regionBorders a {@linkplain GeoJson} describing the region border or null
+     * @param regionName a descriptive name of the region
+     *
+     * @return a {@linkplain GeoLocation} describing the region border or null
+     *      if no {@linkplain GeoJson} data exists for the region feature
+     */
+    public List<GeoLocation> createBasicGeoLocations(GeoJson regionBorders, String regionName)
+    {
+        List<GeoLocation> geoLocations = new LinkedList<>();
+
+        if (regionBorders != null) {
+            GeoLocation g = new GeoLocation();
+            g.setPlace(regionName);
+            g.setPolygon(regionBorders);
+            geoLocations.add(g);
+        }
+
+        return geoLocations;
     }
 }

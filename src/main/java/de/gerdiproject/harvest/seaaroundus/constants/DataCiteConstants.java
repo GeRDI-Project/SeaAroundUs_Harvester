@@ -36,7 +36,6 @@ public class DataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
     public static final String PROVIDER = "Sea Around Us";
-    public static final String PROVIDER_URI = "http://www.seaaroundus.org/";
     public static final WebLink LOGO_LINK = createLogoLink();
     public static final List<Creator> SAU_CREATORS = createSauCreatorList();
     public static final String JSON_FORMAT = "json";
@@ -47,8 +46,9 @@ public class DataCiteConstants
 
     // COUNTRY
     public static final String FAO_COUNTRY_PROFILE_LINK_NAME = "FAO Country Profile";
-    public static final String COUNTRY_LABEL_PREFIX = "Country Profile: ";
-    public static final String TREATIES_LABEL_PREFIX = "Treaties and Conventions to which %s (%s) is a Member";
+    public static final String COUNTRY_LABEL = "Country Profile: %s";
+    public static final String TREATIES_LABEL = "Treaties and Conventions to which %s (%s) is a Member";
+    public static final String TREATIES_LABEL_SHORT = "Treaties and Conventions to which %s is a Member";
 
     // MARICULTURE
     public static final String MARICULTURE_LABEL_PREFIX = "Mariculture Production in ";
@@ -77,7 +77,6 @@ public class DataCiteConstants
     public static final String INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX = "/access-agreement-internal/";
 
     public static final String FISHERIES_SUBSIDIES_LABEL_PREFIX = "Fisheries Subsidies in ";
-    public static final String FISHERIES_SUBSIDIES_VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/subsidy/";
     public static final String FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX = "subsidies/";
     public static final String FISHERIES_SUBSIDIES_REGION_NAME = "geo-entity";
 
@@ -88,21 +87,20 @@ public class DataCiteConstants
     public static final String CENTIMETERS_SUFFIX = " cm";
     public static final String TAXON_LABEL = "%s (%s)";
     public static final String TAXON_CATCHES_LABEL = "%s of %s by %s";
-
-    public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
-    public static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
     public static final String TAXON_VIEW_NAME = "View Taxon Profile";
-
-    public static final Entry TAXON_MEASURE_VALUE = new Entry("value", "Real 2010 value (US$) of global catches");
-    public static final Entry TAXON_MEASURE_TONNAGE = new Entry("tonnage", "Global catches");
-    public static final List<Entry> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
 
     // GLOBAL OCEAN
     public static final String GLOBAL_MARINE_TROPHIC_INDEX_LABEL = "the Global Ocean ";
     public static final String GLOBAL_OCEAN_TITLE = "The Global Ocean ";
     public static final String GLOBAL_REGION_NAME = "global";
-    
-    
+
+    // FISHING-ENTITY
+    public final static String EXTERNAL_FISHING_ACCESS_LABEL = "%s's foreign fishing access agreements by EEZ";
+    public final static String EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX = "/external-fishing-access";
+
+    public static final String CATCH_ALLOCATIONS_LABEL = "View catch allocations on a map for the fleets of %s";
+
+
     /**
      * Private constructor, because this is a static class.
      */
