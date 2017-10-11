@@ -73,6 +73,7 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
         document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
 
         // enrich existing data
+        document.setFormats(DataCiteConstants.CSV_FORMATS);
         enrichSubjects(document.getSubjects(), subRegions);
         enrichGeoLocations(document.getGeoLocations(), subRegions);
     }

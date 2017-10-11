@@ -28,6 +28,7 @@ import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRe
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
@@ -64,7 +65,6 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
     @Override
     protected Collection<SauFishingEntityReduced> loadEntries()
     {
-
         // request all countries
         String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(RegionConstants.REGION_FISHING_ENTITY.urlName);
         TypeToken<GenericResponse<List<SauFishingEntityReduced>>> typeToken = new TypeToken<GenericResponse<List<SauFishingEntityReduced>>>() {};
@@ -94,6 +94,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         document.setRightsList(DataCiteConstants.RIGHTS_LIST);
         document.setSources(DataCiteFactory.instance().createSource(apiUrl));
         document.setTitles(createTitles(regionName));
+        document.setFiles(createFiles(regionId, regionName));
 
         // add region details
         GenericResponse<SauFishingEntityRegion> regionObjectResponse = httpRequester.getObjectFromUrl(apiUrl, FISHING_ENTITY_RESPONSE_TYPE);
@@ -190,6 +191,21 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         webLinks.add(catchAllocationsLink);
 
         return webLinks;
+    }
+
+
+    /**
+     * Creates a list of {@linkplain File}s of a fishing-entity region.
+     *
+     * @param regionId a unique identifier of the fishing-entity
+     * @param regionName the human readable name of the fishing-entity
+     *
+     * @return a list of {@linkplain File}s of a fishing-entity region
+     */
+    private List<File> createFiles(int regionId, String regionName)
+    {
+        List<File> files = DataCiteFactory.instance().createCatchFiles(RegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
+        return files;
     }
 
 
