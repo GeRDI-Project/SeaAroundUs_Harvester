@@ -136,7 +136,7 @@ public final class DataCiteFactory
     {
         Entry regionType = regionParams.getRegionType();
         String primaryProductionLabel = String.format(DataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionType.displayName, regionName);
-        String viewUrl = getRegionEntryUrl(regionType.urlName, regionId);
+        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
         WebLink primaryProduction = new WebLink(regionParams.getUrls().getPrimaryProductionViewUrl(viewUrl, regionId));
         primaryProduction.setName(primaryProductionLabel);
@@ -159,7 +159,7 @@ public final class DataCiteFactory
     {
         Entry regionType = regionParams.getRegionType();
         String stockStatusLabel = String.format(DataCiteConstants.STOCK_STATUS_LABEL, regionType.displayName, regionName);
-        String viewUrl = getRegionEntryUrl(regionType.urlName, regionId);
+        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
         WebLink stockStatus = new WebLink(regionParams.getUrls().getStockStatusViewUrl(viewUrl, regionId));
         stockStatus.setName(stockStatusLabel);
@@ -181,7 +181,7 @@ public final class DataCiteFactory
     public WebLink createMarineTrophicIndexLink(RegionParameters regionParams, int regionId, String regionName)
     {
         String marineTrophicIndexLabel = String.format(DataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
-        String viewUrl = getRegionEntryUrl(regionParams.getRegionType().urlName, regionId);
+        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionParams.getRegionType().urlName);
 
         WebLink marineTrophicIndex = new WebLink(regionParams.getUrls().getMarineTrophicIndexViewUrl(viewUrl, regionId));
         marineTrophicIndex.setName(marineTrophicIndexLabel);
@@ -274,7 +274,7 @@ public final class DataCiteFactory
         List<Entry> dimensionList = regionParams.getDimensions();
         List<Entry> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
-        String apiUrl = getRegionEntryUrl(regionType.urlName, regionId);
+        String apiUrl = getAllRegionsUrl(regionType.urlName);
 
         for (Entry measure : measureList) {
             for (Entry dimension : dimensionList) {
@@ -286,7 +286,7 @@ public final class DataCiteFactory
                                           regionType.displayName,
                                           regionName);
                 File cbdFile = new File(
-                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName),
+                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + UrlConstants.CSV_FORM,
                     catchesLabel);
                 cbdFile.setType(DataCiteConstants.CSV_FORMAT);
                 files.add(cbdFile);
@@ -314,7 +314,7 @@ public final class DataCiteFactory
         List<Entry> dimensionList = regionParams.getDimensions();
         List<Entry> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
-        String viewUrl = String.format(UrlConstants.VIEW_URL, regionType.urlName, regionId);
+        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
         for (Entry measure : measureList) {
             for (Entry dimension : dimensionList) {

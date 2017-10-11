@@ -31,6 +31,7 @@ import java.util.List;
 public class RegionConstants
 {
     public static final String COUNTRY_API_NAME = "country";
+    public static final String MARICULTURE_API_NAME = "mariculture";
 
     public static final Entry REGION_EEZ = new Entry("eez", "in the Waters of");
     public static final Entry REGION_LME = new Entry("lme", "in the Waters of");

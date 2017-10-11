@@ -169,8 +169,6 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
      */
     private void enrichWebLinks(List<WebLink> webLinks, SauCountry country)
     {
-        webLinks.add(DataCiteConstants.LOGO_LINK);
-
         String faoProfileUrl = country.getFaoProfileUrl();
 
         if (faoProfileUrl != null) {

@@ -189,17 +189,24 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     {
         List<Title> titles = new LinkedList<>();
 
-        String shortTitle = properties.getTitle();
-
-        if (shortTitle != null)
-            titles.add(new Title(getMainTitleString(shortTitle)));
 
         String longTitle = properties.getLongTitle();
 
         if (longTitle != null) {
             Title lt = new Title(getMainTitleString(longTitle));
-            lt.setType(TitleType.AlternativeTitle);
             titles.add(lt);
+        }
+
+
+        String shortTitle = properties.getTitle();
+
+        if (shortTitle != null) {
+            Title st = new Title(getMainTitleString(shortTitle));
+
+            if (longTitle != null)
+                st.setType(TitleType.AlternativeTitle);
+
+            titles.add(st);
         }
 
         return titles;

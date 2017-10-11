@@ -32,6 +32,7 @@ import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -48,6 +49,7 @@ import com.google.gson.reflect.TypeToken;
 public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishingEntityReduced>
 {
     private String version;
+    private final static Type FISHING_ENTITY_RESPONSE_TYPE = new TypeToken<GenericResponse<SauFishingEntityRegion>>() {} .getType();
 
 
     /**
@@ -94,7 +96,8 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         document.setTitles(createTitles(regionName));
 
         // add region details
-        SauFishingEntityRegion regionObject = httpRequester.getObjectFromUrl(apiUrl, SauFishingEntityRegion.class);
+        GenericResponse<SauFishingEntityRegion> regionObjectResponse = httpRequester.getObjectFromUrl(apiUrl, FISHING_ENTITY_RESPONSE_TYPE);
+        SauFishingEntityRegion regionObject = regionObjectResponse.getData();
 
         document.setWebLinks(createWebLinks(regionObject));
         document.setGeoLocations(DataCiteFactory.instance().createBasicGeoLocations(
@@ -161,7 +164,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         webLinks.add(fisherySubsidiesLink);
 
         // External Fishing Access
-        String fishingAccessUrl = String.format(UrlConstants.VIEW_URL, countryName, regionId)
+        String fishingAccessUrl = String.format(UrlConstants.VIEW_URL, regionApiName, regionId)
                                   + DataCiteConstants.EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
 
         WebLink fishingAccessLink = new WebLink(fishingAccessUrl);

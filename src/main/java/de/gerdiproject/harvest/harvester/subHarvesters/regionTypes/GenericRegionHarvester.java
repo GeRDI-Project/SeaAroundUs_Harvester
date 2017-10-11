@@ -87,6 +87,8 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     @Override
     protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<FeatureProperties> entry)
     {
+        document.setFormats(DataCiteConstants.CSV_FORMATS);
+
         GenericResponse<T> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
         T regionObject = response.getData();
 
@@ -134,7 +136,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     protected void enrichWebLinks(List<WebLink> links, T regionObject)
     {
         int regionId = regionObject.getId();
-        String regionName = params.getRegionType().urlName;
+        String regionName = regionObject.getTitle();
 
         links.add(DataCiteFactory.instance().createMarineTrophicIndexLink(params, regionId, regionName));
         links.add(DataCiteFactory.instance().createPrimaryProductionLink(params, regionId, regionName));
@@ -154,7 +156,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     protected void enrichFiles(List<File> files, T regionObject)
     {
         int regionId = regionObject.getId();
-        String regionName = params.getRegionType().urlName;
+        String regionName = regionObject.getTitle();
 
         files.add(DataCiteFactory.instance().createMarineTrophicIndexFile(params, regionId, regionName));
         files.add(DataCiteFactory.instance().createPrimaryProductionFile(params, regionId, regionName));

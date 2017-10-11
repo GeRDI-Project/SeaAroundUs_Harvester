@@ -31,7 +31,7 @@ public class UrlConstants
     public final static String PROPERTY_URL = "url";
 
     public final static String VIEW_URL_PREFIX = "http://www.seaaroundus.org/data/#/%s/";
-    public final static String VIEW_URL = "http://www.seaaroundus.org/data/#/%s/%d";
+    public final static String VIEW_URL = VIEW_URL_PREFIX + "%d";
     public final static String REGION_IDS_URL = "/%s/";
     public final static String REGION_URL_SUFFIX = "/%s/%d";
     public final static String CSV_FORM = "&format=csv";

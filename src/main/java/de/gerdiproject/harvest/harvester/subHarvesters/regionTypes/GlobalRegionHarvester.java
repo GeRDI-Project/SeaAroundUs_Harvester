@@ -152,6 +152,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         else
             links = DataCiteFactory.instance().createCatchLinks(params, subRegionId, regionName);
 
+        links.add(DataCiteConstants.LOGO_LINK);
         links.add(DataCiteFactory.instance().createPrimaryProductionLink(params, subRegionId, regionName));
         links.add(DataCiteFactory.instance().createStockStatusLink(params, subRegionId, regionName));
 
