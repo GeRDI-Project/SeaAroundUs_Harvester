@@ -41,10 +41,6 @@ public class RegionConstants
     public static final Entry REGION_HIGH_SEAS = new Entry("highseas", "in the Non-EEZ Waters of the");
     public static final Entry REGION_GLOBAL = new Entry("global", "in the Global Ocean");
 
-    public static final Entry SUB_REGION_GLOBAL = new Entry("0", "");
-    public static final Entry SUB_REGION_EEZS = new Entry("1", "- EEZs of the world");
-    public static final Entry SUB_REGION_HIGH_SEAS = new Entry("2", "- High Seas of the world");
-
     private static final Entry MEASURE_VALUE = new Entry("value", "Real 2010 value (US$)");
     private static final Entry MEASURE_TONNAGE = new Entry("tonnage", "Catches");
     private static final List<Entry> GENERIC_MEASURES = Collections.unmodifiableList(Arrays.asList(MEASURE_VALUE, MEASURE_TONNAGE));
@@ -100,26 +96,24 @@ public class RegionConstants
         UrlConstants.GENERIC_URL_VO
     );
 
-    public static final RegionParameters GLOBAL_OCEAN_PARAMS = new RegionParameters(
-        SUB_REGION_GLOBAL,
+    public static final RegionParameters GLOBAL_PARAMS = new RegionParameters(
+        REGION_GLOBAL,
+        DimensionConstants.DIMENSIONS_GENERIC,
+        GENERIC_MEASURES,
+        UrlConstants.GENERIC_URL_VO
+    );
+
+    public static final RegionParameters GLOBAL_SUBREGION_PARAMS = new RegionParameters(
+        REGION_GLOBAL,
         DimensionConstants.DIMENSIONS_GENERIC,
         GENERIC_MEASURES,
         UrlConstants.GLOBAL_OCEAN_URL_VO
     );
 
-    public static final RegionParameters GLOBAL_OCEAN_HIGH_SEAS_PARAMS = new RegionParameters(
-        SUB_REGION_HIGH_SEAS,
-        DimensionConstants.DIMENSIONS_GENERIC,
-        GENERIC_MEASURES,
-        UrlConstants.GLOBAL_OCEAN_URL_VO
-    );
 
-    public static final RegionParameters GLOBAL_OCEAN_EEZ_PARAMS = new RegionParameters(
-        SUB_REGION_EEZS,
-        DimensionConstants.DIMENSIONS_GENERIC,
-        GENERIC_MEASURES,
-        UrlConstants.GLOBAL_OCEAN_URL_VO
-    );
+    public static final SubRegionVO SUB_REGION_GLOBAL = new SubRegionVO(0, "");
+    public static final SubRegionVO SUB_REGION_EEZS = new SubRegionVO(1, "- EEZs of the world");
+    public static final SubRegionVO SUB_REGION_HIGH_SEAS = new SubRegionVO(2, "- High Seas of the world");
 
     //Entry regionType, List<Entry> dimensions, UrlVO urls,
     //Class<? extends GenericRegion> regionClass

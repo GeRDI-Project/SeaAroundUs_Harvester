@@ -21,7 +21,10 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
+import de.gerdiproject.harvest.seaaroundus.constants.SubRegionVO;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobalResponse;
@@ -45,7 +48,8 @@ import java.util.List;
  */
 public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 {
-    private final RegionParameters params;
+    private final SubRegionVO subRegion;
+
     private String version;
     private String apiUrl;
 
@@ -53,12 +57,14 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     /**
      * Simple constructor.
      */
-    public GlobalRegionHarvester(RegionParameters params)
+    public GlobalRegionHarvester(SubRegionVO subRegion)
     {
         super(1);
 
-        this.params = params;
-        this.name += " " + params.getRegionType().displayName;
+        this.subRegion = subRegion;
+
+        if (subRegion.getId() != 0)
+            this.name += subRegion.getLabelSuffix();
     }
 
 
@@ -66,7 +72,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     protected Collection<SauGlobal> loadEntries()
     {
         // request all countries
-        apiUrl = DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.GLOBAL_REGION_NAME, 1);
+        apiUrl = createApiUrl();
         SauGlobalResponse globalResponse = httpRequester.getObjectFromUrl(apiUrl, SauGlobalResponse.class);
 
         // get version from metadata
@@ -80,8 +86,8 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     @Override
     protected List<IDocument> harvestEntry(SauGlobal entry)
     {
-        int subRegionId = Integer.parseInt(params.getRegionType().urlName);
-        String subRegionName = params.getRegionType().displayName;
+        String subRegionNameSuffix = subRegion.getLabelSuffix();
+        int subRegionId = subRegion.getId();
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
@@ -90,14 +96,26 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         document.setCreators(DataCiteConstants.SAU_CREATORS);
         document.setRightsList(DataCiteConstants.RIGHTS_LIST);
         document.setSources(DataCiteFactory.instance().createSource(apiUrl));
-        document.setWebLinks(createWebLinks(subRegionId, subRegionName));
-        document.setFiles(createFiles(subRegionId, subRegionName));
-        document.setTitles(createTitles(subRegionName));
+        document.setTitles(createTitles(subRegionNameSuffix));
         document.setSubjects(createSubjects(entry.getMetrics()));
+        document.setWebLinks(createWebLinks(subRegionId, subRegionNameSuffix));
+        document.setFiles(createFiles(subRegionId, subRegionNameSuffix));
 
         return Arrays.asList(document);
     }
 
+    private String createApiUrl()
+    {
+        String url = DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.GLOBAL_REGION_NAME, 1);
+
+        // add sub-region suffix, if necessary
+        int subRegionId = subRegion.getId();
+
+        if (subRegionId != 0)
+            url += String.format(UrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
+
+        return url;
+    }
 
     private List<Title> createTitles(String regionName)
     {
@@ -110,9 +128,10 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     private List<Subject> createSubjects(List<Metric> metrics)
     {
         List<Subject> subjects = new LinkedList<>();
-        metrics.forEach((Metric m) ->
-                        subjects.add(new Subject(m.getTitle()))
-                       );
+        metrics.forEach((Metric m) -> {
+            if (m.getValue() != 0.0)
+                subjects.add(new Subject(m.getTitle()));
+        });
 
         return subjects;
     }
@@ -120,15 +139,17 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
     private List<File> createFiles(int subRegionId, String regionName)
     {
+        RegionParameters params;
+
+        // subregion 0 is a special case as it uses differen URLs
+        if (subRegionId == 0) {
+            subRegionId = 1;
+            params = RegionConstants.GLOBAL_PARAMS;
+        } else
+            params = RegionConstants.GLOBAL_SUBREGION_PARAMS;
+
         List<File> files;
-
-        // add catches
-        if (subRegionId == 0)
-            // TODO apiUrl = UrlConstants.GENERIC_URL_VO.getCatchesDownloadUrl(downloadUrlPrefix, 1, dimension.urlName, measure.urlName);
-            files = DataCiteFactory.instance().createCatchFiles(params, 1, regionName);
-        else
-            files = DataCiteFactory.instance().createCatchFiles(params, subRegionId, regionName);
-
+        files = DataCiteFactory.instance().createCatchFiles(params, subRegionId, regionName);
         files.add(DataCiteFactory.instance().createPrimaryProductionFile(params, subRegionId, regionName));
         files.add(DataCiteFactory.instance().createStockStatusFile(params, subRegionId, regionName));
 
@@ -143,15 +164,10 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
     private List<WebLink> createWebLinks(int subRegionId, String regionName)
     {
+        RegionParameters params = RegionConstants.GLOBAL_SUBREGION_PARAMS;
+
         List<WebLink> links;
-
-        // add catches
-        if (subRegionId == 0)
-            // TODO apiUrl = UrlConstants.GENERIC_URL_VO.getCatchesDownloadUrl(downloadUrlPrefix, 1, dimension.urlName, measure.urlName);
-            links = DataCiteFactory.instance().createCatchLinks(params, 1, regionName);
-        else
-            links = DataCiteFactory.instance().createCatchLinks(params, subRegionId, regionName);
-
+        links = DataCiteFactory.instance().createCatchLinks(params, subRegionId, regionName);
         links.add(DataCiteConstants.LOGO_LINK);
         links.add(DataCiteFactory.instance().createPrimaryProductionLink(params, subRegionId, regionName));
         links.add(DataCiteFactory.instance().createStockStatusLink(params, subRegionId, regionName));

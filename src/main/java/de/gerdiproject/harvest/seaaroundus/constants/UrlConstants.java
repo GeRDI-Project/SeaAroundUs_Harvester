@@ -55,6 +55,9 @@ public class UrlConstants
     public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
     public static final String TAXON_CATCH_VIEW_URL = "http://www.seaaroundus.org/data/#/taxon/%d?chart=catch-chart&dimension=%s&measure=%s&limit=10";
 
+    // GLOBAL
+    public static final String GLOBAL_SUB_REGION_API_SUFFIX = "?fao_id=%d";
+
 
     public static final UrlVO GENERIC_URL_VO = new UrlVO(
         "%d?chart=multinational-footprint",
@@ -63,7 +66,7 @@ public class UrlConstants
         "stock-status/?region_id=%d&sub_area_id=",
         "%d/marine-trophic-index",
         "marine-trophic-index/?region_id=%d",
-        "%d?chart=catch-chart&dimension=%s&measure=%s&limit=10",
+        "%d?chart=catch-chart&dimension=%s&measure=%s&limit=20",
         "%3$s/%2$s/?limit=20&region_id=%1$d");
 
 
@@ -74,8 +77,8 @@ public class UrlConstants
         "stock-status/?region_id=1&sub_area_id=%d",
         "marine-trophic-index?subRegion=%d",
         "marine-trophic-index/?region_id=1&transfer_efficiency=0.1&sub_area_id=%d",
-        "?chart=catch-chart&dimension=%2$s&measure=%3$s&limit=10&subRegion=%1$d",
-        "%3$s/%2$s/?limit=10&sciname=&fao_id=%1$d&region_id=1");
+        "?chart=catch-chart&subRegion=%d&dimension=%s&measure=%s&limit=20",
+        "%3$s/%2$s/?limit=20&fao_id=%1$d&region_id=1");
 
 
     /**

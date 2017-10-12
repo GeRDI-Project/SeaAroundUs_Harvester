@@ -16,15 +16,35 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.eez;
+package de.gerdiproject.harvest.seaaroundus.constants;
+
 
 /**
- * This class is part of a JSON object response to a Seaaroundus eez request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/eez/12
+ * A value object, representing a sub-region.
  *
  * @author Robin Weiss
  */
-public class SauEezProperties
+public class SubRegionVO
 {
+    private final int id;
+    private final String labelSuffix;
 
+
+    public SubRegionVO(int id, String labelSuffix)
+    {
+        this.id = id;
+        this.labelSuffix = labelSuffix;
+    }
+
+
+    public int getId()
+    {
+        return id;
+    }
+
+
+    public String getLabelSuffix()
+    {
+        return labelSuffix;
+    }
 }
