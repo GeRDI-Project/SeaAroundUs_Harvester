@@ -30,9 +30,9 @@ import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
+import de.gerdiproject.json.datacite.extension.ResearchData;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -80,30 +80,30 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
 
 
     /**
-     * Creates a list of downloadable {@linkplain File}s of the mariculture datasets.
+     * Creates a list of downloadable {@linkplain ResearchData}s of the mariculture datasets.
      *
      * @param apiUrl the API URL for SeaAroundUs maricultures
      * @param properties mariculture properties
      * @param subRegions a list of relevant regions within the mariculture country
      *
-     * @return a list of downloadable {@linkplain File}s
+     * @return a list of downloadable {@linkplain ResearchData}s
      */
-    private List<File> createFiles(String apiUrl, FeatureProperties properties, List<SauMariculture> subRegions)
+    private List<ResearchData> createFiles(String apiUrl, FeatureProperties properties, List<SauMariculture> subRegions)
     {
         String countryName = properties.getTitle();
         int regionId = getRegionId(properties);
 
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         for (Entry dimension : DimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for combined sub-regions
-            files.add(new File(
+            files.add(new ResearchData(
                           String.format(UrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
                           String.format(DataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
 
             // add sub-region downloads
             subRegions.forEach((SauMariculture subRegion) -> {
-                files.add(new File(
+                files.add(new ResearchData(
                               String.format(UrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
                               String.format(DataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
             });

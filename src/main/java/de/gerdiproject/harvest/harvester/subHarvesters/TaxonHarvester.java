@@ -35,12 +35,12 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.WebLink.WebLinkType;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -132,18 +132,18 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     /**
-     * Creates a list of {@linkplain File}s for downloading CSV catch files
+     * Creates a list of {@linkplain ResearchData}s for downloading CSV catch files
      * of the taxon.
      *
      * @param taxonKey the unique taxon ID in SeaAroundUs
      * @param label a human readable name of the taxon
      *
-     * @return a list of {@linkplain File}s for downloading CSV catch files
+     * @return a list of {@linkplain ResearchData}s for downloading CSV catch files
      * of the taxon
      */
-    private List<File> createFiles(int taxonKey, String label)
+    private List<ResearchData> createFiles(int taxonKey, String label)
     {
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         for (Entry measure : RegionConstants.TAXON_MEASURES) {
             for (Entry dimension : DimensionConstants.DIMENSIONS_TAXON) {
@@ -156,7 +156,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
                                          measure,
                                          dimension)
                                      + UrlConstants.CSV_FORM;
-                File catchFile = new File(downloadUrl, catchValueLabel);
+                ResearchData catchFile = new ResearchData(downloadUrl, catchValueLabel);
                 catchFile.setType(DataCiteConstants.CSV_FORMAT);
 
                 files.add(catchFile);

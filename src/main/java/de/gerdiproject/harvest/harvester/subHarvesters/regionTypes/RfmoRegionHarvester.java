@@ -25,7 +25,7 @@ import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoContractingCountry;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.json.datacite.Subject;
-import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.extension.WebLink;
 
 import java.util.List;
 

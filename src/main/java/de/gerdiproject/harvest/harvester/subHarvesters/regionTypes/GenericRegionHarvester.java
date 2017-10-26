@@ -30,10 +30,10 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
-import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
 
 import java.lang.reflect.Type;
 import java.util.LinkedList;
@@ -95,7 +95,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         enrichSubjects(document.getSubjects(), regionObject);
         enrichWebLinks(document.getWebLinks(), regionObject);
 
-        document.setFiles(new LinkedList<File>());
+        document.setFiles(new LinkedList<ResearchData>());
         enrichFiles(document.getFiles(), regionObject);
 
         document.setGeoLocations(new LinkedList<GeoLocation>());
@@ -150,10 +150,10 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     /**
      * Parses a region object and adds relevant files to a harvested document.
      *
-     * @param files a list of {@linkplain File}s from the harvested document
+     * @param files a list of {@linkplain ResearchData}s from the harvested document
      * @param regionObject the region object source
      */
-    protected void enrichFiles(List<File> files, T regionObject)
+    protected void enrichFiles(List<ResearchData> files, T regionObject)
     {
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();

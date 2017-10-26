@@ -28,10 +28,10 @@ import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRe
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.WebLink.WebLinkType;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -195,16 +195,16 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
 
 
     /**
-     * Creates a list of {@linkplain File}s of a fishing-entity region.
+     * Creates a list of {@linkplain ResearchData}s of a fishing-entity region.
      *
      * @param regionId a unique identifier of the fishing-entity
      * @param regionName the human readable name of the fishing-entity
      *
-     * @return a list of {@linkplain File}s of a fishing-entity region
+     * @return a list of {@linkplain ResearchData}s of a fishing-entity region
      */
-    private List<File> createFiles(int regionId, String regionName)
+    private List<ResearchData> createFiles(int regionId, String regionName)
     {
-        List<File> files = DataCiteFactory.instance().createCatchFiles(RegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
+        List<ResearchData> files = DataCiteFactory.instance().createCatchFiles(RegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
         return files;
     }
 
