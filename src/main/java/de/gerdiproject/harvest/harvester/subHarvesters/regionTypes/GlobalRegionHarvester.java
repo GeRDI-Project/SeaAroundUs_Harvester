@@ -30,10 +30,10 @@ import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobalResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.WebLink;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -137,7 +137,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     }
 
 
-    private List<ResearchData> createFiles(int subRegionId, String regionName)
+    private List<File> createFiles(int subRegionId, String regionName)
     {
         RegionParameters params;
 
@@ -148,13 +148,13 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         } else
             params = RegionConstants.GLOBAL_SUBREGION_PARAMS;
 
-        List<ResearchData> files;
+        List<File> files;
         files = DataCiteFactory.instance().createCatchFiles(params, subRegionId, regionName);
         files.add(DataCiteFactory.instance().createPrimaryProductionFile(params, subRegionId, regionName));
         files.add(DataCiteFactory.instance().createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
-        ResearchData marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
+        File marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim());
         files.add(marineTrophicIndex);
 

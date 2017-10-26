@@ -8,11 +8,11 @@ import de.gerdiproject.harvest.seaaroundus.constants.Entry;
 import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.UrlVO;
+import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.Repository;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.Source;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 import de.gerdiproject.json.geo.GeoJson;
 
 /**
@@ -64,15 +64,15 @@ public final class DataCiteFactory
 
 
     /**
-     * Creates the {@linkplain Repository} URL object for a SeaAroundUs region.
+     * Creates the {@linkplain Source} URL object for a SeaAroundUs region.
      *
      * @param apiUrl the SeaAroundUs API URL of a single region
      *
      * @return the source URL object for a region
      */
-    public Repository createSource(String apiUrl)
+    public Source createSource(String apiUrl)
     {
-        Repository source = new Repository(
+        Source source = new Source(
             apiUrl,
             DataCiteConstants.PROVIDER);
         source.setProviderURI(UrlConstants.PROVIDER_URI);
@@ -199,12 +199,12 @@ public final class DataCiteFactory
      *
      * @return a file of the primary production of a region
      */
-    public ResearchData createPrimaryProductionFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createPrimaryProductionFile(RegionParameters regionParams, int regionId, String regionName)
     {
         String primaryProductionLabel = String.format(DataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        ResearchData primaryProduction = new ResearchData(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
+        File primaryProduction = new File(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
                                           primaryProductionLabel);
         primaryProduction.setType(DataCiteConstants.CSV_FORMAT);
 
@@ -221,12 +221,12 @@ public final class DataCiteFactory
      *
      * @return a file of the stock status of a region
      */
-    public ResearchData createStockStatusFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createStockStatusFile(RegionParameters regionParams, int regionId, String regionName)
     {
         String stockStatusLabel = String.format(DataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        ResearchData stockStatus = new ResearchData(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
+        File stockStatus = new File(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
                                     stockStatusLabel);
         stockStatus.setType(DataCiteConstants.CSV_FORMAT);
 
@@ -243,12 +243,12 @@ public final class DataCiteFactory
      *
      * @return a file of the marine trophic index of a region
      */
-    public ResearchData createMarineTrophicIndexFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createMarineTrophicIndexFile(RegionParameters regionParams, int regionId, String regionName)
     {
         String marineTrophicIndexLabel = String.format(DataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        ResearchData marineTrophicIndex = new ResearchData(
+        File marineTrophicIndex = new File(
             regionParams.getUrls().getMarineTrophicIndexDownloadUrl(apiUrl, regionId),
             marineTrophicIndexLabel);
         marineTrophicIndex.setType(DataCiteConstants.CSV_FORMAT);
@@ -258,17 +258,17 @@ public final class DataCiteFactory
 
 
     /**
-     * Creates a list of {@linkplain ResearchData}s regarding catches of a region.
+     * Creates a list of {@linkplain File}s regarding catches of a region.
      *
      * @param regionParams parameters describing the region for which the link is created
      * @param regionId a SeaAroundUs unique identifier of a region
      * @param regionName the name of the linked region
      *
-     * @return a list of {@linkplain ResearchData}s regarding catches of a region
+     * @return a list of {@linkplain File}s regarding catches of a region
      */
-    public List<ResearchData> createCatchFiles(RegionParameters regionParams, int regionId, String regionName)
+    public List<File> createCatchFiles(RegionParameters regionParams, int regionId, String regionName)
     {
-        List<ResearchData> files = new LinkedList<>();
+        List<File> files = new LinkedList<>();
 
         Entry regionType = regionParams.getRegionType();
         List<Entry> dimensionList = regionParams.getDimensions();
@@ -285,7 +285,7 @@ public final class DataCiteFactory
                                           dimension.displayName,
                                           regionType.displayName,
                                           regionName);
-                ResearchData cbdFile = new ResearchData(
+                File cbdFile = new File(
                     urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + UrlConstants.CSV_FORM,
                     catchesLabel);
                 cbdFile.setType(DataCiteConstants.CSV_FORMAT);
