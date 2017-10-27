@@ -119,7 +119,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
     private List<Title> createTitles(String regionName)
     {
-        String titleString = (DataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim();
+        String titleString = (DataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim();    // NOPMD - parentheses are needed for proper trimming
         Title mainTitle = new Title(titleString);
         return Arrays.asList(mainTitle);
     }
@@ -155,7 +155,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
         // marine trophic index
         File marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
-        marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim());
+        marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim());   // NOPMD - parentheses are needed for proper trimming
         files.add(marineTrophicIndex);
 
         return files;
@@ -174,21 +174,9 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
         // marine trophic index
         WebLink marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexLink(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
-        marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().displayName).trim());
+        marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().displayName).trim()); // NOPMD - parentheses are needed for proper trimming
         links.add(marineTrophicIndex);
 
         return links;
-    }
-
-
-    /**
-     * Not required, because this list is not visible via REST.
-     *
-     * @return null
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return null;
     }
 }

@@ -242,16 +242,4 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
 
         return subjects;
     }
-
-
-    /**
-     * Not required, because this list is not visible via REST.
-     *
-     * @return null
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return null;
-    }
 }

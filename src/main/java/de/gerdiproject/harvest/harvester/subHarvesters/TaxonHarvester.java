@@ -335,16 +335,4 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
         return taxonGroupResponse.toMap();
     }
-
-
-    /**
-     * Not required, because this list is not visible via REST.
-     *
-     * @return null
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return null;
-    }
 }

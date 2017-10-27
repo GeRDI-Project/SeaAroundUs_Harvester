@@ -16,35 +16,22 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest;
-
-import de.gerdiproject.harvest.config.parameters.AbstractParameter;
-import de.gerdiproject.harvest.config.parameters.StringParameter;
-import de.gerdiproject.harvest.harvester.SeaAroundUsHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.ParameterConstants;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.annotation.WebListener;
+package de.gerdiproject.harvest.seaaroundus.constants;
 
 /**
+ * This static class contains constants of SeaAroundUs harvester parameters.
  *
- * @author row
+ * @author Robin Weiss
  */
-@WebListener
-public class SeaAroundUsContextListener extends ContextListener<SeaAroundUsHarvester>
+public class ParameterConstants
 {
+    public static final String VERSION_KEY = "version";
+    public static final String VERSION_DEFAULT = "v1";
 
-    @Override
-    protected List<AbstractParameter<?>> getHarvesterSpecificParameters()
+    /**
+     * Private constructor, because this is a static class.
+     */
+    private ParameterConstants()
     {
-        AbstractParameter<?> versionParam = new StringParameter(
-            ParameterConstants.VERSION_KEY,
-            ParameterConstants.VERSION_DEFAULT);
-
-        return Arrays.asList(versionParam);
     }
-
-
 }

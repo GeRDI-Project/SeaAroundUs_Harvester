@@ -207,16 +207,4 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         List<File> files = DataCiteFactory.instance().createCatchFiles(RegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
         return files;
     }
-
-
-    /**
-     * Not required, because this list is not visible via REST.
-     *
-     * @return null
-     */
-    @Override
-    public List<String> getValidProperties()
-    {
-        return null;
-    }
 }
