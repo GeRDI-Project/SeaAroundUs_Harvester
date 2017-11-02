@@ -1,13 +1,31 @@
+/*
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package de.gerdiproject.harvest.seaaroundus.utils;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.Entry;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlVO;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
+import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
+import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
+import de.gerdiproject.harvest.seaaroundus.vos.UrlVO;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Source;
@@ -16,13 +34,13 @@ import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 import de.gerdiproject.json.geo.GeoJson;
 
 /**
- * A static helper class for creating DataCite fields.
+ * A static helper class for creating SeaAroundUs DataCite fields.
  *
  * @author Robin Weiss
  */
-public final class DataCiteFactory
+public final class SeaAroundUsDataCiteFactory
 {
-    private static DataCiteFactory instance = new DataCiteFactory();
+    private static SeaAroundUsDataCiteFactory instance = new SeaAroundUsDataCiteFactory();
 
     private String singleEntryApiUrl = null;
     private String allEntriesApiUrl = null;
@@ -32,7 +50,7 @@ public final class DataCiteFactory
     /**
      * Private constructor, because this is a static class
      */
-    private DataCiteFactory()
+    private SeaAroundUsDataCiteFactory()
     {
 
     }
@@ -43,7 +61,7 @@ public final class DataCiteFactory
      *
      * @return the singleton instance of this class
      */
-    public static DataCiteFactory instance()
+    public static SeaAroundUsDataCiteFactory instance()
     {
         return instance;
     }
@@ -56,10 +74,10 @@ public final class DataCiteFactory
      */
     public void setVersion(String version)
     {
-        String apiPrefix = String.format(UrlConstants.API_URL, version);
-        singleEntryApiUrl = apiPrefix + UrlConstants.REGION_URL_SUFFIX;
-        allEntriesApiUrl = apiPrefix + UrlConstants.REGION_IDS_URL;
-        catchesApiUrl = apiPrefix + UrlConstants.CATCHES_URL;
+        String apiPrefix = String.format(SeaAroundUsUrlConstants.API_URL, version);
+        singleEntryApiUrl = apiPrefix + SeaAroundUsUrlConstants.REGION_URL_SUFFIX;
+        allEntriesApiUrl = apiPrefix + SeaAroundUsUrlConstants.REGION_IDS_URL;
+        catchesApiUrl = apiPrefix + SeaAroundUsUrlConstants.CATCHES_URL;
     }
 
 
@@ -74,8 +92,8 @@ public final class DataCiteFactory
     {
         Source source = new Source(
             apiUrl,
-            DataCiteConstants.PROVIDER);
-        source.setProviderURI(UrlConstants.PROVIDER_URI);
+            SeaAroundUsDataCiteConstants.PROVIDER);
+        source.setProviderURI(SeaAroundUsUrlConstants.PROVIDER_URI);
         return source;
     }
 
@@ -117,7 +135,7 @@ public final class DataCiteFactory
      *
      * @return a URL to download the catch data of a single region
      */
-    public String getCatchesUrl(String regionName, int regionId, Entry measure, Entry dimension)
+    public String getCatchesUrl(String regionName, int regionId, EntryVO measure, EntryVO dimension)
     {
         return String.format(catchesApiUrl, regionName, measure.urlName, dimension.urlName, regionId);
     }
@@ -132,11 +150,11 @@ public final class DataCiteFactory
      *
      * @return a link to the primary production of a region
      */
-    public WebLink createPrimaryProductionLink(RegionParameters regionParams, int regionId, String regionName)
+    public WebLink createPrimaryProductionLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        Entry regionType = regionParams.getRegionType();
-        String primaryProductionLabel = String.format(DataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionType.displayName, regionName);
-        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        EntryVO regionType = regionParams.getRegionType();
+        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionType.displayName, regionName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
         WebLink primaryProduction = new WebLink(regionParams.getUrls().getPrimaryProductionViewUrl(viewUrl, regionId));
         primaryProduction.setName(primaryProductionLabel);
@@ -155,11 +173,11 @@ public final class DataCiteFactory
      *
      * @return a link to the stock status of a region
      */
-    public WebLink createStockStatusLink(RegionParameters regionParams, int regionId, String regionName)
+    public WebLink createStockStatusLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        Entry regionType = regionParams.getRegionType();
-        String stockStatusLabel = String.format(DataCiteConstants.STOCK_STATUS_LABEL, regionType.displayName, regionName);
-        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        EntryVO regionType = regionParams.getRegionType();
+        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionType.displayName, regionName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
         WebLink stockStatus = new WebLink(regionParams.getUrls().getStockStatusViewUrl(viewUrl, regionId));
         stockStatus.setName(stockStatusLabel);
@@ -178,10 +196,10 @@ public final class DataCiteFactory
      *
      * @return a link to the marine trophic index of a region
      */
-    public WebLink createMarineTrophicIndexLink(RegionParameters regionParams, int regionId, String regionName)
+    public WebLink createMarineTrophicIndexLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String marineTrophicIndexLabel = String.format(DataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
-        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionParams.getRegionType().urlName);
+        String marineTrophicIndexLabel = String.format(SeaAroundUsDataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionParams.getRegionType().urlName);
 
         WebLink marineTrophicIndex = new WebLink(regionParams.getUrls().getMarineTrophicIndexViewUrl(viewUrl, regionId));
         marineTrophicIndex.setName(marineTrophicIndexLabel);
@@ -189,6 +207,7 @@ public final class DataCiteFactory
 
         return marineTrophicIndex;
     }
+
 
     /**
      * Creates a file of the primary production of a region.
@@ -199,14 +218,14 @@ public final class DataCiteFactory
      *
      * @return a file of the primary production of a region
      */
-    public File createPrimaryProductionFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createPrimaryProductionFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String primaryProductionLabel = String.format(DataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().displayName, regionName);
+        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
         File primaryProduction = new File(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
                                           primaryProductionLabel);
-        primaryProduction.setType(DataCiteConstants.CSV_FORMAT);
+        primaryProduction.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
         return primaryProduction;
     }
@@ -221,14 +240,14 @@ public final class DataCiteFactory
      *
      * @return a file of the stock status of a region
      */
-    public File createStockStatusFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createStockStatusFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String stockStatusLabel = String.format(DataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().displayName, regionName);
+        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
         File stockStatus = new File(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
                                     stockStatusLabel);
-        stockStatus.setType(DataCiteConstants.CSV_FORMAT);
+        stockStatus.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
         return stockStatus;
     }
@@ -243,15 +262,15 @@ public final class DataCiteFactory
      *
      * @return a file of the marine trophic index of a region
      */
-    public File createMarineTrophicIndexFile(RegionParameters regionParams, int regionId, String regionName)
+    public File createMarineTrophicIndexFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String marineTrophicIndexLabel = String.format(DataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
+        String marineTrophicIndexLabel = String.format(SeaAroundUsDataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
         File marineTrophicIndex = new File(
             regionParams.getUrls().getMarineTrophicIndexDownloadUrl(apiUrl, regionId),
             marineTrophicIndexLabel);
-        marineTrophicIndex.setType(DataCiteConstants.CSV_FORMAT);
+        marineTrophicIndex.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
         return marineTrophicIndex;
     }
@@ -266,29 +285,29 @@ public final class DataCiteFactory
      *
      * @return a list of {@linkplain File}s regarding catches of a region
      */
-    public List<File> createCatchFiles(RegionParameters regionParams, int regionId, String regionName)
+    public List<File> createCatchFiles(RegionParametersVO regionParams, int regionId, String regionName)
     {
         List<File> files = new LinkedList<>();
 
-        Entry regionType = regionParams.getRegionType();
-        List<Entry> dimensionList = regionParams.getDimensions();
-        List<Entry> measureList = regionParams.getMeasures();
+        EntryVO regionType = regionParams.getRegionType();
+        List<EntryVO> dimensionList = regionParams.getDimensions();
+        List<EntryVO> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
         String apiUrl = getAllRegionsUrl(regionType.urlName);
 
-        for (Entry measure : measureList) {
-            for (Entry dimension : dimensionList) {
+        for (EntryVO measure : measureList) {
+            for (EntryVO dimension : dimensionList) {
 
                 String catchesLabel = String.format(
-                                          DataCiteConstants.CATCHES_LABEL,
+                                          SeaAroundUsDataCiteConstants.CATCHES_LABEL,
                                           measure.displayName,
                                           dimension.displayName,
                                           regionType.displayName,
                                           regionName);
                 File cbdFile = new File(
-                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + UrlConstants.CSV_FORM,
+                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + SeaAroundUsUrlConstants.CSV_FORM,
                     catchesLabel);
-                cbdFile.setType(DataCiteConstants.CSV_FORMAT);
+                cbdFile.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
                 files.add(cbdFile);
             }
         }
@@ -306,21 +325,21 @@ public final class DataCiteFactory
      *
      * @return a list of {@linkplain WebLink}s regarding catches of a region
      */
-    public List<WebLink> createCatchLinks(RegionParameters regionParams, int regionId, String regionName)
+    public List<WebLink> createCatchLinks(RegionParametersVO regionParams, int regionId, String regionName)
     {
         List<WebLink> links = new LinkedList<>();
 
-        Entry regionType = regionParams.getRegionType();
-        List<Entry> dimensionList = regionParams.getDimensions();
-        List<Entry> measureList = regionParams.getMeasures();
+        EntryVO regionType = regionParams.getRegionType();
+        List<EntryVO> dimensionList = regionParams.getDimensions();
+        List<EntryVO> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
-        String viewUrl = String.format(UrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
 
-        for (Entry measure : measureList) {
-            for (Entry dimension : dimensionList) {
+        for (EntryVO measure : measureList) {
+            for (EntryVO dimension : dimensionList) {
 
                 String catchesLabel = String.format(
-                                          DataCiteConstants.CATCHES_LABEL,
+                                          SeaAroundUsDataCiteConstants.CATCHES_LABEL,
                                           measure.displayName,
                                           dimension.displayName,
                                           regionType.displayName,
@@ -346,9 +365,9 @@ public final class DataCiteFactory
     public List<WebLink> createBasicWebLinks(String regionApiName, int regionId)
     {
         List<WebLink> webLinks = new LinkedList<>();
-        webLinks.add(DataCiteConstants.LOGO_LINK);
+        webLinks.add(SeaAroundUsDataCiteConstants.LOGO_LINK);
 
-        WebLink viewLink = new WebLink(String.format(UrlConstants.VIEW_URL, regionApiName, regionId));
+        WebLink viewLink = new WebLink(String.format(SeaAroundUsUrlConstants.VIEW_URL, regionApiName, regionId));
         viewLink.setType(WebLinkType.ViewURL);
         webLinks.add(viewLink);
 

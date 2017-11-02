@@ -16,22 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.constants;
 
 /**
- * This static class contains constants of SeaAroundUs harvester parameters.
+ * This package contains utility classes used for processing SeaAroundUs data.
  *
  * @author Robin Weiss
  */
-public class ParameterConstants
-{
-    public static final String VERSION_KEY = "version";
-    public static final String VERSION_DEFAULT = "v1";
-
-    /**
-     * Private constructor, because this is a static class.
-     */
-    private ParameterConstants()
-    {
-    }
-}
+package de.gerdiproject.harvest.seaaroundus.utils;

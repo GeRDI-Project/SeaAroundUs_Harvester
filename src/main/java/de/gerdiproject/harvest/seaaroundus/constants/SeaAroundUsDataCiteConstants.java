@@ -32,7 +32,7 @@ import de.gerdiproject.json.datacite.WebLink.WebLinkType;
  *
  *  @author Robin Weiss
  */
-public class DataCiteConstants
+public class SeaAroundUsDataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
     public static final String PROVIDER = "Sea Around Us";
@@ -104,11 +104,16 @@ public class DataCiteConstants
     /**
      * Private constructor, because this is a static class.
      */
-    private DataCiteConstants()
+    private SeaAroundUsDataCiteConstants()
     {
     }
 
 
+    /**
+     * Creates a DataCite Rights object that lists the terms of agreement for downloading SeaAroundUs data.
+     *
+     * @return a DataCite Rights object
+     */
     private static List<Rights> createRightsList()
     {
         Rights termsOfUsage = new Rights();
@@ -118,6 +123,11 @@ public class DataCiteConstants
     }
 
 
+    /**
+     * Creates a DataCite web link that points to the SeaAroundUs logo.
+     *
+     * @return a DataCite web link
+     */
     private static WebLink createLogoLink()
     {
         WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
@@ -127,6 +137,11 @@ public class DataCiteConstants
     }
 
 
+    /**
+     * Creates a list with a single DataCite Creator, representing SeaAroundUs as a whole.
+     *
+     * @return a list with a single DataCite Creator, representing SeaAroundUs as a whole
+     */
     private static List<Creator> createSauCreatorList()
     {
         Creator sauCreator = new Creator(PROVIDER);

@@ -18,13 +18,14 @@
  */
 package de.gerdiproject.harvest.seaaroundus.constants;
 
+import de.gerdiproject.harvest.seaaroundus.vos.UrlVO;
 
 /**
  *  This static class provides SeaAroundUs URL related constants.
  *
  *  @author Robin Weiss
  */
-public class UrlConstants
+public class SeaAroundUsUrlConstants
 {
     public static final String PROVIDER_URI = "http://www.seaaroundus.org/";
     public final static String API_URL = "http://api.seaaroundus.org/api/%s";
@@ -84,7 +85,7 @@ public class UrlConstants
     /**
      * Private constructor, because this is a static class.
      */
-    private UrlConstants()
+    private SeaAroundUsUrlConstants()
     {
     }
 }

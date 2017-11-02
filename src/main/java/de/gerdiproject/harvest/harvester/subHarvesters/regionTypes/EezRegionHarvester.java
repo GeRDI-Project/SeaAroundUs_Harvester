@@ -18,14 +18,14 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
@@ -48,7 +48,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
      */
     public EezRegionHarvester()
     {
-        super(new TypeToken<GenericResponse<SauEezRegion>>() {}, RegionConstants.EEZ_PARAMS);
+        super(new TypeToken<GenericResponse<SauEezRegion>>() {}, SeaAroundUsRegionConstants.EEZ_PARAMS);
     }
 
 
@@ -62,7 +62,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         // Ocean Health Index
         if (regionObject.getOhiLink() != null) {
             WebLink ohiLink = new WebLink(regionObject.getOhiLink());
-            ohiLink.setName(DataCiteConstants.OCEAN_HEALTH_INDEX_LABEL_PREFIX + countryName);
+            ohiLink.setName(SeaAroundUsDataCiteConstants.OCEAN_HEALTH_INDEX_LABEL_PREFIX + countryName);
             ohiLink.setType(WebLinkType.Related);
             weblinks.add(ohiLink);
         }
@@ -70,7 +70,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         // Global Slavery Index
         if (regionObject.getGsiLink() != null) {
             WebLink gsiLink = new WebLink(regionObject.getGsiLink());
-            gsiLink.setName(DataCiteConstants.GLOBAL_SLAVERY_INDEX_LABEL_PREFIX + countryName);
+            gsiLink.setName(SeaAroundUsDataCiteConstants.GLOBAL_SLAVERY_INDEX_LABEL_PREFIX + countryName);
             gsiLink.setType(WebLinkType.Related);
             weblinks.add(gsiLink);
         }
@@ -78,7 +78,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         // FAO Profile
         if (regionObject.getFaoProfileUrl() != null) {
             WebLink gsiLink = new WebLink(regionObject.getFaoProfileUrl());
-            gsiLink.setName(DataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
+            gsiLink.setName(SeaAroundUsDataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
             gsiLink.setType(WebLinkType.Related);
             weblinks.add(gsiLink);
         }
@@ -104,14 +104,14 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         }
 
         // Fisheries Subsidies
-        WebLink fisherySubsidiesLink = new WebLink(String.format(UrlConstants.FISHERIES_SUBSIDIES_VIEW_URL, regionObject.getGeoEntityId()));
-        fisherySubsidiesLink.setName(DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
+        WebLink fisherySubsidiesLink = new WebLink(String.format(SeaAroundUsUrlConstants.FISHERIES_SUBSIDIES_VIEW_URL, regionObject.getGeoEntityId()));
+        fisherySubsidiesLink.setName(SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
         fisherySubsidiesLink.setType(WebLinkType.Related);
         weblinks.add(fisherySubsidiesLink);
 
         // Internal Fishing Access
-        WebLink fishingAccessLink = new WebLink(getViewUrl(regionObject.getId()) + DataCiteConstants.INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX);
-        fishingAccessLink.setName(DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
+        WebLink fishingAccessLink = new WebLink(getViewUrl(regionObject.getId()) + SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX);
+        fishingAccessLink.setName(SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
         fishingAccessLink.setType(WebLinkType.Related);
         weblinks.add(fishingAccessLink);
     }
@@ -124,17 +124,17 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
 
         // Fisheries Subsidies
         File fisherySubsidiesFile = new File(
-            DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + DataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
-            DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
-        fisherySubsidiesFile.setType(DataCiteConstants.JSON_FORMAT);
+            SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
+            SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
+        fisherySubsidiesFile.setType(SeaAroundUsDataCiteConstants.JSON_FORMAT);
         files.add(fisherySubsidiesFile);
 
         // Internal Fishing Access
-        String faUrl = DataCiteFactory.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
-                       + DataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
+        String faUrl = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
+                       + SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
 
-        File fishingAccessFile = new File(faUrl, DataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
-        fishingAccessFile.setType(DataCiteConstants.JSON_FORMAT);
+        File fishingAccessFile = new File(faUrl, SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
+        fishingAccessFile.setType(SeaAroundUsDataCiteConstants.JSON_FORMAT);
         files.add(fishingAccessFile);
     }
 }

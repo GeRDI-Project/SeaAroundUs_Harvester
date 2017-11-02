@@ -25,13 +25,13 @@ import java.util.List;
 
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
@@ -117,7 +117,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     protected Collection<Feature<T>> loadEntries()
     {
         // request all countries
-        String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(regionApiName);
+        String apiUrl = SeaAroundUsDataCiteFactory.instance().getAllRegionsUrl(regionApiName);
         R allCountries = httpRequester.getObjectFromUrl(apiUrl, responseClass);
 
         // get version from metadata
@@ -133,19 +133,19 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     {
         T properties = entry.getProperties();
         int regionId = getRegionId(properties);
-        String apiUrl = DataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
+        String apiUrl = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
-        document.setPublisher(DataCiteConstants.PROVIDER);
-        document.setFormats(DataCiteConstants.JSON_FORMATS);
-        document.setCreators(DataCiteConstants.SAU_CREATORS);
-        document.setRightsList(DataCiteConstants.RIGHTS_LIST);
+        document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
+        document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
+        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.setTitles(createBasicTitles(properties));
-        document.setSources(DataCiteFactory.instance().createSource(apiUrl));
-        document.setWebLinks(DataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId));
+        document.setSources(SeaAroundUsDataCiteFactory.instance().createSource(apiUrl));
+        document.setWebLinks(SeaAroundUsDataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
-        document.setGeoLocations(DataCiteFactory.instance().createBasicGeoLocations(
+        document.setGeoLocations(SeaAroundUsDataCiteFactory.instance().createBasicGeoLocations(
                                      entry.getGeometry(),
                                      entry.getProperties().getTitle()
                                  ));
@@ -174,7 +174,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
      */
     protected String getViewUrl(int regionId)
     {
-        return String.format(UrlConstants.VIEW_URL, regionApiName, regionId);
+        return String.format(SeaAroundUsUrlConstants.VIEW_URL, regionApiName, regionId);
     }
 
 

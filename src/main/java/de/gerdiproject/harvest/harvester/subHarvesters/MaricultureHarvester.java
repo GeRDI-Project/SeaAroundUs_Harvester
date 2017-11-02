@@ -18,17 +18,17 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.Entry;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
@@ -52,14 +52,14 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
      */
     public MaricultureHarvester()
     {
-        super(RegionConstants.MARICULTURE_API_NAME, FeatureCollectionResponse.class);
+        super(SeaAroundUsRegionConstants.MARICULTURE_API_NAME, FeatureCollectionResponse.class);
     }
 
 
     @Override
     protected String getMainTitleString(String regionName)
     {
-        return DataCiteConstants.MARICULTURE_LABEL_PREFIX + regionName;
+        return SeaAroundUsDataCiteConstants.MARICULTURE_LABEL_PREFIX + regionName;
     }
 
 
@@ -69,11 +69,11 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
         List<SauMariculture> subRegions = httpRequester.getObjectFromUrl(apiUrl, SauMaricultureResponse.class).getData();
 
         // add completely new data
-        String maricultureBaseUrl = DataCiteFactory.instance().getAllRegionsUrl(RegionConstants.MARICULTURE_API_NAME);
+        String maricultureBaseUrl = SeaAroundUsDataCiteFactory.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
         document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
 
         // enrich existing data
-        document.setFormats(DataCiteConstants.CSV_FORMATS);
+        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
         enrichSubjects(document.getSubjects(), subRegions);
         enrichGeoLocations(document.getGeoLocations(), subRegions);
     }
@@ -95,17 +95,17 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
 
         List<File> files = new LinkedList<>();
 
-        for (Entry dimension : DimensionConstants.DIMENSIONS_MARICULTURE) {
+        for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for combined sub-regions
             files.add(new File(
-                          String.format(UrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
-                          String.format(DataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
+                          String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
+                          String.format(SeaAroundUsDataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
 
             // add sub-region downloads
             subRegions.forEach((SauMariculture subRegion) -> {
                 files.add(new File(
-                              String.format(UrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
-                              String.format(DataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
+                              String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
+                              String.format(SeaAroundUsDataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
             });
         }
 
@@ -124,7 +124,7 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
         // add titles of sub-regions
         subRegions.forEach((SauMariculture subRegion) -> {
             Subject subRegionTitle = new Subject(subRegion.getTitle());
-            subRegionTitle.setLang(DataCiteConstants.SAU_LANGUAGE);
+            subRegionTitle.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);
             subjects.add(subRegionTitle);
         });
     }

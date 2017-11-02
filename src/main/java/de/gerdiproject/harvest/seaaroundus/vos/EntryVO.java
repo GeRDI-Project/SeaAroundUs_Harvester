@@ -16,28 +16,36 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
-
-import com.google.gson.reflect.TypeToken;
-
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+package de.gerdiproject.harvest.seaaroundus.vos;
 
 /**
- * This harvester harvests all HighSeas of SeaAroundUs.
- * <br>see http://api.seaaroundus.org/api/v1/highseas/
+ * An entry value object in this context is a typical filtering option for SeaAroundUs
+ * datasets.
  *
  * @author Robin Weiss
  */
-public class HighSeasRegionHarvester extends GenericRegionHarvester<GenericRegion>
+public class EntryVO
 {
     /**
-     * Simple constructor that initializes the super class with
-     * High Seas parameters.
+     * The string as it is used in HTTP requests.
      */
-    public HighSeasRegionHarvester()
+    public final String urlName;
+
+    /**
+     * The string as it is displayed to the user.
+     */
+    public final String displayName;
+
+
+    /**
+     * Simple constructor.
+     *
+     * @param urlName the string as it is used in HTTP requests
+     * @param displayName the string as it is displayed to the user
+     */
+    public EntryVO(String urlName, String displayName)
     {
-        super(new TypeToken<GenericResponse<GenericRegion>>() {}, SeaAroundUsRegionConstants.HIGH_SEAS_PARAMS);
+        this.urlName = urlName;
+        this.displayName = displayName;
     }
 }

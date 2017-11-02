@@ -20,15 +20,15 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 
 import de.gerdiproject.harvest.harvester.subHarvesters.AbstractSauFeatureHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
@@ -49,7 +49,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSauFeatureHarvester<FeatureCollectionResponse, FeatureProperties>
 {
-    protected final RegionParameters params;
+    protected final RegionParametersVO params;
     private final Type responseType;
 
 
@@ -68,11 +68,11 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
      *            the maximum number of documents that can be retrieved from a
      *            single entry
      */
-    public GenericRegionHarvester(TypeToken<GenericResponse<T>> responseTypeToken, RegionParameters params)
+    public GenericRegionHarvester(TypeToken<GenericResponse<T>> responseTypeToken, RegionParametersVO params)
     {
         super(
             String.format(
-                DataCiteConstants.NAME_FORMAT,
+                SeaAroundUsDataCiteConstants.NAME_FORMAT,
                 params.getRegionType().urlName.charAt(0),
                 params.getRegionType().urlName.substring(1)),
             params.getRegionType().urlName,
@@ -87,7 +87,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     @Override
     protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<FeatureProperties> entry)
     {
-        document.setFormats(DataCiteConstants.CSV_FORMATS);
+        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 
         GenericResponse<T> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
         T regionObject = response.getData();
@@ -107,7 +107,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
     protected String getMainTitleString(String regionName)
     {
         return String.format(
-                   DataCiteConstants.GENERIC_LABEL,
+                   SeaAroundUsDataCiteConstants.GENERIC_LABEL,
                    params.getRegionType().displayName,
                    regionName);
     }
@@ -138,12 +138,12 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
 
-        links.add(DataCiteFactory.instance().createMarineTrophicIndexLink(params, regionId, regionName));
-        links.add(DataCiteFactory.instance().createPrimaryProductionLink(params, regionId, regionName));
-        links.add(DataCiteFactory.instance().createStockStatusLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteFactory.instance().createStockStatusLink(params, regionId, regionName));
 
         // add catches
-        links.addAll(DataCiteFactory.instance().createCatchLinks(params, regionId, regionName));
+        links.addAll(SeaAroundUsDataCiteFactory.instance().createCatchLinks(params, regionId, regionName));
     }
 
 
@@ -158,12 +158,12 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
 
-        files.add(DataCiteFactory.instance().createMarineTrophicIndexFile(params, regionId, regionName));
-        files.add(DataCiteFactory.instance().createPrimaryProductionFile(params, regionId, regionName));
-        files.add(DataCiteFactory.instance().createStockStatusFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteFactory.instance().createStockStatusFile(params, regionId, regionName));
 
         // add catches
-        files.addAll(DataCiteFactory.instance().createCatchFiles(params, regionId, regionName));
+        files.addAll(SeaAroundUsDataCiteFactory.instance().createCatchFiles(params, regionId, regionName));
     }
 
 

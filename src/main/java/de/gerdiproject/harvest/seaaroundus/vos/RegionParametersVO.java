@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.constants;
+package de.gerdiproject.harvest.seaaroundus.vos;
 
 import java.util.List;
 
@@ -24,19 +24,19 @@ import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GenericRegion
 
 
 /**
- * This class provides parameters that are required to set up a {@linkplain GenericRegionHarvester}.
+ * This value object provides parameters that are required to set up a {@linkplain GenericRegionHarvester}.
  *
  * @author Robin Weiss
  */
-public class RegionParameters
+public class RegionParametersVO
 {
-    private final Entry regionType;
-    private final List<Entry> dimensions;
-    private final List<Entry> measures;
+    private final EntryVO regionType;
+    private final List<EntryVO> dimensions;
+    private final List<EntryVO> measures;
     private final UrlVO urls;
 
 
-    public RegionParameters(Entry regionType, List<Entry> dimensions, List<Entry> measures, UrlVO urls)
+    public RegionParametersVO(EntryVO regionType, List<EntryVO> dimensions, List<EntryVO> measures, UrlVO urls)
     {
         super();
         this.regionType = regionType;
@@ -46,13 +46,13 @@ public class RegionParameters
     }
 
 
-    public Entry getRegionType()
+    public EntryVO getRegionType()
     {
         return regionType;
     }
 
 
-    public List<Entry> getDimensions()
+    public List<EntryVO> getDimensions()
     {
         return dimensions;
     }
@@ -64,7 +64,7 @@ public class RegionParameters
     }
 
 
-    public List<Entry> getMeasures()
+    public List<EntryVO> getMeasures()
     {
         return measures;
     }

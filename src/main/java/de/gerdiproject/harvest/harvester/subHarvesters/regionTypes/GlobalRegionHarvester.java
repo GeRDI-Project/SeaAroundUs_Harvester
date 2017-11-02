@@ -20,15 +20,15 @@ package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionParameters;
-import de.gerdiproject.harvest.seaaroundus.constants.SubRegionVO;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobalResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
+import de.gerdiproject.harvest.seaaroundus.vos.SubRegionVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Subject;
@@ -91,11 +91,11 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
-        document.setPublisher(DataCiteConstants.PROVIDER);
-        document.setFormats(DataCiteConstants.CSV_FORMATS);
-        document.setCreators(DataCiteConstants.SAU_CREATORS);
-        document.setRightsList(DataCiteConstants.RIGHTS_LIST);
-        document.setSources(DataCiteFactory.instance().createSource(apiUrl));
+        document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
+        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.setSources(SeaAroundUsDataCiteFactory.instance().createSource(apiUrl));
         document.setTitles(createTitles(subRegionNameSuffix));
         document.setSubjects(createSubjects(entry.getMetrics()));
         document.setWebLinks(createWebLinks(subRegionId, subRegionNameSuffix));
@@ -104,27 +104,48 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         return Arrays.asList(document);
     }
 
+
+    /**
+     * Assembles the source URL for retrieving global ocean data.
+     *
+     * @return the source URL for retrieving global ocean data
+     */
     private String createApiUrl()
     {
-        String url = DataCiteFactory.instance().getRegionEntryUrl(DataCiteConstants.GLOBAL_REGION_NAME, 1);
+        String url = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME, 1);
 
         // add sub-region suffix, if necessary
         int subRegionId = subRegion.getId();
 
         if (subRegionId != 0)
-            url += String.format(UrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
+            url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
 
         return url;
     }
 
+
+    /**
+     * Creates global ocean document titles.
+     *
+     * @param regionName the name-suffix of the global ocean sub-area
+     *
+     * @return a list of global ocean document titles
+     */
     private List<Title> createTitles(String regionName)
     {
-        String titleString = (DataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim();    // NOPMD - parentheses are needed for proper trimming
+        String titleString = (SeaAroundUsDataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim();    // NOPMD - parentheses are needed for proper trimming
         Title mainTitle = new Title(titleString);
         return Arrays.asList(mainTitle);
     }
 
 
+    /**
+     * Creates global ocean document subjects.
+     *
+     * @param metrics global ocean sub-area metrics
+     *
+     * @return a list of global ocean document subjects
+     */
     private List<Subject> createSubjects(List<Metric> metrics)
     {
         List<Subject> subjects = new LinkedList<>();
@@ -137,24 +158,32 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     }
 
 
+    /**
+     * Creates global ocean document files.
+     *
+     * @param subRegionId the unique identifier of the global ocean sub-area
+     * @param regionName the name-suffix of the global ocean sub-area
+     *
+     * @return a list of global ocean document files
+     */
     private List<File> createFiles(int subRegionId, String regionName)
     {
-        RegionParameters params;
+        RegionParametersVO params;
 
         // subregion 0 is a special case as it uses differen URLs
         if (subRegionId == 0) {
             subRegionId = 1;
-            params = RegionConstants.GLOBAL_PARAMS;
+            params = SeaAroundUsRegionConstants.GLOBAL_PARAMS;
         } else
-            params = RegionConstants.GLOBAL_SUBREGION_PARAMS;
+            params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
         List<File> files;
-        files = DataCiteFactory.instance().createCatchFiles(params, subRegionId, regionName);
-        files.add(DataCiteFactory.instance().createPrimaryProductionFile(params, subRegionId, regionName));
-        files.add(DataCiteFactory.instance().createStockStatusFile(params, subRegionId, regionName));
+        files = SeaAroundUsDataCiteFactory.instance().createCatchFiles(params, subRegionId, regionName);
+        files.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionFile(params, subRegionId, regionName));
+        files.add(SeaAroundUsDataCiteFactory.instance().createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
-        File marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
+        File marineTrophicIndex = SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexFile(params, subRegionId, SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim());   // NOPMD - parentheses are needed for proper trimming
         files.add(marineTrophicIndex);
 
@@ -162,18 +191,26 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
     }
 
 
+    /**
+     * Creates global ocean document web links.
+     *
+     * @param subRegionId the unique identifier of the global ocean sub-area
+     * @param regionName the name-suffix of the global ocean sub-area
+     *
+     * @return a list of global ocean document web links
+     */
     private List<WebLink> createWebLinks(int subRegionId, String regionName)
     {
-        RegionParameters params = RegionConstants.GLOBAL_SUBREGION_PARAMS;
+        RegionParametersVO params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
         List<WebLink> links;
-        links = DataCiteFactory.instance().createCatchLinks(params, subRegionId, regionName);
-        links.add(DataCiteConstants.LOGO_LINK);
-        links.add(DataCiteFactory.instance().createPrimaryProductionLink(params, subRegionId, regionName));
-        links.add(DataCiteFactory.instance().createStockStatusLink(params, subRegionId, regionName));
+        links = SeaAroundUsDataCiteFactory.instance().createCatchLinks(params, subRegionId, regionName);
+        links.add(SeaAroundUsDataCiteConstants.LOGO_LINK);
+        links.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionLink(params, subRegionId, regionName));
+        links.add(SeaAroundUsDataCiteFactory.instance().createStockStatusLink(params, subRegionId, regionName));
 
         // marine trophic index
-        WebLink marineTrophicIndex = DataCiteFactory.instance().createMarineTrophicIndexLink(params, subRegionId, DataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
+        WebLink marineTrophicIndex = SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexLink(params, subRegionId, SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().displayName).trim()); // NOPMD - parentheses are needed for proper trimming
         links.add(marineTrophicIndex);
 
