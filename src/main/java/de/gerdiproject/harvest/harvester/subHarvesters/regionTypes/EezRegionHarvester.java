@@ -25,7 +25,7 @@ import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.WebLink;
 import de.gerdiproject.json.datacite.WebLink.WebLinkType;
@@ -124,13 +124,13 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
 
         // Fisheries Subsidies
         File fisherySubsidiesFile = new File(
-            SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
+            SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
             SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
         fisherySubsidiesFile.setType(SeaAroundUsDataCiteConstants.JSON_FORMAT);
         files.add(fisherySubsidiesFile);
 
         // Internal Fishing Access
-        String faUrl = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
+        String faUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
                        + SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
 
         File fishingAccessFile = new File(faUrl, SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());

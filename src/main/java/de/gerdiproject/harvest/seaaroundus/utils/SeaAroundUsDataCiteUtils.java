@@ -38,9 +38,9 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @author Robin Weiss
  */
-public final class SeaAroundUsDataCiteFactory
+public final class SeaAroundUsDataCiteUtils
 {
-    private static SeaAroundUsDataCiteFactory instance = new SeaAroundUsDataCiteFactory();
+    private final static SeaAroundUsDataCiteUtils instance = new SeaAroundUsDataCiteUtils();
 
     private String singleEntryApiUrl = null;
     private String allEntriesApiUrl = null;
@@ -50,7 +50,7 @@ public final class SeaAroundUsDataCiteFactory
     /**
      * Private constructor, because this is a static class
      */
-    private SeaAroundUsDataCiteFactory()
+    private SeaAroundUsDataCiteUtils()
     {
 
     }
@@ -61,7 +61,7 @@ public final class SeaAroundUsDataCiteFactory
      *
      * @return the singleton instance of this class
      */
-    public static SeaAroundUsDataCiteFactory instance()
+    public static SeaAroundUsDataCiteUtils instance()
     {
         return instance;
     }

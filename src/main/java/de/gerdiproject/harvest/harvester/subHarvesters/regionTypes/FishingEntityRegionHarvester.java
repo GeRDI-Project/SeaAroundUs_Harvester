@@ -26,7 +26,7 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityReduced;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Title;
@@ -67,7 +67,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
     protected Collection<SauFishingEntityReduced> loadEntries()
     {
         // request all countries
-        String apiUrl = SeaAroundUsDataCiteFactory.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.REGION_FISHING_ENTITY.urlName);
+        String apiUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.REGION_FISHING_ENTITY.urlName);
         TypeToken<GenericResponse<List<SauFishingEntityReduced>>> typeToken = new TypeToken<GenericResponse<List<SauFishingEntityReduced>>>() {};
         GenericResponse<List<SauFishingEntityReduced>> allFishingEntities = httpRequester.getObjectFromUrl(apiUrl, typeToken.getType());
 
@@ -85,7 +85,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         int regionId = entry.getId();
         String regionName = entry.getTitle();
         String regionApiName = SeaAroundUsRegionConstants.REGION_FISHING_ENTITY.urlName;
-        String apiUrl = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
+        String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(regionApiName, regionId);
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
@@ -93,7 +93,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setSources(SeaAroundUsDataCiteFactory.instance().createSource(apiUrl));
+        document.setSources(SeaAroundUsDataCiteUtils.instance().createSource(apiUrl));
         document.setTitles(createTitles(regionName));
         document.setFiles(createFiles(regionId, regionName));
 
@@ -102,7 +102,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         SauFishingEntityRegion regionObject = regionObjectResponse.getData();
 
         document.setWebLinks(createWebLinks(regionObject));
-        document.setGeoLocations(SeaAroundUsDataCiteFactory.instance().createBasicGeoLocations(
+        document.setGeoLocations(SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(
                                      regionObject.getGeojson(),
                                      regionName
                                  ));
@@ -147,10 +147,10 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         String regionApiName = SeaAroundUsRegionConstants.REGION_FISHING_ENTITY.urlName;
 
         // View URL & Logo URL
-        List<WebLink> webLinks = SeaAroundUsDataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId);
+        List<WebLink> webLinks = SeaAroundUsDataCiteUtils.instance().createBasicWebLinks(regionApiName, regionId);
 
         // catches
-        List<WebLink> catchLinks = SeaAroundUsDataCiteFactory.instance().createCatchLinks(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, countryName);
+        List<WebLink> catchLinks = SeaAroundUsDataCiteUtils.instance().createCatchLinks(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, countryName);
         webLinks.addAll(catchLinks);
 
         // Country Profile
@@ -205,7 +205,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
      */
     private List<File> createFiles(int regionId, String regionName)
     {
-        List<File> files = SeaAroundUsDataCiteFactory.instance().createCatchFiles(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
+        List<File> files = SeaAroundUsDataCiteUtils.instance().createCatchFiles(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
         return files;
     }
 }

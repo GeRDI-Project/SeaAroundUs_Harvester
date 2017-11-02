@@ -27,7 +27,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
@@ -69,7 +69,7 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
         List<SauMariculture> subRegions = httpRequester.getObjectFromUrl(apiUrl, SauMaricultureResponse.class).getData();
 
         // add completely new data
-        String maricultureBaseUrl = SeaAroundUsDataCiteFactory.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
+        String maricultureBaseUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
         document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
 
         // enrich existing data

@@ -27,7 +27,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.File;
@@ -138,12 +138,12 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
 
-        links.add(SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexLink(params, regionId, regionName));
-        links.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionLink(params, regionId, regionName));
-        links.add(SeaAroundUsDataCiteFactory.instance().createStockStatusLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteUtils.instance().createMarineTrophicIndexLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteUtils.instance().createPrimaryProductionLink(params, regionId, regionName));
+        links.add(SeaAroundUsDataCiteUtils.instance().createStockStatusLink(params, regionId, regionName));
 
         // add catches
-        links.addAll(SeaAroundUsDataCiteFactory.instance().createCatchLinks(params, regionId, regionName));
+        links.addAll(SeaAroundUsDataCiteUtils.instance().createCatchLinks(params, regionId, regionName));
     }
 
 
@@ -158,12 +158,12 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
 
-        files.add(SeaAroundUsDataCiteFactory.instance().createMarineTrophicIndexFile(params, regionId, regionName));
-        files.add(SeaAroundUsDataCiteFactory.instance().createPrimaryProductionFile(params, regionId, regionName));
-        files.add(SeaAroundUsDataCiteFactory.instance().createStockStatusFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteUtils.instance().createMarineTrophicIndexFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteUtils.instance().createPrimaryProductionFile(params, regionId, regionName));
+        files.add(SeaAroundUsDataCiteUtils.instance().createStockStatusFile(params, regionId, regionName));
 
         // add catches
-        files.addAll(SeaAroundUsDataCiteFactory.instance().createCatchFiles(params, regionId, regionName));
+        files.addAll(SeaAroundUsDataCiteUtils.instance().createCatchFiles(params, regionId, regionName));
     }
 
 

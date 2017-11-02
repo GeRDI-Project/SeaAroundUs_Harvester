@@ -31,7 +31,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
@@ -117,7 +117,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     protected Collection<Feature<T>> loadEntries()
     {
         // request all countries
-        String apiUrl = SeaAroundUsDataCiteFactory.instance().getAllRegionsUrl(regionApiName);
+        String apiUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(regionApiName);
         R allCountries = httpRequester.getObjectFromUrl(apiUrl, responseClass);
 
         // get version from metadata
@@ -133,7 +133,7 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
     {
         T properties = entry.getProperties();
         int regionId = getRegionId(properties);
-        String apiUrl = SeaAroundUsDataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
+        String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(regionApiName, regionId);
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
@@ -142,10 +142,10 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.setTitles(createBasicTitles(properties));
-        document.setSources(SeaAroundUsDataCiteFactory.instance().createSource(apiUrl));
-        document.setWebLinks(SeaAroundUsDataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId));
+        document.setSources(SeaAroundUsDataCiteUtils.instance().createSource(apiUrl));
+        document.setWebLinks(SeaAroundUsDataCiteUtils.instance().createBasicWebLinks(regionApiName, regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
-        document.setGeoLocations(SeaAroundUsDataCiteFactory.instance().createBasicGeoLocations(
+        document.setGeoLocations(SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(
                                      entry.getGeometry(),
                                      entry.getProperties().getTitle()
                                  ));

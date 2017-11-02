@@ -32,7 +32,7 @@ import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.RfmoRegionHar
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsParameterConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         super.setProperty(key, value);
 
         if (key.equals(SeaAroundUsParameterConstants.VERSION_KEY)) {
-            SeaAroundUsDataCiteFactory.instance().setVersion(value);
+            SeaAroundUsDataCiteUtils.instance().setVersion(value);
             final String url = String.format(SeaAroundUsUrlConstants.API_URL, value);
 
             for (AbstractHarvester subHarvester : subHarvesters)
