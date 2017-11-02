@@ -16,36 +16,44 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.structure;
+package de.gerdiproject.harvest.seaaroundus.json.taxa;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
- * An entry in this context is a typical filtering option for showing Sea Around
- * data.
+ * This class represents a JSON object that is part of the response to a Seaaroundus taxon-group request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/taxon-group/
  *
- * @author row
+ * @author Robin Weiss
  */
-public class Entry
+public final class SauTaxonGroup
 {
-    /**
-     * The string as it is used in HTTP requests.
-     */
-    public final String urlName;
+    private String name;
 
-    /**
-     * The string as it is displayed to the user.
-     */
-    public final String displayName;
+    @SerializedName("taxon_group_id")
+    private int taxonGroupId;
 
 
-    /**
-     * Simple constructor.
-     *
-     * @param urlName the string as it is used in HTTP requests
-     * @param displayName the string as it is displayed to the user
-     */
-    public Entry(String urlName, String displayName)
+    public String getName()
     {
-        this.urlName = urlName;
-        this.displayName = displayName;
+        return name;
+    }
+
+
+    public void setName(String value)
+    {
+        this.name = value;
+    }
+
+
+    public int getTaxonGroupId()
+    {
+        return taxonGroupId;
+    }
+
+
+    public void setTaxonGroupId(int value)
+    {
+        this.taxonGroupId = value;
     }
 }

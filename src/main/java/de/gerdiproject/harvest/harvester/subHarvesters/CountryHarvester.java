@@ -18,59 +18,77 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
-import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
-import de.gerdiproject.harvest.utils.SearchIndexFactory;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
+import de.gerdiproject.harvest.IDocument;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.country.SauAllCountriesResponse;
+import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
+import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
+import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.GeoLocation;
+import de.gerdiproject.json.datacite.Subject;
+import de.gerdiproject.json.datacite.Title;
+import de.gerdiproject.json.datacite.Title.TitleType;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
+ * This harvester crawls through all SeaAroundUs countries and generates one document per entry.
+ * <br><br>
+ * All Countries:   http://api.seaaroundus.org/api/v1/country/<br>
+ * Example Country: http://api.seaaroundus.org/api/v1/country/120
  *
- * @author row
+ * @author Robin Weiss
  */
-public class CountryHarvester extends AbstractJsonArrayHarvester
+public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountriesResponse, SauCountryProperties>
 {
-    private static final String COUNTRY = "country";
-    private static final String COUNTRY_PROFILE_LABEL_PREFIX = "Country Profile: ";
-
-    private static final String TREATIES_LABEL_PREFIX = "Treaties and Conventions to which %s (%s) is a Member";
-    private static final String TREATIES_VIEW_URL_PREFIX = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=";
-
-    private final String viewUrlPrefix;
-    private String downloadUrlPrefix;
-
-    private final Map<Integer, IJsonObject> profileDocuments = new HashMap<>();
-    private final Map<Integer, IJsonObject> treatiesDocuments = new HashMap<>();
+    private final Map<Integer, DataCiteJson> profileDocuments = new HashMap<>();
 
 
+    /**
+     * Creates a harvester for harvesting all countries.
+     */
     public CountryHarvester()
     {
-        super(2);
-        this.viewUrlPrefix = String.format(SeaAroundUsConst.VIEW_URL_PREFIX, COUNTRY);
+        super(RegionConstants.COUNTRY_API_NAME, SauAllCountriesResponse.class);
     }
 
 
     @Override
-    public void setProperty(String key, String value)
+    protected int getRegionId(SauCountryProperties properties)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
-            downloadUrlPrefix = value + String.format(SeaAroundUsConst.REGION_IDS_URL, COUNTRY);
+        return properties.getCNumber();
     }
 
 
     @Override
-    protected IJsonArray getJsonArray()
+    protected String getMainTitleString(String regionName)
     {
-        IJsonObject countryData = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix);
-        IJsonArray countryArray = countryData.getJsonArray(JsonConst.FEATURES);
+        return String.format(DataCiteConstants.COUNTRY_LABEL, regionName);
+    }
 
-        return countryArray;
+
+    @Override
+    protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<SauCountryProperties> entry)
+    {
+        // get additional info about the country
+        SauCountry country = httpRequester.getObjectFromUrl(apiUrl, SauCountryResponse.class).getData();
+
+        // enrich the document
+        enrichSubjects(document.getSubjects(), country);
+        enrichWebLinks(document.getWebLinks(), country);
+
+        // remember the document
+        profileDocuments.put(getRegionId(entry.getProperties()), document);
     }
 
 
@@ -78,162 +96,153 @@ public class CountryHarvester extends AbstractJsonArrayHarvester
     protected boolean harvestInternal(int from, int to) throws Exception // NOPMD - see explanation in AbstractHarvester
     {
         profileDocuments.clear();
-        treatiesDocuments.clear();
         return super.harvestInternal(from, to);
     }
 
+
     @Override
-    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject country)
+    protected List<IDocument> harvestEntry(Feature<SauCountryProperties> entry)
     {
-        // read country number
-        IJsonObject properties = country.getJsonObject(JsonConst.PROPERTIES);
-        int countryId = properties.getInt(JsonConst.COUNTRY_ID);
+        int countryId = getRegionId(entry.getProperties());
 
-        // get geo data
-        IJsonObject geoData = getGeoData(country);
+        // check if a document with this id was already harvested
+        if (profileDocuments.containsKey(countryId)) {
 
-        // check if a document with the same countryId was already harvested
-        if (profileDocuments.containsKey(countryId))
-            return updateDocuments(countryId, geoData);
-        else
-            return createDocuments(countryId, properties, geoData);
-    }
+            // enrich document if the same countryId was already harvested
+            updateDocument(entry);
 
-
-    private List<IJsonObject> createDocuments(int countryId, IJsonObject properties, IJsonObject geoJson)
-    {
-        // retrieve region info from URL
-        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + countryId);
-
-        // get search tags
-        IJsonArray searchTags = createSearchTags(countryObj, properties);
-
-        // create documents
-        IJsonObject countryProfileDoc = createCountryProfileDocument(countryObj, geoJson, searchTags);
-        IJsonObject treatiesDoc = createTreatiesAndConventionsDocument(countryObj, geoJson, searchTags);
-
-        // memorize document references
-        profileDocuments.put(countryId, countryProfileDoc);
-        treatiesDocuments.put(countryId, treatiesDoc);
-
-        // return created documents
-        List<IJsonObject> docs = new LinkedList<>();
-        docs.add(countryProfileDoc);
-        docs.add(treatiesDoc);
-
-        return docs;
-    }
-
-    private List<IJsonObject> updateDocuments(int countryId, IJsonObject geoJson)
-    {
-        // retrieve region info from URL
-        IJsonObject countryObj = httpRequester.getJsonObjectFromUrl(downloadUrlPrefix + countryId);
-
-        // retrieve existing documents
-        IJsonObject profileDoc = profileDocuments.get(countryId);
-        IJsonObject treatiesDoc = treatiesDocuments.get(countryId);
-
-        // add title to the search tags
-        String title = countryObj.getString(JsonConst.TITLE, null);
-        profileDoc.getJsonArray(SearchIndexFactory.TAGS_JSON).add(title);
-        treatiesDoc.getJsonArray(SearchIndexFactory.TAGS_JSON).add(title);
-
-        // add geoJson to geo array
-        profileDoc.getJsonArray(SearchIndexFactory.GEO_JSON).add(geoJson);
-        treatiesDoc.getJsonArray(SearchIndexFactory.GEO_JSON).add(geoJson);
-
-        // create empty documents to increase the harvesting progress
-        List<IJsonObject> docs = new LinkedList<>();
-        docs.add(null);
-        docs.add(null);
-
-        return docs;
-    }
-
-    private IJsonObject createCountryProfileDocument(IJsonObject countryObject, IJsonObject geoJson, IJsonArray searchTags)
-    {
-        int countryId = countryObject.getInt(JsonConst.ID, -1);
-
-        if (countryId == -1)
+            // add no additional document to the search index
             return null;
-
-        String countryName = countryObject.getString(JsonConst.COUNTRY);
-
-        String label = COUNTRY_PROFILE_LABEL_PREFIX + countryName;
-        String viewUrl = viewUrlPrefix + countryId;
-        IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(downloadUrlPrefix + countryId);
-        IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
-
-        return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
-               );
-    }
-
-
-    private IJsonObject createTreatiesAndConventionsDocument(IJsonObject regionObject, IJsonObject geoJson, IJsonArray searchTags)
-    {
-        String fishBaseId = regionObject.getString(JsonConst.FISH_BASE, null);
-
-        if (fishBaseId == null)
-            return null;
-
-        String faoCode = regionObject.getString(JsonConst.FAO_CODE, "");
-        String regionName = regionObject.getString(JsonConst.COUNTRY);
-
-        String label = String.format(TREATIES_LABEL_PREFIX, regionName, faoCode);
-        String viewUrl = TREATIES_VIEW_URL_PREFIX + fishBaseId;
-        IJsonArray geoArray = jsonBuilder.createArrayFromObjects(geoJson);
-
-        return searchIndexFactory.createSearchableDocument(
-                   label, null, viewUrl, null, SeaAroundUsConst.LOGO_URL, null, geoArray, null, searchTags
-               );
-    }
-
-
-    private IJsonArray createSearchTags(IJsonObject countryObject, IJsonObject regionProperties)
-    {
-        IJsonArray tags = jsonBuilder.createArray();
-
-        // the title does not have to be the country, it can also be an island name
-        String title = regionProperties.getString(JsonConst.TITLE, null);
-        tags.addNotNull(title);
-
-        String countryName = countryObject.getString(JsonConst.COUNTRY, null);
-        tags.addNotNull(countryName);
-
-        String unName = countryObject.getString(JsonConst.UN_NAME, null);
-        tags.addNotNull(unName);
-
-        String govMarineFish = countryObject.getString(JsonConst.GOV_MARINE_FISH, null);
-        tags.addNotNull(govMarineFish);
-
-        String govProtect = countryObject.getString(JsonConst.GOV_PROTECT_MARINE_ENV, null);
-        tags.addNotNull(govProtect);
-
-        String fishManagementPlan = countryObject.getString(JsonConst.FISH_MGT_PLAN, null);
-        tags.addNotNull(fishManagementPlan);
-
-        String faoCode = countryObject.getString(JsonConst.FAO_CODE, null);
-        tags.addNotNull(faoCode);
-
-        return tags;
-    }
-
-
-    private IJsonObject getGeoData(IJsonObject regionObject)
-    {
-        return regionObject.getJsonObject(JsonConst.GEOMETRY);
+        } else
+            // create the document
+            return super.harvestEntry(entry);
     }
 
 
     /**
-     * Not required, because this list is not visible via REST.
+     * Adds another GeoLocation, Title, and some subjects to an already harvested country document.
      *
-     * @return null
+     * @param countryId a SeaAroundUs unique identifier of the country
+     * @param geoLocation the (multi-) polygon location that describes the country border
+     * @param countryName the name of the country
+     * @param isoCode the iso code for the country or "-99" if it does not exist
      */
-    @Override
-    public List<String> getValidProperties()
+    private void updateDocument(Feature<SauCountryProperties> entry)
     {
-        return null;
+        SauCountryProperties properties = entry.getProperties();
+        String countryName = properties.getTitle();
+
+        // retrieve existing documents
+        DataCiteJson updatedDoc = profileDocuments.get(getRegionId(properties));
+
+        // add country name to the titles
+        Title countryTitle = new Title(getMainTitleString(countryName));
+        countryTitle.setLang(DataCiteConstants.SAU_LANGUAGE);
+        countryTitle.setType(TitleType.AlternativeTitle);
+        updatedDoc.getTitles().add(countryTitle);
+
+        // add country name to the search tags
+        updatedDoc.getSubjects().add(new Subject(countryName));
+
+        // add iso code tag, if it is not a dummy value
+        String isoCode = properties.getCIsoCode();
+
+        if (!isoCode.equals("-99"))
+            updatedDoc.getSubjects().add(new Subject(isoCode));
+
+        // add geolocations to geo array
+        List<GeoLocation> geoLocations = DataCiteFactory.instance().createBasicGeoLocations(entry.getGeometry(), countryName);
+
+        if (!geoLocations.isEmpty()) {
+            if (updatedDoc.getGeoLocations() == null)
+                updatedDoc.setGeoLocations(geoLocations);
+            else
+                updatedDoc.getGeoLocations().addAll(geoLocations);
+        }
+    }
+
+
+    /**
+     * Enriches a list of country related {@linkplain WebLink}s.
+     *
+     * @param country the country JSON object
+     */
+    private void enrichWebLinks(List<WebLink> webLinks, SauCountry country)
+    {
+        String faoProfileUrl = country.getFaoProfileUrl();
+
+        if (faoProfileUrl != null) {
+            WebLink relatedLink = new WebLink(faoProfileUrl);
+            relatedLink.setType(WebLinkType.Related);
+            relatedLink.setName(DataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
+            webLinks.add(relatedLink);
+        }
+
+        String govProtectUrl = country.getUrlGovProtectMarineEnv();
+
+        if (govProtectUrl != null) {
+            WebLink relatedLink = new WebLink(govProtectUrl);
+            relatedLink.setType(WebLinkType.Related);
+            relatedLink.setName(country.getGovProtectMarineEnv());
+            webLinks.add(relatedLink);
+        }
+
+        String fishMgtUrl = country.getUrlFishMgtPlan();
+
+        if (fishMgtUrl != null) {
+            WebLink relatedLink = new WebLink(fishMgtUrl);
+            relatedLink.setType(WebLinkType.Related);
+            relatedLink.setName(country.getFishMgtPlan());
+            webLinks.add(relatedLink);
+        }
+
+        String majorLawPlanUrl = country.getUrlMajorLawPlan();
+
+        if (majorLawPlanUrl != null) {
+            WebLink relatedLink = new WebLink(majorLawPlanUrl);
+            relatedLink.setType(WebLinkType.Related);
+            relatedLink.setName(country.getMajorLawPlan());
+            webLinks.add(relatedLink);
+        }
+
+        String fishBaseId = country.getFishBase();
+
+        if (fishBaseId != null) {
+            String faoCode = country.getFaoCode();
+            faoCode = faoCode == null ? "" : faoCode;
+
+            WebLink relatedLink = new WebLink(String.format(UrlConstants.TREATIES_VIEW_URL, fishBaseId));
+            relatedLink.setType(WebLinkType.Related);
+            relatedLink.setName(String.format(DataCiteConstants.TREATIES_LABEL, country.getCountry(), faoCode));
+            webLinks.add(relatedLink);
+        }
+    }
+
+
+    /**
+     * Enriches a list of {@linkplain Subject}s for a SeaAroundUs country profile.
+     *
+     * @param subjects the subjects that are to be enriched
+     * @param country the country JSON object
+     */
+    private void enrichSubjects(List<Subject> subjects, SauCountry country)
+    {
+        String[] rawTags = {
+            country.getCountry(),
+            country.getUnName(),
+            country.getGovMarineFish(),
+            country.getGovProtectMarineEnv(),
+            country.getFishMgtPlan(),
+            country.getFaoCode()
+        };
+
+        for (String tag : rawTags) {
+
+            if (tag != null) {
+                Subject s = new Subject(tag);
+                s.setLang(DataCiteConstants.SAU_LANGUAGE);
+                subjects.add(s);
+            }
+        }
     }
 }

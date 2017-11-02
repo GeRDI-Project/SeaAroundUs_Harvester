@@ -18,138 +18,205 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
 
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
+import de.gerdiproject.harvest.IDocument;
+import de.gerdiproject.harvest.harvester.AbstractListHarvester;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityReduced;
+import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRegion;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.Title;
+import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gson.reflect.TypeToken;
+
 /**
+ * This harvester harvests all Fishing Entities of SeaAroundUs.
+ * <br>see http://api.seaaroundus.org/api/v1/fishing-entity/
  *
- * @author row
+ * @author Robin Weiss
  */
-public class FishingEntityRegionHarvester extends GenericRegionHarvester
+public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishingEntityReduced>
 {
-    private final static String FUNCTIONAL_GROUP_SEPERATOR = "; ";
-
-    private final static String EXTERNAL_FISHING_ACCESS_LABEL = "'s foreign fishing access agreements by EEZ";
-    private final static String EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX = "/external-fishing-access";
-    private final static String EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX = "/access-agreement-external/";
+    private String version;
+    private final static Type FISHING_ENTITY_RESPONSE_TYPE = new TypeToken<GenericResponse<SauFishingEntityRegion>>() {} .getType();
 
 
+    /**
+     * Simple constructor that initializes the super class with
+     * Fishing Entity parameters.
+     */
     public FishingEntityRegionHarvester()
     {
-        super(SeaAroundUsConst.REGION_FISHING_ENTITY,
-              SeaAroundUsConst.DIMENSIONS_FAO,
-              SeaAroundUsConst.GENERIC_URL_VO,
-              1 + SeaAroundUsConst.DIMENSIONS_FAO.size() * MEASURES.length);
+        super(1);
+    }
+
+    @Override
+    protected Collection<SauFishingEntityReduced> loadEntries()
+    {
+        // request all countries
+        String apiUrl = DataCiteFactory.instance().getAllRegionsUrl(RegionConstants.REGION_FISHING_ENTITY.urlName);
+        TypeToken<GenericResponse<List<SauFishingEntityReduced>>> typeToken = new TypeToken<GenericResponse<List<SauFishingEntityReduced>>>() {};
+        GenericResponse<List<SauFishingEntityReduced>> allFishingEntities = httpRequester.getObjectFromUrl(apiUrl, typeToken.getType());
+
+        // get version from metadata
+        version = allFishingEntities.getMetadata().getVersion();
+
+        // return feature array
+        return allFishingEntities.getData();
     }
 
 
     @Override
-    protected IJsonArray getJsonArray()
+    protected List<IDocument> harvestEntry(SauFishingEntityReduced entry)
     {
-        return httpRequester.getJsonArrayFromUrl(downloadUrlPrefix);
+        int regionId = entry.getId();
+        String regionName = entry.getTitle();
+        String regionApiName = RegionConstants.REGION_FISHING_ENTITY.urlName;
+        String apiUrl = DataCiteFactory.instance().getRegionEntryUrl(regionApiName, regionId);
+
+        DataCiteJson document = new DataCiteJson();
+        document.setVersion(version);
+        document.setPublisher(DataCiteConstants.PROVIDER);
+        document.setFormats(DataCiteConstants.JSON_FORMATS);
+        document.setCreators(DataCiteConstants.SAU_CREATORS);
+        document.setRightsList(DataCiteConstants.RIGHTS_LIST);
+        document.setSources(DataCiteFactory.instance().createSource(apiUrl));
+        document.setTitles(createTitles(regionName));
+        document.setFiles(createFiles(regionId, regionName));
+
+        // add region details
+        GenericResponse<SauFishingEntityRegion> regionObjectResponse = httpRequester.getObjectFromUrl(apiUrl, FISHING_ENTITY_RESPONSE_TYPE);
+        SauFishingEntityRegion regionObject = regionObjectResponse.getData();
+
+        document.setWebLinks(createWebLinks(regionObject));
+        document.setGeoLocations(DataCiteFactory.instance().createBasicGeoLocations(
+                                     regionObject.getGeojson(),
+                                     regionName
+                                 ));
+
+        return Arrays.asList(document);
     }
 
 
-    @Override
-    protected List<IJsonObject> createDocuments(int regionId, IJsonObject regionObject, String regionName, IJsonArray geoData, List<String> defaultTags)
+    /**
+     * Creates a list of {@linkplain Title}s for the region.
+     *
+     * @param regionName the name of the fishing-entity region
+     *
+     * @return a list of {@linkplain Title}s for the region
+     */
+    private List<Title> createTitles(String regionName)
     {
-        final List<IJsonObject> documentList = new ArrayList<>(numberOfDocumentsPerEntry);
+        String titleString = String.format(
+                                 DataCiteConstants.GENERIC_LABEL,
+                                 RegionConstants.REGION_FISHING_ENTITY.displayName,
+                                 regionName);
 
-        // Catches and Values
-        for (Entry measure : MEASURES) {
-            for (Entry dimension : dimensions)
-                documentList.add(createCatchesByDimensionDocument(regionId, regionName, dimension, measure, geoData, defaultTags));
-        }
+        List<Title> titles = new LinkedList<>();
+        titles.add(new Title(titleString));
+
+        return titles;
+    }
+
+
+    /**
+     * Creates a list of (related) {@linkplain WebLink}s of a fishing-entity region.
+     *
+     * @param regionObject an object describing the fishing-entity
+     *
+     * @return a list of (related) {@linkplain WebLink}s of a fishing-entity region
+     */
+    private List<WebLink> createWebLinks(SauFishingEntityRegion regionObject)
+    {
+        int regionId = regionObject.getId();
+        int countryId = regionObject.getCountryId();
+        String countryName = regionObject.getTitle();
+        String regionApiName = RegionConstants.REGION_FISHING_ENTITY.urlName;
+
+        // View URL & Logo URL
+        List<WebLink> webLinks = DataCiteFactory.instance().createBasicWebLinks(regionApiName, regionId);
+
+        // catches
+        List<WebLink> catchLinks = DataCiteFactory.instance().createCatchLinks(RegionConstants.FISHING_ENTITY_PARAMS, regionId, countryName);
+        webLinks.addAll(catchLinks);
+
+        // Country Profile
+        WebLink countryLink = new WebLink(String.format(UrlConstants.VIEW_URL, RegionConstants.COUNTRY_API_NAME, countryId));
+        countryLink.setName(String.format(DataCiteConstants.COUNTRY_LABEL, countryName));
+        countryLink.setType(WebLinkType.Related);
+        webLinks.add(countryLink);
+
+        // Fisheries Subsidies
+        WebLink fisherySubsidiesLink = new WebLink(String.format(UrlConstants.FISHERIES_SUBSIDIES_VIEW_URL, regionObject.getGeoEntityId()));
+        fisherySubsidiesLink.setName(DataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + countryName);
+        fisherySubsidiesLink.setType(WebLinkType.Related);
+        webLinks.add(fisherySubsidiesLink);
 
         // External Fishing Access
-        documentList.add(createExternalFishingAccessDocument(regionId, regionName, geoData, defaultTags));
+        String fishingAccessUrl = String.format(UrlConstants.VIEW_URL, regionApiName, regionId)
+                                  + DataCiteConstants.EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
 
-        return documentList;
+        WebLink fishingAccessLink = new WebLink(fishingAccessUrl);
+        fishingAccessLink.setName(String.format(DataCiteConstants.EXTERNAL_FISHING_ACCESS_LABEL, countryName));
+        fishingAccessLink.setType(WebLinkType.Related);
+        webLinks.add(fishingAccessLink);
+
+        // Treaties and Conventions
+        String treatiesId = "" + countryId;
+
+        if (countryId < 100)
+            treatiesId = "0" + treatiesId;
+
+        WebLink treatiesLink = new WebLink(String.format(UrlConstants.TREATIES_VIEW_URL, treatiesId));
+        treatiesLink.setType(WebLinkType.Related);
+        treatiesLink.setName(String.format(DataCiteConstants.TREATIES_LABEL_SHORT, countryName));
+        webLinks.add(treatiesLink);
+
+        // Catch Allocations
+        WebLink catchAllocationsLink = new WebLink(String.format(UrlConstants.CATCH_ALLOCATIONS_URL, regionId));
+        catchAllocationsLink.setType(WebLinkType.ViewURL);
+        catchAllocationsLink.setName(String.format(DataCiteConstants.CATCH_ALLOCATIONS_LABEL, countryName));
+        webLinks.add(catchAllocationsLink);
+
+        return webLinks;
     }
 
 
-    private IJsonObject createExternalFishingAccessDocument(int regionId, String regionName, IJsonArray geoData, List<String> defaultTags)
+    /**
+     * Creates a list of {@linkplain File}s of a fishing-entity region.
+     *
+     * @param regionId a unique identifier of the fishing-entity
+     * @param regionName the human readable name of the fishing-entity
+     *
+     * @return a list of {@linkplain File}s of a fishing-entity region
+     */
+    private List<File> createFiles(int regionId, String regionName)
     {
-        IJsonObject document = null;
-
-        String apiUrl = downloadUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
-        IJsonArray accessAgreements = httpRequester.getJsonArrayFromUrl(apiUrl);
-
-        // skip this document if no data is available
-        if (accessAgreements != null) {
-            // get years
-            IJsonArray years = getAccessAgreementStartYears(accessAgreements);
-
-            // get and combine search tags
-            List<String> aaSearchTags = getAccessAgreementSearchTags(accessAgreements);
-            IJsonArray searchTags = jsonBuilder.createArrayFromLists(defaultTags, aaSearchTags);
-
-            String label = regionName + EXTERNAL_FISHING_ACCESS_LABEL;
-            String viewUrl = viewUrlPrefix + regionId + EXTERNAL_FISHING_ACCESS_VIEW_URL_SUFFIX;
-            IJsonArray downloadUrls = jsonBuilder.createArrayFromObjects(apiUrl);
-
-            document = searchIndexFactory.createSearchableDocument(
-                           label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, years, searchTags
-                       );
-        }
-
-        return document;
+        List<File> files = DataCiteFactory.instance().createCatchFiles(RegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
+        return files;
     }
 
 
-    private IJsonArray getAccessAgreementStartYears(IJsonArray accessAgreements)
-    {
-        IJsonArray years = jsonBuilder.createArray();
-        accessAgreements.forEach((Object a) -> ((IJsonObject) a).getInt(JsonConst.START_YEAR));
-        return years;
-    }
-
-
-    private List<String> getAccessAgreementSearchTags(IJsonArray accessAgreements)
-    {
-        List<String> aaTags = new LinkedList<>();
-
-        for (Object attribute : accessAgreements) {
-            IJsonObject obj = (IJsonObject) attribute;
-            String fishingAccess = obj.getString(JsonConst.FISHING_ACCESS, null);
-
-            if (fishingAccess != null)
-                aaTags.add(fishingAccess);
-
-            String title = obj.getString(JsonConst.TITLE, null);
-
-            if (title != null)
-                aaTags.add(title);
-
-            String eez = obj.getString(JsonConst.EEZ_NAME, null);
-
-            if (eez != null)
-                aaTags.add(eez);
-
-            String functionalGroupDetails = obj.getString(JsonConst.FUNCTIONAL_GROUP_DETAILS, null);
-
-            if (functionalGroupDetails != null) {
-                String[] functionalGroups = functionalGroupDetails.split(FUNCTIONAL_GROUP_SEPERATOR);
-
-                for (String fg : functionalGroups)
-                    aaTags.add(fg);
-            }
-        }
-
-        return aaTags;
-    }
-
-
+    /**
+     * Not required, because this list is not visible via REST.
+     *
+     * @return null
+     */
     @Override
-    protected int getRegionId(IJsonObject region)
+    public List<String> getValidProperties()
     {
-        return region.getInt(JsonConst.ID);
+        return null;
     }
 }

@@ -18,151 +18,139 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
-import de.gerdiproject.harvest.harvester.AbstractJsonArrayHarvester;
-import de.gerdiproject.harvest.harvester.structure.Entry;
-import de.gerdiproject.harvest.harvester.structure.JsonConst;
-import de.gerdiproject.harvest.harvester.structure.SeaAroundUsConst;
-import de.gerdiproject.json.IJsonArray;
-import de.gerdiproject.json.IJsonObject;
-import de.gerdiproject.json.utils.JsonHelper;
+import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.DimensionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.Entry;
+import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
+import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
+import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureResponse;
+import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.json.datacite.DataCiteJson;
+import de.gerdiproject.json.datacite.File;
+import de.gerdiproject.json.datacite.GeoLocation;
+import de.gerdiproject.json.datacite.Subject;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * This harvester crawls through all SeaAroundUs maricultures and generates one document per entry.
+ * <br><br>
+ * All Maricultures:     http://api.seaaroundus.org/api/v1/mariculture/<br>
+ * Example Mariculture: http://api.seaaroundus.org/api/v1/mariculture/57
  *
- * @author row
+ * @author Robin Weiss
  */
-public class MaricultureHarvester extends AbstractJsonArrayHarvester
+public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCollectionResponse, FeatureProperties>
 {
-    // URLs
-    private static final String LABEL_PREFIX = "Mariculture Production in ";
-    private static final String VIEW_URL = "http://www.seaaroundus.org/data/#/mariculture/%d?chart=mariculture-chart";
-    private final static String API_URL_SUFFIX = "/mariculture/";
-    private final static String DOWNLOAD_SUBREGION_URL_SUFFIX = "%s/%d?limit=20&sub_unit_id=%d" + SeaAroundUsConst.CSV_FORM;
-    private final static String DOWNLOAD_ALL_URL_SUFFIX = "%s/%d?limit=20" + SeaAroundUsConst.CSV_FORM;
-
-    private String apiUrl;
-    //"http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/57?format=csv&limit=10&sciname=&sub_unit_id=413"
-
     /**
-     * @param harvestedDocuments the list to which harvested documents are added
+     * Creates a harvester for harvesting all maricultures.
      */
     public MaricultureHarvester()
     {
-        super(1);
+        super(RegionConstants.MARICULTURE_API_NAME, FeatureCollectionResponse.class);
     }
 
 
     @Override
-    public void setProperty(String key, String value)
+    protected String getMainTitleString(String regionName)
     {
-        if (SeaAroundUsConst.PROPERTY_URL.equals(key))
-            apiUrl = value + API_URL_SUFFIX;
+        return DataCiteConstants.MARICULTURE_LABEL_PREFIX + regionName;
     }
 
 
     @Override
-    protected IJsonArray getJsonArray()
+    protected void enrichDocument(DataCiteJson document, String apiUrl, Feature<FeatureProperties> entry)
     {
-        IJsonObject maricultureData = httpRequester.getJsonObjectFromUrl(apiUrl);
-        IJsonArray maricultureRegions = maricultureData.getJsonArray(JsonConst.FEATURES);
+        List<SauMariculture> subRegions = httpRequester.getObjectFromUrl(apiUrl, SauMaricultureResponse.class).getData();
 
-        return maricultureRegions;
+        // add completely new data
+        String maricultureBaseUrl = DataCiteFactory.instance().getAllRegionsUrl(RegionConstants.MARICULTURE_API_NAME);
+        document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
+
+        // enrich existing data
+        document.setFormats(DataCiteConstants.CSV_FORMATS);
+        enrichSubjects(document.getSubjects(), subRegions);
+        enrichGeoLocations(document.getGeoLocations(), subRegions);
     }
 
 
     /**
-     * Harvests a mariculture entry, generating a single document.
+     * Creates a list of downloadable {@linkplain File}s of the mariculture datasets.
      *
-     * @param entry a mariculture overview JSON object entry
-     * @return the harvested documents
+     * @param apiUrl the API URL for SeaAroundUs maricultures
+     * @param properties mariculture properties
+     * @param subRegions a list of relevant regions within the mariculture country
+     *
+     * @return a list of downloadable {@linkplain File}s
      */
-    @Override
-    protected List<IJsonObject> harvestJsonArrayEntry(IJsonObject mariculture)
+    private List<File> createFiles(String apiUrl, FeatureProperties properties, List<SauMariculture> subRegions)
     {
-        // get properties
-        IJsonObject properties = mariculture.getJsonObject(JsonConst.PROPERTIES);
-        int regionId = properties.getInt(JsonConst.REGION_ID, -1);
-        IJsonArray subRegions = httpRequester.getJsonArrayFromUrl(apiUrl + regionId);
+        String countryName = properties.getTitle();
+        int regionId = getRegionId(properties);
 
-        // set up view url
-        String viewUrl = String.format(VIEW_URL, regionId);
+        List<File> files = new LinkedList<>();
 
+        for (Entry dimension : DimensionConstants.DIMENSIONS_MARICULTURE) {
+            // add download for combined sub-regions
+            files.add(new File(
+                          String.format(UrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
+                          String.format(DataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
 
-        // set up download urls
-        IJsonArray downloadUrls = getDownloadUrls(regionId, subRegions);
-
-        // create search tags
-        IJsonArray tags = createSearchTags(subRegions);
-
-        // assemble label
-        String label = LABEL_PREFIX + properties.getString(JsonConst.TITLE, null);
-
-        // get shape geo coordinates
-        IJsonArray geoData = getGeoData(mariculture);
-
-        // create document
-        IJsonObject document = searchIndexFactory.createSearchableDocument(label, null, viewUrl, downloadUrls, SeaAroundUsConst.LOGO_URL, null, geoData, null, tags);
-
-        // return list of documents
-        List<IJsonObject> documentList = new LinkedList<>();
-        documentList.add(document);
-        return documentList;
-    }
-
-    private IJsonArray getDownloadUrls(int regionId, IJsonArray subRegions)
-    {
-        IJsonArray urls = jsonBuilder.createArray();
-
-        for (Entry dimension : SeaAroundUsConst.DIMENSIONS_MARICULTURE) {
-            // add download for all sub regions
-            urls.add(apiUrl + String.format(DOWNLOAD_ALL_URL_SUFFIX, dimension.urlName, regionId));
-
-            // add downloads filtered by sub region
-            subRegions.forEach((Object o) -> {
-                int subRegionId = ((IJsonObject) o).getInt(JsonConst.REGION_ID);
-                urls.add(apiUrl + String.format(DOWNLOAD_SUBREGION_URL_SUFFIX, dimension.urlName, regionId, subRegionId));
+            // add sub-region downloads
+            subRegions.forEach((SauMariculture subRegion) -> {
+                files.add(new File(
+                              String.format(UrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
+                              String.format(DataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
             });
         }
 
-
-        return urls;
-    }
-
-
-    private IJsonArray createSearchTags(IJsonArray subRegions)
-    {
-        List<String> titles = JsonHelper.arrayToStringList(subRegions, JsonConst.TITLE);
-        return jsonBuilder.createArrayFromLists(titles);
-    }
-
-
-    protected IJsonArray getGeoData(IJsonObject entry)
-    {
-        IJsonObject geojson = entry.getJsonObject(JsonConst.GEOJSON);
-        IJsonObject geoPoint = entry.getJsonObject(JsonConst.POINT_GEOJSON);
-
-        // check if the geojson exists and add it to an array, if so
-        if (geojson != null || geoPoint != null) {
-            IJsonArray geoObjects = jsonBuilder.createArray();
-            geoObjects.addNotNull(geojson);
-            geoObjects.addNotNull(geoPoint);
-            return geoObjects;
-        }
-
-        return null;
+        return files;
     }
 
 
     /**
-     * Not required, because this list is not visible via REST.
+     * Enriches a list of {@linkplain Subject}s for a SeaAroundUs mariculture.
      *
-     * @return null
+     * @param subjects the subjects that are to be enriched
+     * @param subRegions a list of relevant regions within the mariculture country
      */
-    @Override
-    public List<String> getValidProperties()
+    private void enrichSubjects(List<Subject> subjects, List<SauMariculture> subRegions)
     {
-        return null;
+        // add titles of sub-regions
+        subRegions.forEach((SauMariculture subRegion) -> {
+            Subject subRegionTitle = new Subject(subRegion.getTitle());
+            subRegionTitle.setLang(DataCiteConstants.SAU_LANGUAGE);
+            subjects.add(subRegionTitle);
+        });
+    }
+
+
+    /**
+     * Enriches {@linkplain GeoLocation}s by sub-region geo data.
+     *
+     * @param geoLocations the geolocations that are to be enriched
+     * @param subRegions a list of relevant regions within the mariculture country
+     */
+    protected void enrichGeoLocations(List<GeoLocation> geoLocations, List<SauMariculture> subRegions)
+    {
+        // add sub-region geometry
+        subRegions.forEach((SauMariculture subRegion) -> {
+
+            // only add location if it has geo json data
+            if (subRegion.getGeojson() != null || subRegion.getPointGeojson() != null)
+            {
+                GeoLocation subLocation = new GeoLocation();
+                subLocation.setPolygon(subRegion.getGeojson());
+                subLocation.setPoint(subRegion.getPointGeojson());
+                subLocation.setPlace(subRegion.getTitle());
+
+                geoLocations.add(subLocation);
+            }
+        });
     }
 }
