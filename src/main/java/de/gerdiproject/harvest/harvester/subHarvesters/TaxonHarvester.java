@@ -35,12 +35,12 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -103,12 +103,13 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
+        document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
+        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
         document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setSources(SeaAroundUsDataCiteUtils.instance().createSource(apiUrl));
-        document.setWebLinks(createWebLinks(taxonKey, label));
+        document.setWebLinks(createWebLinks(apiUrl, taxonKey, label));
         document.setFiles(createFiles(taxonKey, label));
         document.setGeoLocations(createGeoLocations(taxon));
         document.setTitles(createTitles(label));
@@ -141,9 +142,9 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
      * @return a list of {@linkplain File}s for downloading CSV catch files
      * of the taxon
      */
-    private List<File> createFiles(int taxonKey, String label)
+    private List<ResearchData> createFiles(int taxonKey, String label)
     {
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         for (EntryVO measure : SeaAroundUsRegionConstants.TAXON_MEASURES) {
             for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
@@ -156,7 +157,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
                                          measure,
                                          dimension)
                                      + SeaAroundUsUrlConstants.CSV_FORM;
-                File catchFile = new File(downloadUrl, catchValueLabel);
+                ResearchData catchFile = new ResearchData(downloadUrl, catchValueLabel);
                 catchFile.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
                 files.add(catchFile);
@@ -170,15 +171,21 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
     /**
      * Creates a list of {@linkplain WebLink}s for viewing taxon catches.
      *
+     * @param apiUrl the URL to retrieve the source JSON of the taxon
      * @param taxonKey the unique taxon ID in SeaAroundUs
      * @param label a human readable name of the taxon
      *
      * @return a list of {@linkplain WebLink}s for viewing taxon catches
      */
-    private List<WebLink> createWebLinks(int taxonKey, String label)
+    private List<WebLink> createWebLinks(String apiUrl, int taxonKey, String label)
     {
         List<WebLink> links = new LinkedList<>();
 
+        // add source link
+        WebLink sourceLink = SeaAroundUsDataCiteUtils.instance().createSourceLink(apiUrl);
+        links.add(sourceLink);
+
+        // add view link
         String viewUrl = String.format(SeaAroundUsUrlConstants.TAXON_PROFILE_VIEW_URL, taxonKey);
         WebLink viewLink = new WebLink(viewUrl);
         viewLink.setName(SeaAroundUsDataCiteConstants.TAXON_VIEW_NAME);

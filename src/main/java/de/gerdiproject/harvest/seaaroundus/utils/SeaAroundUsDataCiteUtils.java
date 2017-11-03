@@ -18,6 +18,7 @@
  */
 package de.gerdiproject.harvest.seaaroundus.utils;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,11 +27,10 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.harvest.seaaroundus.vos.UrlVO;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.Source;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 import de.gerdiproject.json.geo.GeoJson;
 
 /**
@@ -82,23 +82,6 @@ public final class SeaAroundUsDataCiteUtils
 
 
     /**
-     * Creates the {@linkplain Source} URL object for a SeaAroundUs region.
-     *
-     * @param apiUrl the SeaAroundUs API URL of a single region
-     *
-     * @return the source URL object for a region
-     */
-    public Source createSource(String apiUrl)
-    {
-        Source source = new Source(
-            apiUrl,
-            SeaAroundUsDataCiteConstants.PROVIDER);
-        source.setProviderURI(SeaAroundUsUrlConstants.PROVIDER_URI);
-        return source;
-    }
-
-
-    /**
      * Assembles a URL to download an overview of specified regions.
      *
      * @param regionName the SeaAroundUs API name of the region
@@ -138,6 +121,19 @@ public final class SeaAroundUsDataCiteUtils
     public String getCatchesUrl(String regionName, int regionId, EntryVO measure, EntryVO dimension)
     {
         return String.format(catchesApiUrl, regionName, measure.urlName, dimension.urlName, regionId);
+    }
+
+    /**
+     * Creates a link to the source of a document.
+     * @param apiUrl the URL that leads to the source JSON
+     *
+     * @return a link to the source of a document
+     */
+    public WebLink createSourceLink(String apiUrl)
+    {
+        WebLink source = new WebLink(apiUrl);
+        source.setType(WebLinkType.SourceURL);
+        return source;
     }
 
 
@@ -218,13 +214,13 @@ public final class SeaAroundUsDataCiteUtils
      *
      * @return a file of the primary production of a region
      */
-    public File createPrimaryProductionFile(RegionParametersVO regionParams, int regionId, String regionName)
+    public ResearchData createPrimaryProductionFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
         String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        File primaryProduction = new File(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
-                                          primaryProductionLabel);
+        ResearchData primaryProduction = new ResearchData(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
+                                                          primaryProductionLabel);
         primaryProduction.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
         return primaryProduction;
@@ -240,13 +236,13 @@ public final class SeaAroundUsDataCiteUtils
      *
      * @return a file of the stock status of a region
      */
-    public File createStockStatusFile(RegionParametersVO regionParams, int regionId, String regionName)
+    public ResearchData createStockStatusFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
         String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().displayName, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        File stockStatus = new File(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
-                                    stockStatusLabel);
+        ResearchData stockStatus = new ResearchData(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
+                                                    stockStatusLabel);
         stockStatus.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
         return stockStatus;
@@ -262,12 +258,12 @@ public final class SeaAroundUsDataCiteUtils
      *
      * @return a file of the marine trophic index of a region
      */
-    public File createMarineTrophicIndexFile(RegionParametersVO regionParams, int regionId, String regionName)
+    public ResearchData createMarineTrophicIndexFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
         String marineTrophicIndexLabel = String.format(SeaAroundUsDataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
         String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
 
-        File marineTrophicIndex = new File(
+        ResearchData marineTrophicIndex = new ResearchData(
             regionParams.getUrls().getMarineTrophicIndexDownloadUrl(apiUrl, regionId),
             marineTrophicIndexLabel);
         marineTrophicIndex.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
@@ -285,9 +281,9 @@ public final class SeaAroundUsDataCiteUtils
      *
      * @return a list of {@linkplain File}s regarding catches of a region
      */
-    public List<File> createCatchFiles(RegionParametersVO regionParams, int regionId, String regionName)
+    public List<ResearchData> createCatchFiles(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         EntryVO regionType = regionParams.getRegionType();
         List<EntryVO> dimensionList = regionParams.getDimensions();
@@ -304,7 +300,7 @@ public final class SeaAroundUsDataCiteUtils
                                           dimension.displayName,
                                           regionType.displayName,
                                           regionName);
-                File cbdFile = new File(
+                ResearchData cbdFile = new ResearchData(
                     urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + SeaAroundUsUrlConstants.CSV_FORM,
                     catchesLabel);
                 cbdFile.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
@@ -365,8 +361,15 @@ public final class SeaAroundUsDataCiteUtils
     public List<WebLink> createBasicWebLinks(String regionApiName, int regionId)
     {
         List<WebLink> webLinks = new LinkedList<>();
+
+        // add logo
         webLinks.add(SeaAroundUsDataCiteConstants.LOGO_LINK);
 
+        // add source
+        String apiUrl = getRegionEntryUrl(regionApiName, regionId);
+        webLinks.add(createSourceLink(apiUrl));
+
+        // add view
         WebLink viewLink = new WebLink(String.format(SeaAroundUsUrlConstants.VIEW_URL, regionApiName, regionId));
         viewLink.setType(WebLinkType.ViewURL);
         webLinks.add(viewLink);
@@ -391,7 +394,7 @@ public final class SeaAroundUsDataCiteUtils
         if (regionBorders != null) {
             GeoLocation g = new GeoLocation();
             g.setPlace(regionName);
-            g.setPolygon(regionBorders);
+            g.setPolygons(Arrays.asList(regionBorders));
             geoLocations.add(g);
         }
 

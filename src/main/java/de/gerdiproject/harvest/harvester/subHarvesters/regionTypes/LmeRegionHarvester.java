@@ -26,8 +26,8 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstant
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 /**
  * This harvester harvests all LMEs of SeaAroundUs.

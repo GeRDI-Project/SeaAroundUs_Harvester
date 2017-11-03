@@ -26,9 +26,9 @@ import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
-import de.gerdiproject.json.datacite.File;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 import java.util.List;
 
@@ -118,12 +118,12 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
 
 
     @Override
-    protected void enrichFiles(List<File> files, SauEezRegion regionObject)
+    protected void enrichFiles(List<ResearchData> files, SauEezRegion regionObject)
     {
         super.enrichFiles(files, regionObject);
 
         // Fisheries Subsidies
-        File fisherySubsidiesFile = new File(
+        ResearchData fisherySubsidiesFile = new ResearchData(
             SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_REGION_NAME, regionObject.getGeoEntityId()) + SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_DOWNLOAD_URL_SUFFIX,
             SeaAroundUsDataCiteConstants.FISHERIES_SUBSIDIES_LABEL_PREFIX + regionObject.getCountryName());
         fisherySubsidiesFile.setType(SeaAroundUsDataCiteConstants.JSON_FORMAT);
@@ -133,7 +133,7 @@ public class EezRegionHarvester extends GenericRegionHarvester<SauEezRegion>
         String faUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
                        + SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
 
-        File fishingAccessFile = new File(faUrl, SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
+        ResearchData fishingAccessFile = new ResearchData(faUrl, SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());
         fishingAccessFile.setType(SeaAroundUsDataCiteConstants.JSON_FORMAT);
         files.add(fishingAccessFile);
     }
