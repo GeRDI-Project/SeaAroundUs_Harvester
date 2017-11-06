@@ -16,28 +16,35 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
+package de.gerdiproject.harvest.seaaroundus.vos;
 
-import com.google.gson.reflect.TypeToken;
-
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This harvester harvests all HighSeas of SeaAroundUs.
- * <br>see http://api.seaaroundus.org/api/v1/highseas/
+ * A value object, representing a sub-region.
  *
  * @author Robin Weiss
  */
-public class HighSeasRegionHarvester extends GenericRegionHarvester<GenericRegion>
+public class SubRegionVO
 {
-    /**
-     * Simple constructor that initializes the super class with
-     * High Seas parameters.
-     */
-    public HighSeasRegionHarvester()
+    private final int id;
+    private final String labelSuffix;
+
+
+    public SubRegionVO(int id, String labelSuffix)
     {
-        super(new TypeToken<GenericResponse<GenericRegion>>() {}, SeaAroundUsRegionConstants.HIGH_SEAS_PARAMS);
+        this.id = id;
+        this.labelSuffix = labelSuffix;
+    }
+
+
+    public int getId()
+    {
+        return id;
+    }
+
+
+    public String getLabelSuffix()
+    {
+        return labelSuffix;
     }
 }

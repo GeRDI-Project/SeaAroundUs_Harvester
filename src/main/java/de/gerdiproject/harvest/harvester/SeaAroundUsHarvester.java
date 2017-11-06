@@ -29,11 +29,11 @@ import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GlobalRegionH
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.HighSeasRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.LmeRegionHarvester;
 import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.RfmoRegionHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsParameterConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,12 +45,6 @@ import java.util.List;
  */
 public class SeaAroundUsHarvester extends AbstractCompositeHarvester
 {
-    // properties
-    private final static String PROPERTY_VERSION = "version";
-    private final static String DEFAULT_VERSION = "v1";
-    private final static List<String> VALID_PROPERTIES = Arrays.asList(PROPERTY_VERSION);
-
-
     /**
      * Creates all sub-harvesters that harvest SeaAroundUs.
      *
@@ -71,9 +65,9 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
         newSubHarvesters.add(new HighSeasRegionHarvester());
         newSubHarvesters.add(new FaoRegionHarvester());
 
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_GLOBAL));
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_EEZS));
-        newSubHarvesters.add(new GlobalRegionHarvester(RegionConstants.SUB_REGION_HIGH_SEAS));
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsRegionConstants.SUB_REGION_GLOBAL));
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsRegionConstants.SUB_REGION_EEZS));
+        newSubHarvesters.add(new GlobalRegionHarvester(SeaAroundUsRegionConstants.SUB_REGION_HIGH_SEAS));
 
         return newSubHarvesters;
     }
@@ -85,9 +79,6 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
     public SeaAroundUsHarvester()
     {
         super(createSubHarvesters());
-
-        // set default version
-        setProperty(PROPERTY_VERSION, DEFAULT_VERSION);
     }
 
 
@@ -96,19 +87,12 @@ public class SeaAroundUsHarvester extends AbstractCompositeHarvester
     {
         super.setProperty(key, value);
 
-        if (key.equals(PROPERTY_VERSION)) {
-            DataCiteFactory.instance().setVersion(value);
-            final String url = String.format(UrlConstants.API_URL, value);
+        if (key.equals(SeaAroundUsParameterConstants.VERSION_KEY)) {
+            SeaAroundUsDataCiteUtils.instance().setVersion(value);
+            final String url = String.format(SeaAroundUsUrlConstants.API_URL, value);
 
             for (AbstractHarvester subHarvester : subHarvesters)
-                subHarvester.setProperty(UrlConstants.PROPERTY_URL, url);
+                subHarvester.setProperty(SeaAroundUsUrlConstants.PROPERTY_URL, url);
         }
-    }
-
-
-    @Override
-    public List<String> getValidProperties()
-    {
-        return VALID_PROPERTIES;
     }
 }

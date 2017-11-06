@@ -16,28 +16,22 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
-
-import com.google.gson.reflect.TypeToken;
-
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+package de.gerdiproject.harvest.seaaroundus.constants;
 
 /**
- * This harvester harvests all HighSeas of SeaAroundUs.
- * <br>see http://api.seaaroundus.org/api/v1/highseas/
+ * This static class contains constants of SeaAroundUs harvester parameters.
  *
  * @author Robin Weiss
  */
-public class HighSeasRegionHarvester extends GenericRegionHarvester<GenericRegion>
+public class SeaAroundUsParameterConstants
 {
+    public static final String VERSION_KEY = "version";
+    public static final String VERSION_DEFAULT = "v1";
+
     /**
-     * Simple constructor that initializes the super class with
-     * High Seas parameters.
+     * Private constructor, because this is a static class.
      */
-    public HighSeasRegionHarvester()
+    private SeaAroundUsParameterConstants()
     {
-        super(new TypeToken<GenericResponse<GenericRegion>>() {}, SeaAroundUsRegionConstants.HIGH_SEAS_PARAMS);
     }
 }

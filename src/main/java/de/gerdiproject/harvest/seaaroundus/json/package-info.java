@@ -16,36 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.constants;
 
 /**
- * An entry in this context is a typical filtering option for showing Sea Around
- * data.
+ * This package contains classes and packages that are related to SeaAroundUs JSON responses.
  *
- * @author row
+ * @author Robin Weiss
  */
-public class Entry
-{
-    /**
-     * The string as it is used in HTTP requests.
-     */
-    public final String urlName;
-
-    /**
-     * The string as it is displayed to the user.
-     */
-    public final String displayName;
-
-
-    /**
-     * Simple constructor.
-     *
-     * @param urlName the string as it is used in HTTP requests
-     * @param displayName the string as it is displayed to the user
-     */
-    public Entry(String urlName, String displayName)
-    {
-        this.urlName = urlName;
-        this.displayName = displayName;
-    }
-}
+package de.gerdiproject.harvest.seaaroundus.json;

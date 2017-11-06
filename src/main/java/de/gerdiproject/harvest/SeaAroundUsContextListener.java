@@ -18,7 +18,14 @@
  */
 package de.gerdiproject.harvest;
 
+import de.gerdiproject.harvest.config.parameters.AbstractParameter;
+import de.gerdiproject.harvest.config.parameters.StringParameter;
 import de.gerdiproject.harvest.harvester.SeaAroundUsHarvester;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsParameterConstants;
+
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.annotation.WebListener;
 
 /**
@@ -28,4 +35,16 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class SeaAroundUsContextListener extends ContextListener<SeaAroundUsHarvester>
 {
+
+    @Override
+    protected List<AbstractParameter<?>> getHarvesterSpecificParameters()
+    {
+        AbstractParameter<?> versionParam = new StringParameter(
+            SeaAroundUsParameterConstants.VERSION_KEY,
+            SeaAroundUsParameterConstants.VERSION_DEFAULT);
+
+        return Arrays.asList(versionParam);
+    }
+
+
 }

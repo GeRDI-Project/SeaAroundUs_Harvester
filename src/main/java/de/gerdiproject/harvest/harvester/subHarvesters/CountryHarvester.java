@@ -19,15 +19,15 @@
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
 import de.gerdiproject.harvest.IDocument;
-import de.gerdiproject.harvest.seaaroundus.constants.DataCiteConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.RegionConstants;
-import de.gerdiproject.harvest.seaaroundus.constants.UrlConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
+import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauAllCountriesResponse;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
-import de.gerdiproject.harvest.seaaroundus.utils.DataCiteFactory;
+import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
@@ -59,7 +59,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
      */
     public CountryHarvester()
     {
-        super(RegionConstants.COUNTRY_API_NAME, SauAllCountriesResponse.class);
+        super(SeaAroundUsRegionConstants.COUNTRY_API_NAME, SauAllCountriesResponse.class);
     }
 
 
@@ -73,7 +73,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
     @Override
     protected String getMainTitleString(String regionName)
     {
-        return String.format(DataCiteConstants.COUNTRY_LABEL, regionName);
+        return String.format(SeaAroundUsDataCiteConstants.COUNTRY_LABEL, regionName);
     }
 
 
@@ -137,7 +137,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
 
         // add country name to the titles
         Title countryTitle = new Title(getMainTitleString(countryName));
-        countryTitle.setLang(DataCiteConstants.SAU_LANGUAGE);
+        countryTitle.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);
         countryTitle.setType(TitleType.AlternativeTitle);
         updatedDoc.getTitles().add(countryTitle);
 
@@ -151,7 +151,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
             updatedDoc.getSubjects().add(new Subject(isoCode));
 
         // add geolocations to geo array
-        List<GeoLocation> geoLocations = DataCiteFactory.instance().createBasicGeoLocations(entry.getGeometry(), countryName);
+        List<GeoLocation> geoLocations = SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(entry.getGeometry(), countryName);
 
         if (!geoLocations.isEmpty()) {
             if (updatedDoc.getGeoLocations() == null)
@@ -174,7 +174,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
         if (faoProfileUrl != null) {
             WebLink relatedLink = new WebLink(faoProfileUrl);
             relatedLink.setType(WebLinkType.Related);
-            relatedLink.setName(DataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
+            relatedLink.setName(SeaAroundUsDataCiteConstants.FAO_COUNTRY_PROFILE_LINK_NAME);
             webLinks.add(relatedLink);
         }
 
@@ -211,9 +211,9 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
             String faoCode = country.getFaoCode();
             faoCode = faoCode == null ? "" : faoCode;
 
-            WebLink relatedLink = new WebLink(String.format(UrlConstants.TREATIES_VIEW_URL, fishBaseId));
+            WebLink relatedLink = new WebLink(String.format(SeaAroundUsUrlConstants.TREATIES_VIEW_URL, fishBaseId));
             relatedLink.setType(WebLinkType.Related);
-            relatedLink.setName(String.format(DataCiteConstants.TREATIES_LABEL, country.getCountry(), faoCode));
+            relatedLink.setName(String.format(SeaAroundUsDataCiteConstants.TREATIES_LABEL, country.getCountry(), faoCode));
             webLinks.add(relatedLink);
         }
     }
@@ -240,7 +240,7 @@ public class CountryHarvester extends AbstractSauFeatureHarvester<SauAllCountrie
 
             if (tag != null) {
                 Subject s = new Subject(tag);
-                s.setLang(DataCiteConstants.SAU_LANGUAGE);
+                s.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);
                 subjects.add(s);
             }
         }

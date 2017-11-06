@@ -16,35 +16,10 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.constants;
-
 
 /**
- * A value object, representing a sub-region.
+ * This package contains utility classes used for processing SeaAroundUs data.
  *
  * @author Robin Weiss
  */
-public class SubRegionVO
-{
-    private final int id;
-    private final String labelSuffix;
-
-
-    public SubRegionVO(int id, String labelSuffix)
-    {
-        this.id = id;
-        this.labelSuffix = labelSuffix;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public String getLabelSuffix()
-    {
-        return labelSuffix;
-    }
-}
+package de.gerdiproject.harvest.seaaroundus.utils;
