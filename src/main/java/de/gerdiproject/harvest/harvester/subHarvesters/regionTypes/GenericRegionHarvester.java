@@ -34,6 +34,7 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.extension.ResearchData;
 import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.geo.GeoJson;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -176,8 +177,11 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
      */
     protected void enrichGeoLocations(List<GeoLocation> geoLocations, T regionObject)
     {
+        List<GeoJson> polys = new LinkedList<>();
+        polys.add(regionObject.getGeojson());
+
         GeoLocation geoLocation = new GeoLocation();
-        geoLocation.setPolygons(Arrays.asList(regionObject.getGeojson()));
+        geoLocation.setPolygons(polys);
         geoLocations.add(geoLocation);
     }
 }

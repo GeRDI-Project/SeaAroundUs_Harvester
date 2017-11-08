@@ -18,7 +18,6 @@
  */
 package de.gerdiproject.harvest.seaaroundus.utils;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -392,9 +391,12 @@ public final class SeaAroundUsDataCiteUtils
         List<GeoLocation> geoLocations = new LinkedList<>();
 
         if (regionBorders != null) {
+            List<GeoJson> polygons = new LinkedList<>();
+            polygons.add(regionBorders);
+
             GeoLocation g = new GeoLocation();
             g.setPlace(regionName);
-            g.setPolygons(Arrays.asList(regionBorders));
+            g.setPolygons(polygons);
             geoLocations.add(g);
         }
 

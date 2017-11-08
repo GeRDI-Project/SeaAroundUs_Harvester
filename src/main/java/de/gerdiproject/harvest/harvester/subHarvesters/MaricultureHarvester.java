@@ -33,8 +33,8 @@ import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.geo.GeoJson;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -145,8 +145,12 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
             // only add location if it has geo json data
             if (subRegion.getGeojson() != null || subRegion.getPointGeojson() != null)
             {
+                List<GeoJson>
+                polys = new LinkedList<>();
+                polys.add(subRegion.getGeojson());
+
                 GeoLocation subLocation = new GeoLocation();
-                subLocation.setPolygons(Arrays.asList(subRegion.getGeojson()));
+                subLocation.setPolygons(polys);
                 subLocation.setPoint(subRegion.getPointGeojson());
                 subLocation.setPlace(subRegion.getTitle());
 
