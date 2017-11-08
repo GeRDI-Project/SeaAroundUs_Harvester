@@ -96,8 +96,8 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         enrichSubjects(document.getSubjects(), regionObject);
         enrichWebLinks(document.getWebLinks(), regionObject);
 
-        document.setFiles(new LinkedList<ResearchData>());
-        enrichFiles(document.getFiles(), regionObject);
+        document.setResearchDataList(new LinkedList<ResearchData>());
+        enrichFiles(document.getResearchDataList(), regionObject);
 
         document.setGeoLocations(new LinkedList<GeoLocation>());
         enrichGeoLocations(document.getGeoLocations(), regionObject);

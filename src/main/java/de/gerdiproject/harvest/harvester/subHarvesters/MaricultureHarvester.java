@@ -71,7 +71,7 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
 
         // add completely new data
         String maricultureBaseUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
-        document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
+        document.setResearchDataList(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
 
         // enrich existing data
         document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);

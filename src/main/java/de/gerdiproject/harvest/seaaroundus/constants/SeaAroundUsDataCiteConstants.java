@@ -119,9 +119,9 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Rights> createRightsList()
     {
-        Rights termsOfUsage = new Rights();
-        termsOfUsage.setValue("While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
-                              + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
+        Rights termsOfUsage = new Rights(
+            "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
+            + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
         return Collections.unmodifiableList(Arrays.asList(termsOfUsage));
     }
 

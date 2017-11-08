@@ -110,7 +110,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.setWebLinks(createWebLinks(apiUrl, taxonKey, label));
-        document.setFiles(createFiles(taxonKey, label));
+        document.setResearchDataList(createFiles(taxonKey, label));
         document.setGeoLocations(createGeoLocations(taxon));
         document.setTitles(createTitles(label));
         document.setSubjects(createSubjects(taxon));

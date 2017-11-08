@@ -100,7 +100,7 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         document.setTitles(createTitles(subRegionNameSuffix));
         document.setSubjects(createSubjects(entry.getMetrics()));
         document.setWebLinks(createWebLinks(subRegionId, subRegionNameSuffix));
-        document.setFiles(createFiles(subRegionId, subRegionNameSuffix));
+        document.setResearchDataList(createFiles(subRegionId, subRegionNameSuffix));
 
         return Arrays.asList(document);
     }

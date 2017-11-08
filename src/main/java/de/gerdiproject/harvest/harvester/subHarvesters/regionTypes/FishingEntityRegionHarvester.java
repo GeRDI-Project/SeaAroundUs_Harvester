@@ -96,7 +96,7 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.setTitles(createTitles(regionName));
-        document.setFiles(createFiles(regionId, regionName));
+        document.setResearchDataList(createFiles(regionId, regionName));
 
         // add region details
         GenericResponse<SauFishingEntityRegion> regionObjectResponse = httpRequester.getObjectFromUrl(apiUrl, FISHING_ENTITY_RESPONSE_TYPE);
