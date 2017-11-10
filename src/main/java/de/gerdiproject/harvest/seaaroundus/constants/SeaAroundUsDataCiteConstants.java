@@ -24,8 +24,8 @@ import java.util.List;
 
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.Rights;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 /**
  *  This static class contains fields and values of SeaAroundUs DataCite documents.
@@ -35,7 +35,8 @@ import de.gerdiproject.json.datacite.WebLink.WebLinkType;
 public class SeaAroundUsDataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
-    public static final String PROVIDER = "Sea Around Us";
+    public static final String REPOSITORY_ID = "Sea Around Us";
+    public static final String PROVIDER = "Sea Around Us - Fisheries, Ecosystems & Biodiversity";
     public static final WebLink LOGO_LINK = createLogoLink();
     public static final List<Creator> SAU_CREATORS = createSauCreatorList();
     public static final String JSON_FORMAT = "json";
@@ -43,6 +44,8 @@ public class SeaAroundUsDataCiteConstants
     public static final String CSV_FORMAT = "csv";
     public static final List<String> CSV_FORMATS = Collections.<String>unmodifiableList(Arrays.asList(JSON_FORMAT, CSV_FORMAT));
     public static final String SAU_LANGUAGE = "en";
+    public static final List<String> RESEARCH_DISCIPLINES = Collections.<String>unmodifiableList(Arrays.asList("Fisheries Data"));
+
 
     // COUNTRY
     public static final String FAO_COUNTRY_PROFILE_LINK_NAME = "FAO Country Profile";
@@ -116,9 +119,9 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Rights> createRightsList()
     {
-        Rights termsOfUsage = new Rights();
-        termsOfUsage.setValue("While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
-                              + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
+        Rights termsOfUsage = new Rights(
+            "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
+            + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
         return Collections.unmodifiableList(Arrays.asList(termsOfUsage));
     }
 

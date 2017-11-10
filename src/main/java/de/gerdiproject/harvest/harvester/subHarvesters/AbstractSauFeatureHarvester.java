@@ -35,7 +35,7 @@ import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.Title.TitleType;
+import de.gerdiproject.json.datacite.enums.TitleType;
 
 
 /**
@@ -137,12 +137,13 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
+        document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
+        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
         document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.setTitles(createBasicTitles(properties));
-        document.setSources(SeaAroundUsDataCiteUtils.instance().createSource(apiUrl));
         document.setWebLinks(SeaAroundUsDataCiteUtils.instance().createBasicWebLinks(regionApiName, regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
         document.setGeoLocations(SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(

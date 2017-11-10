@@ -28,10 +28,10 @@ import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRe
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.WebLink;
-import de.gerdiproject.json.datacite.WebLink.WebLinkType;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -89,13 +89,14 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
 
         DataCiteJson document = new DataCiteJson();
         document.setVersion(version);
+        document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
+        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
         document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setSources(SeaAroundUsDataCiteUtils.instance().createSource(apiUrl));
         document.setTitles(createTitles(regionName));
-        document.setFiles(createFiles(regionId, regionName));
+        document.setResearchDataList(createFiles(regionId, regionName));
 
         // add region details
         GenericResponse<SauFishingEntityRegion> regionObjectResponse = httpRequester.getObjectFromUrl(apiUrl, FISHING_ENTITY_RESPONSE_TYPE);
@@ -203,9 +204,9 @@ public class FishingEntityRegionHarvester extends AbstractListHarvester<SauFishi
      *
      * @return a list of {@linkplain File}s of a fishing-entity region
      */
-    private List<File> createFiles(int regionId, String regionName)
+    private List<ResearchData> createFiles(int regionId, String regionName)
     {
-        List<File> files = SeaAroundUsDataCiteUtils.instance().createCatchFiles(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
+        List<ResearchData> files = SeaAroundUsDataCiteUtils.instance().createCatchFiles(SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS, regionId, regionName);
         return files;
     }
 }

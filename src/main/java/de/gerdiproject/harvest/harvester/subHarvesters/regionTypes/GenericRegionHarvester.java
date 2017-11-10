@@ -30,12 +30,14 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
-import de.gerdiproject.json.datacite.WebLink;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.geo.GeoJson;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,8 +97,8 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
         enrichSubjects(document.getSubjects(), regionObject);
         enrichWebLinks(document.getWebLinks(), regionObject);
 
-        document.setFiles(new LinkedList<File>());
-        enrichFiles(document.getFiles(), regionObject);
+        document.setResearchDataList(new LinkedList<ResearchData>());
+        enrichFiles(document.getResearchDataList(), regionObject);
 
         document.setGeoLocations(new LinkedList<GeoLocation>());
         enrichGeoLocations(document.getGeoLocations(), regionObject);
@@ -153,7 +155,7 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
      * @param files a list of {@linkplain File}s from the harvested document
      * @param regionObject the region object source
      */
-    protected void enrichFiles(List<File> files, T regionObject)
+    protected void enrichFiles(List<ResearchData> files, T regionObject)
     {
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
@@ -175,8 +177,11 @@ public class GenericRegionHarvester<T extends GenericRegion> extends AbstractSau
      */
     protected void enrichGeoLocations(List<GeoLocation> geoLocations, T regionObject)
     {
+        List<GeoJson> polys = new LinkedList<>();
+        polys.add(regionObject.getGeojson());
+
         GeoLocation geoLocation = new GeoLocation();
-        geoLocation.setPolygon(regionObject.getGeojson());
+        geoLocation.setPolygons(polys);
         geoLocations.add(geoLocation);
     }
 }

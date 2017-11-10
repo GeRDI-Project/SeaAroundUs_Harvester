@@ -30,9 +30,10 @@ import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMaricultureRespon
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
-import de.gerdiproject.json.datacite.File;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
+import de.gerdiproject.json.datacite.extension.ResearchData;
+import de.gerdiproject.json.geo.GeoJson;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
 
         // add completely new data
         String maricultureBaseUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
-        document.setFiles(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
+        document.setResearchDataList(createFiles(maricultureBaseUrl, entry.getProperties(), subRegions));
 
         // enrich existing data
         document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
@@ -88,22 +89,22 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
      *
      * @return a list of downloadable {@linkplain File}s
      */
-    private List<File> createFiles(String apiUrl, FeatureProperties properties, List<SauMariculture> subRegions)
+    private List<ResearchData> createFiles(String apiUrl, FeatureProperties properties, List<SauMariculture> subRegions)
     {
         String countryName = properties.getTitle();
         int regionId = getRegionId(properties);
 
-        List<File> files = new LinkedList<>();
+        List<ResearchData> files = new LinkedList<>();
 
         for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for combined sub-regions
-            files.add(new File(
+            files.add(new ResearchData(
                           String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
                           String.format(SeaAroundUsDataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
 
             // add sub-region downloads
             subRegions.forEach((SauMariculture subRegion) -> {
-                files.add(new File(
+                files.add(new ResearchData(
                               String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
                               String.format(SeaAroundUsDataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
             });
@@ -144,8 +145,12 @@ public class MaricultureHarvester extends AbstractSauFeatureHarvester<FeatureCol
             // only add location if it has geo json data
             if (subRegion.getGeojson() != null || subRegion.getPointGeojson() != null)
             {
+                List<GeoJson>
+                polys = new LinkedList<>();
+                polys.add(subRegion.getGeojson());
+
                 GeoLocation subLocation = new GeoLocation();
-                subLocation.setPolygon(subRegion.getGeojson());
+                subLocation.setPolygons(polys);
                 subLocation.setPoint(subRegion.getPointGeojson());
                 subLocation.setPlace(subRegion.getTitle());
 
