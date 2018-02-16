@@ -25,6 +25,8 @@ import java.util.List;
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.Rights;
 import de.gerdiproject.json.datacite.extension.WebLink;
+import de.gerdiproject.json.datacite.extension.abstr.AbstractResearch;
+import de.gerdiproject.json.datacite.extension.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
 /**
@@ -44,7 +46,7 @@ public class SeaAroundUsDataCiteConstants
     public static final String CSV_FORMAT = "csv";
     public static final List<String> CSV_FORMATS = Collections.<String>unmodifiableList(Arrays.asList(JSON_FORMAT, CSV_FORMAT));
     public static final String SAU_LANGUAGE = "en";
-    public static final List<String> RESEARCH_DISCIPLINES = Collections.<String>unmodifiableList(Arrays.asList("Fisheries Data"));
+    public static final List<AbstractResearch> RESEARCH_DISCIPLINES = createResearchDisciplines();
 
 
     // COUNTRY
@@ -109,6 +111,21 @@ public class SeaAroundUsDataCiteConstants
      */
     private SeaAroundUsDataCiteConstants()
     {
+    }
+
+
+    /**
+     * Creates a list of Research Disciplines that fit SeaAroundUs.
+     *
+     * @return a list of Research Disciplines that fit SeaAroundUs
+     */
+    private static List<AbstractResearch> createResearchDisciplines()
+    {
+        return Collections.unmodifiableList(Arrays.asList(
+                                                ResearchDisciplineConstants.OCEANOGRAPHY,
+                                                ResearchDisciplineConstants.STATISTICS_AND_ECONOMETRICS,
+                                                ResearchDisciplineConstants.ANIMAL_ECOLOGY
+                                            ));
     }
 
 
