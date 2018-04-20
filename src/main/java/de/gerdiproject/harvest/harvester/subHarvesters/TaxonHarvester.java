@@ -15,6 +15,14 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
+import java.io.File;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import de.gerdiproject.harvest.IDocument;
 import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
@@ -31,6 +39,7 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
+import de.gerdiproject.harvest.utils.HashGenerator;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
@@ -39,17 +48,11 @@ import de.gerdiproject.json.datacite.extension.ResearchData;
 import de.gerdiproject.json.datacite.extension.WebLink;
 import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 
 /**
- * A harvester for harvesting all taxa from SeaAroundUs.
- * <br><br>
- * All Taxa:     http://api.seaaroundus.org/api/v1/taxa/<br>
+ * A harvester for harvesting all taxa from SeaAroundUs. <br>
+ * <br>
+ * All Taxa: http://api.seaaroundus.org/api/v1/taxa/<br>
  * Example Taxon: http://api.seaaroundus.org/api/v1/taxa/600009
  *
  * @author Robin Weiss
@@ -91,14 +94,23 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     @Override
+    protected String initHash() throws NoSuchAlgorithmException, NullPointerException
+    {
+        return HashGenerator.instance().getShaHash(version);
+    }
+
+
+    @Override
     protected List<IDocument> harvestEntry(SauTaxonReduced entry)
     {
         int taxonKey = entry.getTaxonKey();
-        String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(SeaAroundUsRegionConstants.TAXA_API_NAME, taxonKey);
+        String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(
+                            SeaAroundUsRegionConstants.TAXA_API_NAME,
+                            taxonKey);
         SauTaxon taxon = httpRequester.getObjectFromUrl(apiUrl, SauTaxonResponse.class).getData();
         String label = createTaxonLabel(taxon);
 
-        DataCiteJson document = new DataCiteJson();
+        DataCiteJson document = new DataCiteJson(apiUrl);
         document.setVersion(version);
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -130,14 +142,14 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     /**
-     * Creates a list of {@linkplain File}s for downloading CSV catch files
-     * of the taxon.
+     * Creates a list of {@linkplain File}s for downloading CSV catch files of
+     * the taxon.
      *
      * @param taxonKey the unique taxon ID in SeaAroundUs
      * @param label a human readable name of the taxon
      *
-     * @return a list of {@linkplain File}s for downloading CSV catch files
-     * of the taxon
+     * @return a list of {@linkplain File}s for downloading CSV catch files of
+     *         the taxon
      */
     private List<ResearchData> createFiles(int taxonKey, String label)
     {
@@ -147,7 +159,11 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
             for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchValueLabel = String.format(SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL, measure.displayName, label, dimension.displayName);
+                String catchValueLabel = String.format(
+                                             SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
+                                             measure.displayName,
+                                             label,
+                                             dimension.displayName);
                 String downloadUrl = SeaAroundUsDataCiteUtils.instance().getCatchesUrl(
                                          SeaAroundUsRegionConstants.TAXA_API_NAME,
                                          taxonKey,
@@ -194,8 +210,16 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
             for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchLabel = String.format(SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL, measure.displayName, label, dimension.displayName);
-                String catchUrl = String.format(SeaAroundUsUrlConstants.TAXON_CATCH_VIEW_URL, taxonKey, dimension.urlName, measure.urlName);
+                String catchLabel = String.format(
+                                        SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
+                                        measure.displayName,
+                                        label,
+                                        dimension.displayName);
+                String catchUrl = String.format(
+                                      SeaAroundUsUrlConstants.TAXON_CATCH_VIEW_URL,
+                                      taxonKey,
+                                      dimension.urlName,
+                                      measure.urlName);
 
                 WebLink catchLink = new WebLink(catchUrl);
                 catchLink.setName(catchLabel);
@@ -210,8 +234,8 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     /**
-     * Creates a label for the taxon containing both its common
-     * and scientific name, iff applicable.
+     * Creates a label for the taxon containing both its common and scientific
+     * name, iff applicable.
      *
      * @param taxon a JSON-object that contains taxon data
      *
@@ -236,8 +260,8 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
 
 
     /**
-     * Creates a list of {@linkplain GeoLocation}s out of
-     * the southern and northern latitudes of the taxon.
+     * Creates a list of {@linkplain GeoLocation}s out of the southern and
+     * northern latitudes of the taxon.
      *
      * @param taxon a JSON-object that contains taxon data
      *
@@ -298,7 +322,11 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         int taxonKey = taxon.getTaxonKey();
 
         for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
-            String valueUrl = SeaAroundUsDataCiteUtils.instance().getCatchesUrl(SeaAroundUsRegionConstants.TAXA_API_NAME, taxonKey, SeaAroundUsRegionConstants.TAXON_MEASURE_VALUE, dimension);
+            String valueUrl = SeaAroundUsDataCiteUtils.instance().getCatchesUrl(
+                                  SeaAroundUsRegionConstants.TAXA_API_NAME,
+                                  taxonKey,
+                                  SeaAroundUsRegionConstants.TAXON_MEASURE_VALUE,
+                                  dimension);
 
             SauCatchesResponse catchResponse = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class);
 
@@ -320,8 +348,10 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
      */
     private Map<Integer, String> getTaxonGroups()
     {
-        String taxonGroupUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_GROUP_API_NAME);
-        SauTaxonGroupResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
+        String taxonGroupUrl =
+            SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_GROUP_API_NAME);
+        SauTaxonGroupResponse taxonGroupResponse =
+            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
 
         return taxonGroupResponse.toMap();
     }
@@ -334,8 +364,10 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
      */
     private Map<Integer, String> getTaxonLevels()
     {
-        String taxonGroupUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_LEVEL_API_NAME);
-        SauTaxonLevelResponse taxonGroupResponse = httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
+        String taxonGroupUrl =
+            SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_LEVEL_API_NAME);
+        SauTaxonLevelResponse taxonGroupResponse =
+            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
 
         return taxonGroupResponse.toMap();
     }

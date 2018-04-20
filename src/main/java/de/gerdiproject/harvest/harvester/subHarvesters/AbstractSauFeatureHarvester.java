@@ -15,6 +15,7 @@
  */
 package de.gerdiproject.harvest.harvester.subHarvesters;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -26,9 +27,11 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstant
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
+import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollectionResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
+import de.gerdiproject.harvest.utils.HashGenerator;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
@@ -36,14 +39,16 @@ import de.gerdiproject.json.datacite.enums.TitleType;
 
 
 /**
- * An abstract SeaAroundUs harvester, that specifically harvests {@linkplain FeatureCollection}s.
+ * An abstract SeaAroundUs harvester, that specifically harvests
+ * {@linkplain FeatureCollection}s.
  *
- * @param <R> the class of the generic feature collection response of harvesting all regions
+ * @param <R> the class of the generic feature collection response of harvesting
+ *            all regions
  * @param <T> the class of the {@linkplain FeatureProperties}
  *
  * @author Robin Weiss
  */
-public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<FeatureCollection<T>>, T extends FeatureProperties> extends AbstractListHarvester<Feature<T>>
+public abstract class AbstractSauFeatureHarvester<R extends GenericResponse<FeatureCollection<T>>, T extends FeatureProperties> extends AbstractListHarvester<Feature<T>>
 {
     private final String regionApiName;
     private String version;
@@ -54,7 +59,8 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
      * Basic Constructor for harvesting one document per region.
      *
      * @param regionApiName the name of the region domain
-     * @param responseClass the class of the {@linkplain FeatureCollectionResponse}
+     * @param responseClass the class of the
+     *            {@linkplain FeatureCollectionResponse}
      */
     public AbstractSauFeatureHarvester(String regionApiName, Class<R> responseClass)
     {
@@ -67,7 +73,8 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
      *
      * @param harvesterName a custom name for the harvester
      * @param regionApiName the name of the region domain
-     * @param responseClass the class of the {@linkplain FeatureCollectionResponse}
+     * @param responseClass the class of the
+     *            {@linkplain FeatureCollectionResponse}
      */
     public AbstractSauFeatureHarvester(String harvesterName, String regionApiName, Class<R> responseClass)
     {
@@ -126,13 +133,20 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
 
 
     @Override
+    protected String initHash() throws NoSuchAlgorithmException, NullPointerException
+    {
+        return HashGenerator.instance().getShaHash(version);
+    }
+
+
+    @Override
     protected List<IDocument> harvestEntry(Feature<T> entry)
     {
         T properties = entry.getProperties();
         int regionId = getRegionId(properties);
         String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(regionApiName, regionId);
 
-        DataCiteJson document = new DataCiteJson();
+        DataCiteJson document = new DataCiteJson(apiUrl);
         document.setVersion(version);
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -143,10 +157,10 @@ public abstract class AbstractSauFeatureHarvester <R extends GenericResponse<Fea
         document.setTitles(createBasicTitles(properties));
         document.setWebLinks(SeaAroundUsDataCiteUtils.instance().createBasicWebLinks(regionApiName, regionId));
         document.setSubjects(createBasicSubjects(entry.getProperties()));
-        document.setGeoLocations(SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(
-                                     entry.getGeometry(),
-                                     entry.getProperties().getTitle()
-                                 ));
+        document.setGeoLocations(
+            SeaAroundUsDataCiteUtils.instance().createBasicGeoLocations(
+                entry.getGeometry(),
+                entry.getProperties().getTitle()));
 
         // let extending classes add more data
         enrichDocument(document, apiUrl, entry);
