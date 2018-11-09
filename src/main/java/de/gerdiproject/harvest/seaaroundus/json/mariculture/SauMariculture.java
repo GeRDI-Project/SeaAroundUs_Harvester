@@ -17,6 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.mariculture;
 
 import com.google.gson.annotations.SerializedName;
 
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.json.geo.GeoJson;
 
 /**
@@ -25,11 +26,8 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @author Robin Weiss
  */
-public class SauMariculture
+public class SauMariculture extends GenericRegion
 {
-    private GeoJson geojson;
-    private String title;
-
     @SerializedName("country_name")
     private String countryName;
 
@@ -47,18 +45,6 @@ public class SauMariculture
 
     @SerializedName("total_production")
     private double totalProduction;
-
-
-    public GeoJson getGeojson()
-    {
-        return geojson;
-    }
-
-
-    public void setGeojson(GeoJson value)
-    {
-        this.geojson = value;
-    }
 
 
     public String getCountryName()
@@ -82,18 +68,6 @@ public class SauMariculture
     public void setPointGeojson(GeoJson value)
     {
         this.pointGeojson = value;
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
     }
 
 

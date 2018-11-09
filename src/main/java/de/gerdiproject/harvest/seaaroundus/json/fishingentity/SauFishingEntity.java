@@ -25,13 +25,13 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
  *
  * @author Robin Weiss
  */
-public class SauFishingEntityRegion extends GenericRegion
+public class SauFishingEntity extends GenericRegion
 {
     @SerializedName("country_id")
-    int countryId;
+    private int countryId;
 
     @SerializedName("geo_entity_id")
-    int geoEntityId;
+    private int geoEntityId;
 
 
     public int getCountryId()

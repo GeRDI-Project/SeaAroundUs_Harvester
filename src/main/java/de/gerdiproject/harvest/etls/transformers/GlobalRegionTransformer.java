@@ -1,136 +1,67 @@
-/**
- * Copyright © 2017 Robin Weiss (http://www.gerdi-project.de)
+/*
+ *  Copyright © 2018 Robin Weiss (http://www.gerdi-project.de/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
-package de.gerdiproject.harvest.harvester.subHarvesters.regionTypes;
+package de.gerdiproject.harvest.etls.transformers;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.gerdiproject.harvest.IDocument;
-import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
-import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobalResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
-import de.gerdiproject.harvest.seaaroundus.vos.SubRegionVO;
-import de.gerdiproject.harvest.utils.HashGenerator;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.extension.ResearchData;
 import de.gerdiproject.json.datacite.extension.WebLink;
 
+
 /**
- * This harvester harvests all sub-regions of the Global Seas of SeaAroundUs.
- * <br>
- * see http://api.seaaroundus.org/api/v1/global/1
+ * A {@linkplain AbstractIteratorTransformer} implementation for transforming {@linkplain SauGlobal}
+ * to {@linkplain DataCiteJson} objects.
  *
  * @author Robin Weiss
  */
-public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
+public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlobal, DataCiteJson>
 {
-    private final SubRegionVO subRegion;
-
-    private String version;
-    private String apiUrl;
-
-
-    /**
-     * Simple constructor.
-     */
-    public GlobalRegionHarvester(SubRegionVO subRegion)
-    {
-        super(1);
-
-        this.subRegion = subRegion;
-
-        if (subRegion.getId() != 0)
-            this.name += subRegion.getLabelSuffix();
-    }
-
-
     @Override
-    protected Collection<SauGlobal> loadEntries()
+    protected DataCiteJson transformElement(SauGlobal entry) throws TransformerException
     {
-        // request all countries
-        apiUrl = createApiUrl();
-        SauGlobalResponse globalResponse = httpRequester.getObjectFromUrl(apiUrl, SauGlobalResponse.class);
+        final String subRegionName = entry.getSubRegionNameSuffix();
+        final int subRegionId = entry.getSubRegionId();
 
-        // get version from metadata
-        version = globalResponse.getMetadata().getVersion();
-
-        // return feature array
-        return Arrays.asList(globalResponse.getData());
-    }
-
-
-    @Override
-    protected String initHash() throws NoSuchAlgorithmException, NullPointerException
-    {
-        return HashGenerator.instance().getShaHash(version);
-    }
-
-
-    @Override
-    protected List<IDocument> harvestEntry(SauGlobal entry)
-    {
-        String subRegionNameSuffix = subRegion.getLabelSuffix();
-        int subRegionId = subRegion.getId();
-
-        DataCiteJson document = new DataCiteJson(apiUrl);
-        document.setVersion(version);
+        final DataCiteJson document = new DataCiteJson(SauGlobal.class.getSimpleName() + subRegionId);
+        document.setVersion(entry.getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
         document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
         document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(subRegionNameSuffix));
+        document.setTitles(createTitles(subRegionName));
         document.setSubjects(createSubjects(entry.getMetrics()));
-        document.setWebLinks(createWebLinks(subRegionId, subRegionNameSuffix));
-        document.setResearchDataList(createFiles(subRegionId, subRegionNameSuffix));
+        document.setWebLinks(createWebLinks(subRegionId, subRegionName));
+        document.setResearchDataList(createFiles(subRegionId, subRegionName));
 
-        return Arrays.asList(document);
-    }
-
-
-    /**
-     * Assembles the source URL for retrieving global ocean data.
-     *
-     * @return the source URL for retrieving global ocean data
-     */
-    private String createApiUrl()
-    {
-        String url = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(
-                         SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
-                         1);
-
-        // add sub-region suffix, if necessary
-        int subRegionId = subRegion.getId();
-
-        if (subRegionId != 0)
-            url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
-
-        return url;
+        return document;
     }
 
 
@@ -188,12 +119,12 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
             params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
         List<ResearchData> files;
-        files = SeaAroundUsDataCiteUtils.instance().createCatchFiles(params, subRegionId, regionName);
-        files.add(SeaAroundUsDataCiteUtils.instance().createPrimaryProductionFile(params, subRegionId, regionName));
-        files.add(SeaAroundUsDataCiteUtils.instance().createStockStatusFile(params, subRegionId, regionName));
+        files = SeaAroundUsDataCiteUtils.createCatchResearchData(params, subRegionId, regionName);
+        files.add(SeaAroundUsDataCiteUtils.createPrimaryProductionFile(params, subRegionId, regionName));
+        files.add(SeaAroundUsDataCiteUtils.createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
-        ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.instance().createMarineTrophicIndexFile(
+        ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexFile(
                                               params,
                                               subRegionId,
                                               SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
@@ -217,14 +148,14 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         RegionParametersVO params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
         List<WebLink> links;
-        links = SeaAroundUsDataCiteUtils.instance().createCatchLinks(params, subRegionId, regionName);
+        links = SeaAroundUsDataCiteUtils.createCatchLinks(params, subRegionId, regionName);
         links.add(SeaAroundUsDataCiteConstants.LOGO_LINK);
-        links.add(SeaAroundUsDataCiteUtils.instance().createPrimaryProductionLink(params, subRegionId, regionName));
-        links.add(SeaAroundUsDataCiteUtils.instance().createStockStatusLink(params, subRegionId, regionName));
-        links.add(SeaAroundUsDataCiteUtils.instance().createSourceLink(apiUrl));
+        links.add(SeaAroundUsDataCiteUtils.createPrimaryProductionLink(params, subRegionId, regionName));
+        links.add(SeaAroundUsDataCiteUtils.createStockStatusLink(params, subRegionId, regionName));
+        links.add(SeaAroundUsDataCiteUtils.createSourceLink(getApiUrl(subRegionId)));
 
         // marine trophic index
-        WebLink marineTrophicIndex = SeaAroundUsDataCiteUtils.instance().createMarineTrophicIndexLink(
+        WebLink marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexLink(
                                          params,
                                          subRegionId,
                                          SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
@@ -232,5 +163,26 @@ public class GlobalRegionHarvester extends AbstractListHarvester<SauGlobal>
         links.add(marineTrophicIndex);
 
         return links;
+    }
+
+
+    /**
+     * Assembles the source URL for retrieving global ocean data.
+     *
+     * @param subRegionId the unique identifier of the global ocean sub-area
+     *
+     * @return the source URL for retrieving global ocean data
+     */
+    private String getApiUrl(int subRegionId)
+    {
+        String url = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
+                         SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
+                         1);
+
+        // add sub-region suffix, if necessary
+        if (subRegionId != 0)
+            url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
+
+        return url;
     }
 }

@@ -1,45 +1,35 @@
-/**
- * Copyright © 2017 Robin Weiss (http://www.gerdi-project.de)
+/*
+ *  Copyright © 2018 Robin Weiss (http://www.gerdi-project.de/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
-package de.gerdiproject.harvest.harvester.subHarvesters;
+package de.gerdiproject.harvest.etls.transformers;
 
 import java.io.File;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.gerdiproject.harvest.IDocument;
-import de.gerdiproject.harvest.harvester.AbstractListHarvester;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
-import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatchesResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauAllTaxaResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroupResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevelResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
-import de.gerdiproject.harvest.utils.HashGenerator;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
@@ -48,70 +38,25 @@ import de.gerdiproject.json.datacite.extension.ResearchData;
 import de.gerdiproject.json.datacite.extension.WebLink;
 import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
 
-
 /**
- * A harvester for harvesting all taxa from SeaAroundUs. <br>
- * <br>
- * All Taxa: http://api.seaaroundus.org/api/v1/taxa/<br>
- * Example Taxon: http://api.seaaroundus.org/api/v1/taxa/600009
+ * A {@linkplain AbstractIteratorTransformer} implementation for transforming {@linkplain SauTaxon}
+ * to {@linkplain DataCiteJson} objects.
  *
  * @author Robin Weiss
  */
-public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
+public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, DataCiteJson>
 {
-    private Map<Integer, String> taxonGroups;
-    private Map<Integer, String> taxonLevels;
-
-    private String version;
-
-
-    /**
-     * @param harvestedDocuments the list to which harvested documents are added
-     */
-    public TaxonHarvester()
-    {
-        super(1);
-    }
-
-
     @Override
-    protected Collection<SauTaxonReduced> loadEntries()
+    protected DataCiteJson transformElement(SauTaxon taxon) throws TransformerException
     {
-        // request all taxa
-        String apiUrl = SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXA_API_NAME);
-        SauAllTaxaResponse allCountries = httpRequester.getObjectFromUrl(apiUrl, SauAllTaxaResponse.class);
-
-        // get version from metadata
-        version = allCountries.getMetadata().getVersion();
-
-        // get taxon group and level names
-        taxonGroups = getTaxonGroups();
-        taxonLevels = getTaxonLevels();
-
-        // return taxa array
-        return allCountries.getData();
-    }
-
-
-    @Override
-    protected String initHash() throws NoSuchAlgorithmException, NullPointerException
-    {
-        return HashGenerator.instance().getShaHash(version);
-    }
-
-
-    @Override
-    protected List<IDocument> harvestEntry(SauTaxonReduced entry)
-    {
-        int taxonKey = entry.getTaxonKey();
-        String apiUrl = SeaAroundUsDataCiteUtils.instance().getRegionEntryUrl(
+        final int taxonKey = taxon.getTaxonKey();
+        String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                             SeaAroundUsRegionConstants.TAXA_API_NAME,
                             taxonKey);
-        SauTaxon taxon = httpRequester.getObjectFromUrl(apiUrl, SauTaxonResponse.class).getData();
         String label = createTaxonLabel(taxon);
 
         DataCiteJson document = new DataCiteJson(apiUrl);
-        document.setVersion(version);
+        document.setVersion(taxon.getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
@@ -124,7 +69,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         document.setTitles(createTitles(label));
         document.setSubjects(createSubjects(taxon));
 
-        return Arrays.asList(document);
+        return document;
     }
 
 
@@ -164,7 +109,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
                                              measure.displayName,
                                              label,
                                              dimension.displayName);
-                String downloadUrl = SeaAroundUsDataCiteUtils.instance().getCatchesUrl(
+                String downloadUrl = SeaAroundUsDataCiteUtils.getCatchesUrl(
                                          SeaAroundUsRegionConstants.TAXA_API_NAME,
                                          taxonKey,
                                          measure,
@@ -195,7 +140,7 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         List<WebLink> links = new LinkedList<>();
 
         // add source link
-        WebLink sourceLink = SeaAroundUsDataCiteUtils.instance().createSourceLink(apiUrl);
+        WebLink sourceLink = SeaAroundUsDataCiteUtils.createSourceLink(apiUrl);
         links.add(sourceLink);
 
         // add view link
@@ -304,8 +249,8 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         subjects.add(new Subject(taxon.getFunctionalGroup()));
         subjects.add(new Subject(taxon.getCommercialGroup()));
         subjects.add(new Subject(taxon.getSlMaxCm() + SeaAroundUsDataCiteConstants.CENTIMETERS_SUFFIX));
-        subjects.add(new Subject(taxonGroups.get(taxon.getTaxonGroupId())));
-        subjects.add(new Subject(taxonLevels.get(taxon.getTaxonLevelId())));
+        subjects.add(new Subject(taxon.getTaxonGroupName()));
+        subjects.add(new Subject(taxon.getTaxonLevelName()));
 
         // add names of all habitats occupied by the taxon
         Map<String, Double> habitatIndex = taxon.getHabitatIndex();
@@ -319,56 +264,11 @@ public class TaxonHarvester extends AbstractListHarvester<SauTaxonReduced>
         }
 
         // add catch regions
-        int taxonKey = taxon.getTaxonKey();
-
-        for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
-            String valueUrl = SeaAroundUsDataCiteUtils.instance().getCatchesUrl(
-                                  SeaAroundUsRegionConstants.TAXA_API_NAME,
-                                  taxonKey,
-                                  SeaAroundUsRegionConstants.TAXON_MEASURE_VALUE,
-                                  dimension);
-
-            SauCatchesResponse catchResponse = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class);
-
-            // not all taxa have catch data
-            if (catchResponse != null && catchResponse.getData() != null) {
-                // add catch zone names
-                catchResponse.getData().forEach((SauCatch c) -> subjects.add(new Subject(c.getKey())));
-            }
-        }
+        for (SauCatch taxonCatch : taxon.getCatches())
+            subjects.add(new Subject(taxonCatch.getKey()));
 
         return subjects;
     }
 
 
-    /**
-     * Gets a map of taxon group names.
-     *
-     * @return a map of taxon group names
-     */
-    private Map<Integer, String> getTaxonGroups()
-    {
-        String taxonGroupUrl =
-            SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_GROUP_API_NAME);
-        SauTaxonGroupResponse taxonGroupResponse =
-            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
-
-        return taxonGroupResponse.toMap();
-    }
-
-
-    /**
-     * Gets a map of taxon level names.
-     *
-     * @return a map of taxon level names
-     */
-    private Map<Integer, String> getTaxonLevels()
-    {
-        String taxonGroupUrl =
-            SeaAroundUsDataCiteUtils.instance().getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_LEVEL_API_NAME);
-        SauTaxonLevelResponse taxonGroupResponse =
-            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
-
-        return taxonGroupResponse.toMap();
-    }
 }

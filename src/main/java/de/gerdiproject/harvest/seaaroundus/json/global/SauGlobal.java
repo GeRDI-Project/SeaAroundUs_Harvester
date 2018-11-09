@@ -27,6 +27,10 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
  */
 public class SauGlobal
 {
+    private transient int subRegionId;
+    private transient String subRegionNameSuffix;
+    private transient String version;
+
     private List<Metric> metrics;
 
 
@@ -39,5 +43,41 @@ public class SauGlobal
     public void setMetrics(List<Metric> metrics)
     {
         this.metrics = metrics;
+    }
+
+
+    public int getSubRegionId()
+    {
+        return subRegionId;
+    }
+
+
+    public void setSubRegionId(int subRegionid)
+    {
+        this.subRegionId = subRegionid;
+    }
+
+
+    public String getSubRegionNameSuffix()
+    {
+        return subRegionNameSuffix;
+    }
+
+
+    public void setSubRegionNameSuffix(String subRegionNameSuffix)
+    {
+        this.subRegionNameSuffix = subRegionNameSuffix;
+    }
+
+
+    public String getVersion()
+    {
+        return version;
+    }
+
+
+    public void setVersion(String version)
+    {
+        this.version = version;
     }
 }

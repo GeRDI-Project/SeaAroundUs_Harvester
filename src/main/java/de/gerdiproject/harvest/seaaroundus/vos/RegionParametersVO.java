@@ -17,29 +17,38 @@ package de.gerdiproject.harvest.seaaroundus.vos;
 
 import java.util.List;
 
-import de.gerdiproject.harvest.harvester.subHarvesters.regionTypes.GenericRegionHarvester;
+import de.gerdiproject.harvest.etls.transformers.AbstractRegionTransformer;
+
 
 
 /**
- * This value object provides parameters that are required to set up a {@linkplain GenericRegionHarvester}.
+ * This value object provides parameters that are required to set up a {@linkplain AbstractRegionTransformer}.
  *
  * @author Robin Weiss
  */
 public class RegionParametersVO
 {
+    private final String etlName;
     private final EntryVO regionType;
     private final List<EntryVO> dimensions;
     private final List<EntryVO> measures;
     private final UrlVO urls;
 
 
-    public RegionParametersVO(EntryVO regionType, List<EntryVO> dimensions, List<EntryVO> measures, UrlVO urls)
+    public RegionParametersVO(String etlName, EntryVO regionType, List<EntryVO> dimensions, List<EntryVO> measures, UrlVO urls)
     {
         super();
+        this.etlName = etlName;
         this.regionType = regionType;
         this.dimensions = dimensions;
         this.measures = measures;
         this.urls = urls;
+    }
+
+
+    public String getEtlName()
+    {
+        return etlName;
     }
 
 
@@ -65,5 +74,4 @@ public class RegionParametersVO
     {
         return measures;
     }
-
 }

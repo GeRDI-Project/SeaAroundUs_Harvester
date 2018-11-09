@@ -15,9 +15,12 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
+
+import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
 
 
 /**
@@ -28,6 +31,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class SauTaxon
 {
+    private transient String taxonLevelName;
+    private transient String taxonGroupName;
+    private transient List<SauCatch> catches;
+    private transient String version;
+
     private double k;
     private double tl;
     private double woo;
@@ -439,5 +447,53 @@ public class SauTaxon
     public void setMaxDepth(int value)
     {
         this.maxDepth = value;
+    }
+
+
+    public String getTaxonLevelName()
+    {
+        return taxonLevelName;
+    }
+
+
+    public void setTaxonLevelName(String value)
+    {
+        this.taxonLevelName = value;
+    }
+
+
+    public String getTaxonGroupName()
+    {
+        return taxonGroupName;
+    }
+
+
+    public void setTaxonGroupName(String value)
+    {
+        this.taxonGroupName = value;
+    }
+
+
+    public List<SauCatch> getCatches()
+    {
+        return catches;
+    }
+
+
+    public void setCatches(List<SauCatch> catches)
+    {
+        this.catches = catches;
+    }
+
+
+    public String getVersion()
+    {
+        return version;
+    }
+
+
+    public void setVersion(String version)
+    {
+        this.version = version;
     }
 }

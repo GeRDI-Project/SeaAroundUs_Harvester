@@ -15,22 +15,27 @@
  */
 package de.gerdiproject.harvest.seaaroundus.vos;
 
+import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 
 /**
- * A value object, representing a sub-region.
+ * A value object, representing a global sub-region.
  *
  * @author Robin Weiss
  */
-public class SubRegionVO
+public class GlobalRegionVO
 {
     private final int id;
-    private final String labelSuffix;
+    private final String nameSuffix;
+    private final SauGlobal global;
+    private final String version;
 
 
-    public SubRegionVO(int id, String labelSuffix)
+    public GlobalRegionVO(int id, String nameSuffix, SauGlobal global, String version)
     {
         this.id = id;
-        this.labelSuffix = labelSuffix;
+        this.nameSuffix = nameSuffix;
+        this.global = global;
+        this.version = version;
     }
 
 
@@ -40,8 +45,20 @@ public class SubRegionVO
     }
 
 
-    public String getLabelSuffix()
+    public SauGlobal getGlobal()
     {
-        return labelSuffix;
+        return global;
+    }
+
+
+    public String getNameSuffix()
+    {
+        return nameSuffix;
+    }
+
+
+    public String getVersion()
+    {
+        return version;
     }
 }

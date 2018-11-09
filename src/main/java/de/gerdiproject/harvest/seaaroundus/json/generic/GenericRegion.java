@@ -26,6 +26,8 @@ import de.gerdiproject.json.geo.GeoJson;
  */
 public class GenericRegion
 {
+    private transient Feature<FeatureProperties> feature;
+
     private String title;
     private int id;
     private GeoJson geojson;
@@ -77,5 +79,17 @@ public class GenericRegion
     public void setMetrics(List<Metric> metrics)
     {
         this.metrics = metrics;
+    }
+
+
+    public Feature<FeatureProperties> getFeature()
+    {
+        return feature;
+    }
+
+
+    public void setFeature(Feature<FeatureProperties> feature)
+    {
+        this.feature = feature;
     }
 }

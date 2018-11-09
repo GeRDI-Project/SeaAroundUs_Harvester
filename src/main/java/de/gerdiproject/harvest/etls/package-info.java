@@ -13,18 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.mariculture;
-
-import java.util.List;
-
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-
 /**
- * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/57
+ * This package contains sub-harvesters used by the {@linkplain de.gerdiproject.harvest.harvester.SeaAroundUsHarvester}.
  *
  * @author Robin Weiss
  */
-public final class SauMaricultureResponse extends GenericResponse<List<SauMariculture>>
-{
-}
+package de.gerdiproject.harvest.etls;
