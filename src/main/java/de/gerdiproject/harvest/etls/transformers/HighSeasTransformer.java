@@ -17,7 +17,7 @@
 package de.gerdiproject.harvest.etls.transformers;
 
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all HighSeas of SeaAroundUs to documents.
@@ -25,7 +25,7 @@ import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
  *
  * @author Robin Weiss
  */
-public class HighSeasTransformer extends AbstractRegionTransformer<SauLmeRegion>
+public class HighSeasTransformer extends AbstractRegionTransformer<GenericRegion>
 {
     /**
      * Constructor that sets region parameters.

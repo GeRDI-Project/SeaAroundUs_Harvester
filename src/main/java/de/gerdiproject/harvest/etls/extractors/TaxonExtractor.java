@@ -17,6 +17,7 @@
 package de.gerdiproject.harvest.etls.extractors;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,12 +28,11 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstan
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
 import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatchesResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauAllTaxaResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroupResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevelResponse;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroup;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevel;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
@@ -63,7 +63,9 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
         // request all taxa
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(SeaAroundUsRegionConstants.TAXA_API_NAME);
-        final SauAllTaxaResponse allTaxa = httpRequester.getObjectFromUrl(apiUrl, SauAllTaxaResponse.class);
+        final GenericResponse<List<SauTaxonReduced>> allTaxa = httpRequester.getObjectFromUrl(
+                                                                   apiUrl,
+                                                                   SeaAroundUsRegionConstants.ALL_TAXA_RESPONSE_TYPE);
         this.taxonListIterator = allTaxa.getData().iterator();
         this.size = allTaxa.getData().size();
 
@@ -104,12 +106,18 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
      */
     private Map<Integer, String> getTaxonGroups()
     {
-        String taxonGroupUrl =
+        final String taxonGroupUrl =
             SeaAroundUsDataCiteUtils.getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_GROUP_API_NAME);
-        SauTaxonGroupResponse taxonGroupResponse =
-            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonGroupResponse.class);
 
-        return taxonGroupResponse.toMap();
+        final GenericResponse<List<SauTaxonGroup>> response =
+            httpRequester.getObjectFromUrl(taxonGroupUrl, SeaAroundUsRegionConstants.TAXON_GROUP_RESPONSE_TYPE);
+
+        // create map out of group list
+        final Map<Integer, String> taxonLevelMap = new HashMap<>();
+        response.getData().forEach((SauTaxonGroup g) ->
+                                   taxonLevelMap.put(g.getTaxonGroupId(), g.getName())
+                                  );
+        return taxonLevelMap;
     }
 
 
@@ -120,12 +128,17 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
      */
     private Map<Integer, String> getTaxonLevels()
     {
-        String taxonGroupUrl =
+        final String taxonGroupUrl =
             SeaAroundUsDataCiteUtils.getAllRegionsUrl(SeaAroundUsRegionConstants.TAXON_LEVEL_API_NAME);
-        SauTaxonLevelResponse taxonGroupResponse =
-            httpRequester.getObjectFromUrl(taxonGroupUrl, SauTaxonLevelResponse.class);
 
-        return taxonGroupResponse.toMap();
+        final GenericResponse<List<SauTaxonLevel>> response =
+            httpRequester.getObjectFromUrl(taxonGroupUrl, SeaAroundUsRegionConstants.TAXON_LEVEL_RESPONSE_TYPE);
+
+        final Map<Integer, String> taxonLevelMap = new HashMap<>();
+        response.getData().forEach((SauTaxonLevel l) ->
+                                   taxonLevelMap.put(l.getTaxonLevelId(), l.getName())
+                                  );
+        return taxonLevelMap;
     }
 
 
@@ -153,7 +166,8 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
                                       key);
 
             // retrieve and enrich taxon details
-            final SauTaxon taxon = httpRequester.getObjectFromUrl(apiUrl, SauTaxonResponse.class).getData();
+            final GenericResponse<SauTaxon> response = httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.TAXON_RESPONSE_TYPE);
+            final SauTaxon taxon = response.getData();
             enrich(taxon);
 
             return taxon;

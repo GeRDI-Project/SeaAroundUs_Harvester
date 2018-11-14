@@ -17,7 +17,7 @@
 package de.gerdiproject.harvest.etls.transformers;
 
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
+import de.gerdiproject.harvest.seaaroundus.json.fao.SauFaoRegion;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all FAOs of SeaAroundUs to documents.
@@ -25,7 +25,7 @@ import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
  *
  * @author Robin Weiss
  */
-public class FaoTransformer extends AbstractRegionTransformer<SauLmeRegion>
+public class FaoTransformer extends AbstractRegionTransformer<SauFaoRegion>
 {
     /**
      * Constructor that sets region parameters.

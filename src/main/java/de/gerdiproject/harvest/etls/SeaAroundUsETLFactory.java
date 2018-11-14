@@ -16,30 +16,37 @@
  */
 package de.gerdiproject.harvest.etls;
 
+import java.lang.reflect.Type;
 import java.util.List;
+
+import com.google.gson.reflect.TypeToken;
 
 import de.gerdiproject.harvest.etls.extractors.CountryExtractor;
 import de.gerdiproject.harvest.etls.extractors.FishingEntityExtractor;
 import de.gerdiproject.harvest.etls.extractors.GlobalRegionExtractor;
 import de.gerdiproject.harvest.etls.extractors.RegionExtractor;
 import de.gerdiproject.harvest.etls.extractors.TaxonExtractor;
-import de.gerdiproject.harvest.etls.transformers.AbstractRegionTransformer;
 import de.gerdiproject.harvest.etls.transformers.CountryTransformer;
 import de.gerdiproject.harvest.etls.transformers.EezTransformer;
 import de.gerdiproject.harvest.etls.transformers.FaoTransformer;
 import de.gerdiproject.harvest.etls.transformers.FishingEntityTransformer;
 import de.gerdiproject.harvest.etls.transformers.GlobalRegionTransformer;
 import de.gerdiproject.harvest.etls.transformers.HighSeasTransformer;
+import de.gerdiproject.harvest.etls.transformers.LmeTransformer;
 import de.gerdiproject.harvest.etls.transformers.MaricultureTransformer;
 import de.gerdiproject.harvest.etls.transformers.RfmoTransformer;
 import de.gerdiproject.harvest.etls.transformers.TaxonTransformer;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
+import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
+import de.gerdiproject.harvest.seaaroundus.json.fao.SauFaoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
+import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
+import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.json.datacite.DataCiteJson;
 
@@ -124,8 +131,8 @@ public class SeaAroundUsETLFactory
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.MARICULTURE_ETL_NAME,
-                   new RegionExtractor<>(SeaAroundUsRegionConstants.MARICULTURE_API_NAME),
-                   new MaricultureTransformer());
+        new RegionExtractor<>(SeaAroundUsRegionConstants.MARICULTURE_API_NAME, new TypeToken<GenericResponse<List<SauMariculture>>>() {} .getType()),
+        new MaricultureTransformer());
     }
 
 
@@ -136,7 +143,13 @@ public class SeaAroundUsETLFactory
      */
     public static StaticIteratorETL<?, ?> createLmeETL()
     {
-        return createRegionETL(new EezTransformer());
+        final LmeTransformer transformer = new LmeTransformer();
+        final String etlName = transformer.getRegionParameters().getEtlName();
+        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final Type responseType = new TypeToken<GenericResponse<SauLmeRegion>>() {} .getType();
+        final RegionExtractor<SauLmeRegion> extractor = new RegionExtractor<>(urlName, responseType);
+
+        return new StaticIteratorETL<>(etlName, extractor, transformer);
     }
 
 
@@ -147,7 +160,13 @@ public class SeaAroundUsETLFactory
      */
     public static StaticIteratorETL<?, ?> createEezETL()
     {
-        return createRegionETL(new EezTransformer());
+        final EezTransformer transformer = new EezTransformer();
+        final String etlName = transformer.getRegionParameters().getEtlName();
+        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final Type responseType = new TypeToken<GenericResponse<SauEezRegion>>() {} .getType();
+        final RegionExtractor<SauEezRegion> extractor = new RegionExtractor<>(urlName, responseType);
+
+        return new StaticIteratorETL<>(etlName, extractor, transformer);
     }
 
 
@@ -158,7 +177,13 @@ public class SeaAroundUsETLFactory
      */
     public static StaticIteratorETL<?, ?> createRfmoETL()
     {
-        return createRegionETL(new RfmoTransformer());
+        final RfmoTransformer transformer = new RfmoTransformer();
+        final String etlName = transformer.getRegionParameters().getEtlName();
+        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final Type responseType = new TypeToken<GenericResponse<SauRfmoRegion>>() {} .getType();
+        final RegionExtractor<SauRfmoRegion> extractor = new RegionExtractor<>(urlName, responseType);
+
+        return new StaticIteratorETL<>(etlName, extractor, transformer);
     }
 
 
@@ -169,7 +194,13 @@ public class SeaAroundUsETLFactory
      */
     public static StaticIteratorETL<?, ?> createHighSeasETL()
     {
-        return createRegionETL(new HighSeasTransformer());
+        final HighSeasTransformer transformer = new HighSeasTransformer();
+        final String etlName = transformer.getRegionParameters().getEtlName();
+        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final Type responseType = new TypeToken<GenericResponse<GenericRegion>>() {} .getType();
+        final RegionExtractor<GenericRegion> extractor = new RegionExtractor<>(urlName, responseType);
+
+        return new StaticIteratorETL<>(etlName, extractor, transformer);
     }
 
 
@@ -180,22 +211,12 @@ public class SeaAroundUsETLFactory
      */
     public static StaticIteratorETL<?, ?> createFaoETL()
     {
-        return createRegionETL(new FaoTransformer());
-    }
+        final FaoTransformer transformer = new FaoTransformer();
+        final String etlName = transformer.getRegionParameters().getEtlName();
+        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final Type responseType = new TypeToken<GenericResponse<SauFaoRegion>>() {} .getType();
+        final RegionExtractor<SauFaoRegion> extractor = new RegionExtractor<>(urlName, responseType);
 
-
-    /**
-     * Creates an ETL for a specified region.
-     *
-     * @param transformer the transformer of the ETL
-     *
-     * @return an ETL for a specified region
-     */
-    private static <T extends GenericRegion> StaticIteratorETL<GenericResponse<T>, DataCiteJson> createRegionETL(AbstractRegionTransformer<T> transformer)
-    {
-        return new StaticIteratorETL<>(
-                   transformer.getRegionParameters().getEtlName(),
-                   new RegionExtractor<>(transformer.getRegionParameters().getRegionType().urlName),
-                   transformer);
+        return new StaticIteratorETL<>(etlName, extractor, transformer);
     }
 }

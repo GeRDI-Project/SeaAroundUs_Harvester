@@ -16,12 +16,15 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.reflect.TypeToken;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
@@ -30,7 +33,6 @@ import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 import de.gerdiproject.json.GsonUtils;
@@ -106,14 +108,15 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
 
 
     /**
-     * This iterator iterates a list of taxon keys and extracts more taxon related
-     * data which is then added to the retrieved {@linkplain SauTaxon}.
+     * This iterator iterates through the map of countries and extracts related
+     * data which is then added to the retrieved {@linkplain SauCountry}.
      *
      * @author Robin Weiss
      */
     private class CountryIterator implements Iterator<GenericResponse<SauCountry>>
     {
         private final Iterator<List<Feature<SauCountryProperties>>> countryMapIterator = countryMap.values().iterator();
+        private final Type responseType = new TypeToken<GenericResponse<SauCountry>>() {} .getType();
 
         @Override
         public boolean hasNext()
@@ -132,7 +135,10 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
                                       key);
 
             // retrieve and enrich country
-            final GenericResponse<SauCountry> country = httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.COUNTRY_RESPONSE_TYPE);
+            final GenericResponse<SauCountry> country = httpRequester.getObjectFromUrl(
+                                                            apiUrl,
+                                                            responseType);
+            //SeaAroundUsRegionConstants.COUNTRY_RESPONSE_TYPE);
             country.getData().setSubRegions(subRegions);
 
             return country;

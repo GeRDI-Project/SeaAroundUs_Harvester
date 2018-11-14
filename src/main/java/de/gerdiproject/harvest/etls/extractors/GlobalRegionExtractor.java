@@ -24,8 +24,8 @@ import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
-import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobalResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
 import de.gerdiproject.json.GsonUtils;
@@ -50,10 +50,10 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
         super.init(etl);
 
         // get version from metadata
-        final SauGlobalResponse globalResponse =
+        final GenericResponse<SauGlobal> globalResponse =
             httpRequester.getObjectFromUrl(
                 createApiUrl(0),
-                SauGlobalResponse.class);
+                SeaAroundUsRegionConstants.GLOBAL_RESPONSE_TYPE);
 
         this.version = globalResponse.getMetadata().getVersion();
     }
@@ -119,9 +119,9 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
         @Override
         public SauGlobal next()
         {
-            final SauGlobalResponse globalResponse = httpRequester.getObjectFromUrl(
-                                                         createApiUrl(subRegionId),
-                                                         SauGlobalResponse.class);
+            final GenericResponse<SauGlobal> globalResponse = httpRequester.getObjectFromUrl(
+                                                                  createApiUrl(subRegionId),
+                                                                  SeaAroundUsRegionConstants.GLOBAL_RESPONSE_TYPE);
 
             final SauGlobal globalRegion = globalResponse.getData();
             globalRegion.setSubRegionId(subRegionId);

@@ -64,7 +64,7 @@ public class AbstractRegionTransformer <T extends GenericRegion> extends Abstrac
     {
         final T region = source.getData();
         final FeatureProperties properties = region.getFeature().getProperties();
-        final int regionId = getRegionId(properties);
+        final int regionId = properties.getRegionId();
 
         DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
         document.setVersion(source.getMetadata().getVersion());
@@ -96,19 +96,6 @@ public class AbstractRegionTransformer <T extends GenericRegion> extends Abstrac
     public RegionParametersVO getRegionParameters()
     {
         return params;
-    }
-
-
-    /**
-     * Retrieves the unique identifier of a region.
-     *
-     * @param properties fields concerning the region
-     *
-     * @return a unique identifier of a region
-     */
-    protected int getRegionId(FeatureProperties properties)
-    {
-        return properties.getRegionId();
     }
 
 

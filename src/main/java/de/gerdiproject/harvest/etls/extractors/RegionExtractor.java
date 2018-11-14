@@ -25,6 +25,7 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
@@ -40,7 +41,7 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
 {
     private final HttpRequester httpRequester;
 
-    private final Type singleEntryResponseType;
+    private final Type responseType;
     private final String regionApiName;
 
     private Iterator<Feature<FeatureProperties>> baseListIterator;
@@ -48,11 +49,18 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
     private int size = -1;
 
 
-    public RegionExtractor(String regionApiName)
+    /**
+     * Constructor that requires the API key of the region that is to be harvested.
+     *
+     * @param regionApiName the API key of the region that is to be harvested
+     * @param responseType the type of a single region server response
+     */
+    public RegionExtractor(String regionApiName, Type responseType)
     {
         super();
         this.httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
-        this.singleEntryResponseType = GsonUtils.<GenericResponse<EXOUT>>createType();
+        this.responseType = responseType;
+
         this.regionApiName = regionApiName;
     }
 
@@ -64,14 +72,14 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
 
         // request all countries
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(regionApiName);
-        final GenericResponse<FeatureCollection<FeatureProperties>> allCountries =
+        final GenericResponse<FeatureCollection<FeatureProperties>> allRegions =
             httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.ALL_REGIONS_RESPONSE_TYPE);
 
         // get version from metadata
-        this.version = allCountries.getMetadata().getVersion();
+        this.version = allRegions.getMetadata().getVersion();
 
-        this.size = allCountries.getData().getFeatures().size();
-        this.baseListIterator = allCountries.getData().getFeatures().iterator();
+        this.size = allRegions.getData().getFeatures().size();
+        this.baseListIterator = allRegions.getData().getFeatures().iterator();
     }
 
 
@@ -114,10 +122,21 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
         @Override
         public GenericResponse<EXOUT> next()
         {
+            // retrieve feature
+            final Feature<FeatureProperties> feature = baseListIterator.next();
+
+            // retrieve region
             final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                                       regionApiName,
-                                      baseListIterator.next().getProperties().getRegionId());
-            return httpRequester.getObjectFromUrl(apiUrl, singleEntryResponseType);
+                                      feature.getProperties().getRegionId());
+
+            final GenericResponse<EXOUT> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
+
+            // enrich region with feature, because it holds additional metadata
+            if (response.getData() instanceof GenericRegion)
+                ((GenericRegion) response.getData()).setFeature(feature);
+
+            return response;
         }
     }
 }

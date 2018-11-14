@@ -37,7 +37,7 @@ import de.gerdiproject.json.GsonUtils;
  */
 public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericResponse<SauFishingEntity>>
 {
-    private final static String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().urlName;
+    private static final String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().urlName;
 
     private final HttpRequester httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
 

@@ -29,9 +29,13 @@ import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRe
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroup;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevel;
+import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  *  This static class contains descriptions of regions. Regions are filter
@@ -41,13 +45,12 @@ import de.gerdiproject.json.GsonUtils;
  */
 public class SeaAroundUsRegionConstants
 {
-    public static final Type ALL_REGIONS_RESPONSE_TYPE = GsonUtils.<GenericResponse<FeatureCollection<FeatureProperties>>>createType();
 
     // COUNTRY
     public static final String COUNTRY_API_NAME = "country";
     public static final String COUNTRY_ETL_NAME = "CountryETL";
-    public static final Type ALL_COUNTRIES_RESPONSE_TYPE = GsonUtils.<GenericResponse<FeatureCollection<SauCountryProperties>>>createType();
-    public static final Type COUNTRY_RESPONSE_TYPE = GsonUtils.<GenericResponse<SauCountry>>createType();
+    public static final Type ALL_COUNTRIES_RESPONSE_TYPE = new TypeToken<GenericResponse<FeatureCollection<SauCountryProperties>>>() {} .getType();
+    public static final Type COUNTRY_RESPONSE_TYPE =  new TypeToken<GenericResponse<SauCountry>>() {} .getType();
 
     // MARICULTURE
     public static final String MARICULTURE_API_NAME = "mariculture";
@@ -61,11 +64,18 @@ public class SeaAroundUsRegionConstants
     public static final String TAXA_API_NAME = "taxa";
     public static final String TAXON_ETL_NAME = "TaxonETL";
     public static final String TAXON_GROUP_API_NAME = "taxon-group";
+    public static final Type TAXON_GROUP_RESPONSE_TYPE = new TypeToken<GenericResponse<List<SauTaxonGroup>>>() {} .getType();
+
     public static final String TAXON_LEVEL_API_NAME = "taxon-level";
+    public static final Type TAXON_LEVEL_RESPONSE_TYPE = new TypeToken<GenericResponse<List<SauTaxonLevel>>>() {} .getType();
+
+    public static final Type ALL_TAXA_RESPONSE_TYPE = new TypeToken<GenericResponse<List<SauTaxonReduced>>>() {} .getType();
+    public static final Type TAXON_RESPONSE_TYPE = new TypeToken<GenericResponse<SauTaxon>>() {} .getType();
     public static final EntryVO TAXON_MEASURE_VALUE = new EntryVO("value", "Real 2010 value (US$) of global catches");
     public static final EntryVO TAXON_MEASURE_TONNAGE = new EntryVO("tonnage", "Global catches");
     public static final List<EntryVO> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
 
+    public static final Type ALL_REGIONS_RESPONSE_TYPE = new TypeToken<GenericResponse<FeatureCollection<FeatureProperties>>>() {} .getType();
 
     public static final RegionParametersVO EEZ_PARAMS = new RegionParametersVO(
         "EezETL",
@@ -107,8 +117,8 @@ public class SeaAroundUsRegionConstants
         SeaAroundUsUrlConstants.GENERIC_URL_VO
     );
 
-    public final static Type ALL_FISHING_ENTITIES_RESPONSE_TYPE = new TypeToken<GenericResponse<List<SauFishingEntityReduced>>>() {} .getType();
-    public final static Type FISHING_ENTITY_RESPONSE_TYPE = new TypeToken<GenericResponse<SauFishingEntity>>() {} .getType();
+    public static final Type ALL_FISHING_ENTITIES_RESPONSE_TYPE = new TypeToken<GenericResponse<List<SauFishingEntityReduced>>>() {} .getType();
+    public static final Type FISHING_ENTITY_RESPONSE_TYPE = new TypeToken<GenericResponse<SauFishingEntity>>() {} .getType();
     public static final RegionParametersVO FISHING_ENTITY_PARAMS = new RegionParametersVO(
         "FishingEntitiesETL",
         new EntryVO("fishing-entity", "by the Fleets of"),
@@ -119,6 +129,7 @@ public class SeaAroundUsRegionConstants
 
     public static final EntryVO REGION_GLOBAL = new EntryVO("global", "in the Global Ocean");
     public static final String GLOBAL_ETL_NAME = "GlobalOceanETL";
+    public static final Type GLOBAL_RESPONSE_TYPE =  new TypeToken<GenericResponse<SauGlobal>>() {} .getType();
     public static final RegionParametersVO GLOBAL_PARAMS = new RegionParametersVO(
         "GlobalOceansETL",
         REGION_GLOBAL,
