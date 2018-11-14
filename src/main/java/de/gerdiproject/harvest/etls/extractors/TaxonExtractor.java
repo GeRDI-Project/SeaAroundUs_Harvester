@@ -16,12 +16,17 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.ws.http.HTTPException;
+
+import com.google.gson.Gson;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
@@ -36,6 +41,7 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
+import de.gerdiproject.harvest.utils.data.enums.RestRequestType;
 import de.gerdiproject.json.GsonUtils;
 
 /**
@@ -47,7 +53,8 @@ import de.gerdiproject.json.GsonUtils;
  */
 public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 {
-    private final HttpRequester httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
+    private final Gson gson = GsonUtils.createGeoJsonGsonBuilder().create();
+    private final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
 
     private Iterator<SauTaxonReduced> taxonListIterator;
     private int size = -1;
@@ -198,11 +205,16 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
                                             SeaAroundUsRegionConstants.TAXON_MEASURE_VALUE,
                                             dimension);
 
-                final SauCatchesResponse catchResponse = httpRequester.getObjectFromUrl(valueUrl, SauCatchesResponse.class);
+                // skip catch if it does not exist for this taxon
+                try {
+                    final String responseString = httpRequester.getRestResponse(RestRequestType.GET, valueUrl, null);
+                    final SauCatchesResponse catchResponse = gson.fromJson(responseString, SauCatchesResponse.class);
 
-                // not all taxa have catch data
-                if (catchResponse != null && catchResponse.getData() != null)
-                    catches.addAll(catchResponse.getData());
+                    // not all taxa have catch data
+                    if (catchResponse != null && catchResponse.getData() != null)
+                        catches.addAll(catchResponse.getData());
+                } catch (HTTPException | IOException e) { // NOPMD nothing to do here, this is fine!
+                }
             }
 
             item.setCatches(catches);
