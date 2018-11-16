@@ -35,9 +35,11 @@ import de.gerdiproject.json.GsonUtils;
 /**
  * This extractor retrieves region objects from a feature collection of generic regions.
  *
+ * @param <T> the type of the extracted region
+ *
  * @author Robin Weiss
  */
-public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericResponse<EXOUT>>
+public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericResponse<T>>
 {
     private final HttpRequester httpRequester;
 
@@ -98,7 +100,7 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
 
 
     @Override
-    protected Iterator<GenericResponse<EXOUT>> extractAll() throws ExtractorException
+    protected Iterator<GenericResponse<T>> extractAll() throws ExtractorException
     {
         return new EntryIterator();
     }
@@ -110,7 +112,7 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
      *
      * @author Robin Weiss
      */
-    private class EntryIterator implements Iterator<GenericResponse<EXOUT>>
+    private class EntryIterator implements Iterator<GenericResponse<T>>
     {
         @Override
         public boolean hasNext()
@@ -120,7 +122,7 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
 
 
         @Override
-        public GenericResponse<EXOUT> next()
+        public GenericResponse<T> next()
         {
             // retrieve feature
             final Feature<FeatureProperties> feature = baseListIterator.next();
@@ -130,7 +132,7 @@ public class RegionExtractor <EXOUT> extends AbstractIteratorExtractor<GenericRe
                                       regionApiName,
                                       feature.getProperties().getRegionId());
 
-            final GenericResponse<EXOUT> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
+            final GenericResponse<T> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
 
             // enrich region with feature, because it holds additional metadata
             if (response.getData() instanceof GenericRegion)

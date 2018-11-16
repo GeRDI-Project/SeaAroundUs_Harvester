@@ -52,17 +52,17 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         DataCiteJson document = new DataCiteJson(regionApiName + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(subRegions));
-        document.setWebLinks(SeaAroundUsDataCiteUtils.createBasicWebLinks(regionApiName, regionId));
-        document.setSubjects(createSubjects(subRegions));
-        document.setGeoLocations(createGeoLocations(subRegions));
-        document.setResearchDataList(createResearchData(subRegions));
-        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addTitles(createTitles(subRegions));
+        document.addWebLinks(SeaAroundUsDataCiteUtils.createBasicWebLinks(regionApiName, regionId));
+        document.addSubjects(createSubjects(subRegions));
+        document.addGeoLocations(createGeoLocations(subRegions));
+        document.addResearchDataList(createResearchData(subRegions));
+        document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 
         return document;
     }

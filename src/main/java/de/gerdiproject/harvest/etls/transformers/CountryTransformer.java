@@ -53,16 +53,16 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
         DataCiteJson document = new DataCiteJson(regionApiName + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(country));
-        document.setWebLinks(createWebLinks(country));
-        document.setSubjects(createSubjects(country));
-        document.setGeoLocations(createGeoLocations(country));
-        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addTitles(createTitles(country));
+        document.addWebLinks(createWebLinks(country));
+        document.addSubjects(createSubjects(country));
+        document.addGeoLocations(createGeoLocations(country));
+        document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 
         return document;
     }

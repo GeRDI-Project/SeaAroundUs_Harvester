@@ -40,9 +40,11 @@ import de.gerdiproject.json.geo.GeoJson;
 /**
  * This transformer deals with creating documents for a generic SeaAroundUs region type, such as EEZ, LME, or RFMO.
  *
+ * @param <T> the type of the region that is to be transformed
+ *
  * @author Robin Weiss
  */
-public class AbstractRegionTransformer <T extends GenericRegion> extends AbstractIteratorTransformer<GenericResponse<T>, DataCiteJson>
+public abstract class AbstractRegionTransformer <T extends GenericRegion> extends AbstractIteratorTransformer<GenericResponse<T>, DataCiteJson>
 {
     protected final RegionParametersVO params;
 
@@ -69,18 +71,18 @@ public class AbstractRegionTransformer <T extends GenericRegion> extends Abstrac
         DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(properties));
-        document.setWebLinks(createWebLinks(region));
-        document.setSubjects(createSubjects(region));
-        document.setGeoLocations(createGeoLocations(region));
-        document.setResearchDataList(createResearchData(region));
+        document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addTitles(createTitles(properties));
+        document.addWebLinks(createWebLinks(region));
+        document.addSubjects(createSubjects(region));
+        document.addGeoLocations(createGeoLocations(region));
+        document.addResearchDataList(createResearchData(region));
 
-        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 
         return document;
     }

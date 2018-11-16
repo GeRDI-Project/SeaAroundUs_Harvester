@@ -58,16 +58,16 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         DataCiteJson document = new DataCiteJson(apiUrl);
         document.setVersion(taxon.getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setWebLinks(createWebLinks(apiUrl, taxonKey, label));
-        document.setResearchDataList(createFiles(taxonKey, label));
-        document.setGeoLocations(createGeoLocations(taxon));
-        document.setTitles(createTitles(label));
-        document.setSubjects(createSubjects(taxon));
+        document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addWebLinks(createWebLinks(apiUrl, taxonKey, label));
+        document.addResearchDataList(createFiles(taxonKey, label));
+        document.addGeoLocations(createGeoLocations(taxon));
+        document.addTitles(createTitles(label));
+        document.addSubjects(createSubjects(taxon));
 
         return document;
     }

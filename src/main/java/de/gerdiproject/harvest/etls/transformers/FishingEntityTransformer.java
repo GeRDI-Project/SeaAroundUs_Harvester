@@ -52,17 +52,17 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
         final DataCiteJson document = new DataCiteJson(apiUrl);
         document.setVersion(response.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(regionName));
-        document.setResearchDataList(createResearchData(regionId, regionName));
+        document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addTitles(createTitles(regionName));
+        document.addResearchDataList(createResearchData(regionId, regionName));
 
         // add region details
-        document.setWebLinks(createWebLinks(entry));
-        document.setGeoLocations(
+        document.addWebLinks(createWebLinks(entry));
+        document.addGeoLocations(
             SeaAroundUsDataCiteUtils.createBasicGeoLocations(
                 entry.getGeojson(),
                 regionName));

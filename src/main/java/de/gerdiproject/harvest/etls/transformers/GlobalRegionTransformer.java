@@ -51,15 +51,15 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         final DataCiteJson document = new DataCiteJson(SauGlobal.class.getSimpleName() + subRegionId);
         document.setVersion(entry.getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
-        document.setResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
+        document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
-        document.setFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
-        document.setCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
-        document.setRightsList(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.setTitles(createTitles(subRegionName));
-        document.setSubjects(createSubjects(entry.getMetrics()));
-        document.setWebLinks(createWebLinks(subRegionId, subRegionName));
-        document.setResearchDataList(createFiles(subRegionId, subRegionName));
+        document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+        document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
+        document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
+        document.addTitles(createTitles(subRegionName));
+        document.addSubjects(createSubjects(entry.getMetrics()));
+        document.addWebLinks(createWebLinks(subRegionId, subRegionName));
+        document.addResearchDataList(createFiles(subRegionId, subRegionName));
 
         return document;
     }
