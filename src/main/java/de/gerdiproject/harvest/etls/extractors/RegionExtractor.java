@@ -72,7 +72,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     {
         super.init(etl);
 
-        // request all countries
+        // request all regions
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(regionApiName);
         final GenericResponse<FeatureCollection<FeatureProperties>> allRegions =
             httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.ALL_REGIONS_RESPONSE_TYPE);

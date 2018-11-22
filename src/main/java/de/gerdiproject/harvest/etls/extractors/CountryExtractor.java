@@ -58,7 +58,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
     {
         super.init(etl);
 
-        // request all taxa
+        // request all countries
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(SeaAroundUsRegionConstants.COUNTRY_API_NAME);
         final GenericResponse<FeatureCollection<SauCountryProperties>> allCountries =
             httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.ALL_COUNTRIES_RESPONSE_TYPE);
