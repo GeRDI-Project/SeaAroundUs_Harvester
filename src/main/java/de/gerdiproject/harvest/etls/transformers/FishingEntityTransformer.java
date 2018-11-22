@@ -46,7 +46,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
         final SauFishingEntity entry = response.getData();
         final int regionId = entry.getId();
         final String regionName = entry.getTitle();
-        final String regionApiName = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().urlName;
+        final String regionApiName = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
         final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(regionApiName, regionId);
 
         final DataCiteJson document = new DataCiteJson(apiUrl);
@@ -82,7 +82,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
     {
         final String titleString = String.format(
                                        SeaAroundUsDataCiteConstants.GENERIC_LABEL,
-                                       SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().displayName,
+                                       SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getDisplayName(),
                                        regionName);
 
         List<Title> titles = new LinkedList<>();
@@ -106,7 +106,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
         final int regionId = regionObject.getId();
         final int countryId = regionObject.getCountryId();
         final String countryName = regionObject.getTitle();
-        final String regionApiName = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().urlName;
+        final String regionApiName = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
 
         // View URL & Logo URL
         final List<WebLink> webLinks = SeaAroundUsDataCiteUtils.createBasicWebLinks(regionApiName, regionId);

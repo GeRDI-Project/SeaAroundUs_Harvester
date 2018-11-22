@@ -17,40 +17,19 @@ package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus taxon-group request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/taxon-group/
  *
  * @author Robin Weiss
  */
+@Data
 public final class SauTaxonGroup
 {
     private String name;
 
     @SerializedName("taxon_group_id")
     private int taxonGroupId;
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public void setName(String value)
-    {
-        this.name = value;
-    }
-
-
-    public int getTaxonGroupId()
-    {
-        return taxonGroupId;
-    }
-
-
-    public void setTaxonGroupId(int value)
-    {
-        this.taxonGroupId = value;
-    }
 }

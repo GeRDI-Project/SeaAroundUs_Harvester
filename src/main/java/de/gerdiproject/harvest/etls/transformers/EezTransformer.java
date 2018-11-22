@@ -60,7 +60,7 @@ public class EezTransformer extends AbstractRegionTransformer<SauEezRegion>
         files.add(fisherySubsidiesFile);
 
         // Internal Fishing Access
-        final String faUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(params.getRegionType().urlName, regionObject.getId())
+        final String faUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(params.getRegionType().getUrlName(), regionObject.getId())
                              + SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_DOWNLOAD_URL_SUFFIX;
 
         final ResearchData fishingAccessFile = new ResearchData(faUrl, SeaAroundUsDataCiteConstants.INTERNAL_FISHING_ACCESS_LABEL_PREFIX + regionObject.getCountryName());

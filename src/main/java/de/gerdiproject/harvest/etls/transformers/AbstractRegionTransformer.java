@@ -112,7 +112,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
     {
         return String.format(
                    SeaAroundUsDataCiteConstants.GENERIC_LABEL,
-                   params.getRegionType().displayName,
+                   params.getRegionType().getDisplayName(),
                    regionName);
     }
 
@@ -129,7 +129,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         int regionId = regionObject.getId();
         String regionName = regionObject.getTitle();
 
-        final List<WebLink> links = SeaAroundUsDataCiteUtils.createBasicWebLinks(params.getRegionType().urlName, regionId);
+        final List<WebLink> links = SeaAroundUsDataCiteUtils.createBasicWebLinks(params.getRegionType().getUrlName(), regionId);
 
         links.add(SeaAroundUsDataCiteUtils.createMarineTrophicIndexLink(params, regionId, regionName));
         links.add(SeaAroundUsDataCiteUtils.createPrimaryProductionLink(params, regionId, regionName));
@@ -199,7 +199,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      */
     protected String getViewUrl(int regionId)
     {
-        return String.format(SeaAroundUsUrlConstants.VIEW_URL, params.getRegionType().urlName, regionId);
+        return String.format(SeaAroundUsUrlConstants.VIEW_URL, params.getRegionType().getUrlName(), regionId);
     }
 
 

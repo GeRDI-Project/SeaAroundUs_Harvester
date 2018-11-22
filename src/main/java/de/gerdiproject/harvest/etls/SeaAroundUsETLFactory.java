@@ -145,7 +145,7 @@ public class SeaAroundUsETLFactory
     {
         final LmeTransformer transformer = new LmeTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
-        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final String urlName = transformer.getRegionParameters().getRegionType().getUrlName();
         final Type responseType = new TypeToken<GenericResponse<SauLmeRegion>>() {} .getType();
         final RegionExtractor<SauLmeRegion> extractor = new RegionExtractor<>(urlName, responseType);
 
@@ -162,7 +162,7 @@ public class SeaAroundUsETLFactory
     {
         final EezTransformer transformer = new EezTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
-        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final String urlName = transformer.getRegionParameters().getRegionType().getUrlName();
         final Type responseType = new TypeToken<GenericResponse<SauEezRegion>>() {} .getType();
         final RegionExtractor<SauEezRegion> extractor = new RegionExtractor<>(urlName, responseType);
 
@@ -179,7 +179,7 @@ public class SeaAroundUsETLFactory
     {
         final RfmoTransformer transformer = new RfmoTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
-        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final String urlName = transformer.getRegionParameters().getRegionType().getUrlName();
         final Type responseType = new TypeToken<GenericResponse<SauRfmoRegion>>() {} .getType();
         final RegionExtractor<SauRfmoRegion> extractor = new RegionExtractor<>(urlName, responseType);
 
@@ -196,7 +196,7 @@ public class SeaAroundUsETLFactory
     {
         final HighSeasTransformer transformer = new HighSeasTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
-        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final String urlName = transformer.getRegionParameters().getRegionType().getUrlName();
         final Type responseType = new TypeToken<GenericResponse<GenericRegion>>() {} .getType();
         final RegionExtractor<GenericRegion> extractor = new RegionExtractor<>(urlName, responseType);
 
@@ -213,7 +213,7 @@ public class SeaAroundUsETLFactory
     {
         final FaoTransformer transformer = new FaoTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
-        final String urlName = transformer.getRegionParameters().getRegionType().urlName;
+        final String urlName = transformer.getRegionParameters().getRegionType().getUrlName();
         final Type responseType = new TypeToken<GenericResponse<SauFaoRegion>>() {} .getType();
         final RegionExtractor<SauFaoRegion> extractor = new RegionExtractor<>(urlName, responseType);
 

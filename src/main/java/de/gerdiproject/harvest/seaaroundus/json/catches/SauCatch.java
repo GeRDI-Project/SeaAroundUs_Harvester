@@ -16,7 +16,10 @@
 package de.gerdiproject.harvest.seaaroundus.json.catches;
 
 import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
+
+import lombok.Data;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus catches request.
@@ -24,6 +27,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Robin Weiss
  */
+@Data
 public final class SauCatch
 {
     private String key;
@@ -52,41 +56,5 @@ public final class SauCatch
     public int getLatestYear()
     {
         return values.get(values.size()).get(0).intValue();
-    }
-
-
-    public int getEntityId()
-    {
-        return entityId;
-    }
-
-
-    public void setEntityId(int value)
-    {
-        this.entityId = value;
-    }
-
-
-    public String getKey()
-    {
-        return key;
-    }
-
-
-    public void setKey(String value)
-    {
-        this.key = value;
-    }
-
-
-    public List<List<Double>> getValues()
-    {
-        return values;
-    }
-
-
-    public void setValues(List<List<Double>> value)
-    {
-        this.values = value;
     }
 }

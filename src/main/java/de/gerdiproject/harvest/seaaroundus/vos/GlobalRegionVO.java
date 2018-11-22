@@ -16,49 +16,18 @@
 package de.gerdiproject.harvest.seaaroundus.vos;
 
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
+import lombok.Data;
 
 /**
  * A value object, representing a global sub-region.
  *
  * @author Robin Weiss
  */
+@Data
 public class GlobalRegionVO
 {
-    private final int id;
-    private final String nameSuffix;
-    private final SauGlobal global;
-    private final String version;
-
-
-    public GlobalRegionVO(int id, String nameSuffix, SauGlobal global, String version)
-    {
-        this.id = id;
-        this.nameSuffix = nameSuffix;
-        this.global = global;
-        this.version = version;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public SauGlobal getGlobal()
-    {
-        return global;
-    }
-
-
-    public String getNameSuffix()
-    {
-        return nameSuffix;
-    }
-
-
-    public String getVersion()
-    {
-        return version;
-    }
+    private int id;
+    private String nameSuffix;
+    private SauGlobal global;
+    private String version;
 }

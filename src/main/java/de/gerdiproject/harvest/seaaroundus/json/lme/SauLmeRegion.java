@@ -19,6 +19,8 @@ package de.gerdiproject.harvest.seaaroundus.json.lme;
 import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents the data object of a SeaAroundUs LME response.
@@ -26,6 +28,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauLmeRegion extends GenericRegion
 {
     @SerializedName("fishbase_link")
@@ -33,28 +36,4 @@ public class SauLmeRegion extends GenericRegion
 
     @SerializedName("profile_url")
     private String profileUrl;
-
-
-    public String getFishbaseLink()
-    {
-        return fishbaseLink;
-    }
-
-
-    public void setFishbaseLink(String fishbaseLink)
-    {
-        this.fishbaseLink = fishbaseLink;
-    }
-
-
-    public String getProfileUrl()
-    {
-        return profileUrl;
-    }
-
-
-    public void setProfileUrl(String profileUrl)
-    {
-        this.profileUrl = profileUrl;
-    }
 }

@@ -85,7 +85,7 @@ public final class SeaAroundUsDataCiteUtils
      */
     public static String getCatchesUrl(String regionName, int regionId, EntryVO measure, EntryVO dimension)
     {
-        return String.format(SeaAroundUsUrlConstants.CATCHES_URL, regionName, measure.urlName, dimension.urlName, regionId);
+        return String.format(SeaAroundUsUrlConstants.CATCHES_URL, regionName, measure.getUrlName(), dimension.getUrlName(), regionId);
     }
 
     /**
@@ -114,8 +114,8 @@ public final class SeaAroundUsDataCiteUtils
     public static WebLink createPrimaryProductionLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
         EntryVO regionType = regionParams.getRegionType();
-        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionType.displayName, regionName);
-        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionType.getDisplayName(), regionName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.getUrlName());
 
         WebLink primaryProduction = new WebLink(regionParams.getUrls().getPrimaryProductionViewUrl(viewUrl, regionId));
         primaryProduction.setName(primaryProductionLabel);
@@ -137,8 +137,8 @@ public final class SeaAroundUsDataCiteUtils
     public static WebLink createStockStatusLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
         EntryVO regionType = regionParams.getRegionType();
-        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionType.displayName, regionName);
-        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionType.getDisplayName(), regionName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.getUrlName());
 
         WebLink stockStatus = new WebLink(regionParams.getUrls().getStockStatusViewUrl(viewUrl, regionId));
         stockStatus.setName(stockStatusLabel);
@@ -160,7 +160,7 @@ public final class SeaAroundUsDataCiteUtils
     public static WebLink createMarineTrophicIndexLink(RegionParametersVO regionParams, int regionId, String regionName)
     {
         String marineTrophicIndexLabel = String.format(SeaAroundUsDataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
-        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionParams.getRegionType().urlName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionParams.getRegionType().getUrlName());
 
         WebLink marineTrophicIndex = new WebLink(regionParams.getUrls().getMarineTrophicIndexViewUrl(viewUrl, regionId));
         marineTrophicIndex.setName(marineTrophicIndexLabel);
@@ -181,8 +181,8 @@ public final class SeaAroundUsDataCiteUtils
      */
     public static ResearchData createPrimaryProductionFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().displayName, regionName);
-        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
+        String primaryProductionLabel = String.format(SeaAroundUsDataCiteConstants.PRIMARY_PRODUCTION_LABEL, regionParams.getRegionType().getDisplayName(), regionName);
+        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().getUrlName());
 
         ResearchData primaryProduction = new ResearchData(regionParams.getUrls().getPrimaryProductionDownloadUrl(apiUrl, regionId),
                                                           primaryProductionLabel);
@@ -203,8 +203,8 @@ public final class SeaAroundUsDataCiteUtils
      */
     public static ResearchData createStockStatusFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
-        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().displayName, regionName);
-        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
+        String stockStatusLabel = String.format(SeaAroundUsDataCiteConstants.STOCK_STATUS_LABEL, regionParams.getRegionType().getDisplayName(), regionName);
+        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().getUrlName());
 
         ResearchData stockStatus = new ResearchData(regionParams.getUrls().getStockStatusDownloadUrl(apiUrl, regionId),
                                                     stockStatusLabel);
@@ -226,7 +226,7 @@ public final class SeaAroundUsDataCiteUtils
     public static ResearchData createMarineTrophicIndexFile(RegionParametersVO regionParams, int regionId, String regionName)
     {
         String marineTrophicIndexLabel = String.format(SeaAroundUsDataCiteConstants.MARINE_TROPHIC_INDEX_LABEL, regionName);
-        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().urlName);
+        String apiUrl = getAllRegionsUrl(regionParams.getRegionType().getUrlName());
 
         ResearchData marineTrophicIndex = new ResearchData(
             regionParams.getUrls().getMarineTrophicIndexDownloadUrl(apiUrl, regionId),
@@ -254,19 +254,19 @@ public final class SeaAroundUsDataCiteUtils
         List<EntryVO> dimensionList = regionParams.getDimensions();
         List<EntryVO> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
-        String apiUrl = getAllRegionsUrl(regionType.urlName);
+        String apiUrl = getAllRegionsUrl(regionType.getUrlName());
 
         for (EntryVO measure : measureList) {
             for (EntryVO dimension : dimensionList) {
 
                 String catchesLabel = String.format(
                                           SeaAroundUsDataCiteConstants.CATCHES_LABEL,
-                                          measure.displayName,
-                                          dimension.displayName,
-                                          regionType.displayName,
+                                          measure.getDisplayName(),
+                                          dimension.getDisplayName(),
+                                          regionType.getDisplayName(),
                                           regionName);
                 ResearchData cbdFile = new ResearchData(
-                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.urlName, measure.urlName) + SeaAroundUsUrlConstants.CSV_FORM,
+                    urls.getCatchesDownloadUrl(apiUrl, regionId, dimension.getUrlName(), measure.getUrlName()) + SeaAroundUsUrlConstants.CSV_FORM,
                     catchesLabel);
                 cbdFile.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
                 files.add(cbdFile);
@@ -294,18 +294,18 @@ public final class SeaAroundUsDataCiteUtils
         List<EntryVO> dimensionList = regionParams.getDimensions();
         List<EntryVO> measureList = regionParams.getMeasures();
         UrlVO urls = regionParams.getUrls();
-        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.urlName);
+        String viewUrl = String.format(SeaAroundUsUrlConstants.VIEW_URL_PREFIX, regionType.getUrlName());
 
         for (EntryVO measure : measureList) {
             for (EntryVO dimension : dimensionList) {
 
                 String catchesLabel = String.format(
                                           SeaAroundUsDataCiteConstants.CATCHES_LABEL,
-                                          measure.displayName,
-                                          dimension.displayName,
-                                          regionType.displayName,
+                                          measure.getDisplayName(),
+                                          dimension.getDisplayName(),
+                                          regionType.getDisplayName(),
                                           regionName);
-                WebLink cbdLink = new WebLink(urls.getCatchesViewUrl(viewUrl, regionId, dimension.urlName, measure.urlName));
+                WebLink cbdLink = new WebLink(urls.getCatchesViewUrl(viewUrl, regionId, dimension.getUrlName(), measure.getUrlName()));
                 cbdLink.setName(catchesLabel);
                 cbdLink.setType(WebLinkType.ViewURL);
                 links.add(cbdLink);

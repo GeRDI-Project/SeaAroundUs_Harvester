@@ -106,14 +106,14 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for combined sub-regions
             researchData.add(new ResearchData(
-                                 String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.urlName, regionId),
-                                 String.format(SeaAroundUsDataCiteConstants.MARICULTURE_FILE_NAME, dimension.displayName, countryName)));
+                                 String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.getUrlName(), regionId),
+                                 String.format(SeaAroundUsDataCiteConstants.MARICULTURE_FILE_NAME, dimension.getDisplayName(), countryName)));
 
             // add sub-region downloads
             subRegions.forEach((SauMariculture subRegion) -> {
                 researchData.add(new ResearchData(
-                                     String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.urlName, regionId, subRegion.getRegionId()),
-                                     String.format(SeaAroundUsDataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.displayName, countryName, subRegion.getTitle())));
+                                     String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.getUrlName(), regionId, subRegion.getRegionId()),
+                                     String.format(SeaAroundUsDataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.getDisplayName(), countryName, subRegion.getTitle())));
             });
         }
 

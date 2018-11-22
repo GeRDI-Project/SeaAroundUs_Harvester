@@ -19,6 +19,8 @@ import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.json.geo.GeoJson;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
@@ -26,6 +28,7 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauMariculture extends GenericRegion
 {
     @SerializedName("country_name")
@@ -45,76 +48,4 @@ public class SauMariculture extends GenericRegion
 
     @SerializedName("total_production")
     private double totalProduction;
-
-
-    public String getCountryName()
-    {
-        return countryName;
-    }
-
-
-    public void setCountryName(String value)
-    {
-        this.countryName = value;
-    }
-
-
-    public GeoJson getPointGeojson()
-    {
-        return pointGeojson;
-    }
-
-
-    public void setPointGeojson(GeoJson value)
-    {
-        this.pointGeojson = value;
-    }
-
-
-    public int getEntityId()
-    {
-        return entityId;
-    }
-
-
-    public void setEntityId(int value)
-    {
-        this.entityId = value;
-    }
-
-
-    public int getRegionId()
-    {
-        return regionId;
-    }
-
-
-    public void setRegionId(int value)
-    {
-        this.regionId = value;
-    }
-
-
-    public int getCountryId()
-    {
-        return countryId;
-    }
-
-
-    public void setCountryId(int value)
-    {
-        this.countryId = value;
-    }
-
-
-    public double getTotalProduction()
-    {
-        return totalProduction;
-    }
-
-
-    public void setTotalProduction(double value)
-    {
-        this.totalProduction = value;
-    }
 }

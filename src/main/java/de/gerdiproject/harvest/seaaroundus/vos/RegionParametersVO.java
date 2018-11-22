@@ -18,6 +18,7 @@ package de.gerdiproject.harvest.seaaroundus.vos;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.transformers.AbstractRegionTransformer;
+import lombok.Data;
 
 
 
@@ -26,6 +27,7 @@ import de.gerdiproject.harvest.etls.transformers.AbstractRegionTransformer;
  *
  * @author Robin Weiss
  */
+@Data
 public class RegionParametersVO
 {
     private final String etlName;
@@ -33,45 +35,4 @@ public class RegionParametersVO
     private final List<EntryVO> dimensions;
     private final List<EntryVO> measures;
     private final UrlVO urls;
-
-
-    public RegionParametersVO(String etlName, EntryVO regionType, List<EntryVO> dimensions, List<EntryVO> measures, UrlVO urls)
-    {
-        super();
-        this.etlName = etlName;
-        this.regionType = regionType;
-        this.dimensions = dimensions;
-        this.measures = measures;
-        this.urls = urls;
-    }
-
-
-    public String getEtlName()
-    {
-        return etlName;
-    }
-
-
-    public EntryVO getRegionType()
-    {
-        return regionType;
-    }
-
-
-    public List<EntryVO> getDimensions()
-    {
-        return dimensions;
-    }
-
-
-    public UrlVO getUrls()
-    {
-        return urls;
-    }
-
-
-    public List<EntryVO> getMeasures()
-    {
-        return measures;
-    }
 }

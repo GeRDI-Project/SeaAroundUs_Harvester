@@ -18,6 +18,8 @@ package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object response to a Seaaroundus fishing-entity request.
@@ -25,6 +27,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauFishingEntity extends GenericRegion
 {
     @SerializedName("country_id")
@@ -32,28 +35,4 @@ public class SauFishingEntity extends GenericRegion
 
     @SerializedName("geo_entity_id")
     private int geoEntityId;
-
-
-    public int getCountryId()
-    {
-        return countryId;
-    }
-
-
-    public void setCountryId(int countryId)
-    {
-        this.countryId = countryId;
-    }
-
-
-    public int getGeoEntityId()
-    {
-        return geoEntityId;
-    }
-
-
-    public void setGeoEntityId(int geoEntityId)
-    {
-        this.geoEntityId = geoEntityId;
-    }
 }

@@ -106,9 +106,9 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
                 // add catch value web link and file
                 String catchValueLabel = String.format(
                                              SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
-                                             measure.displayName,
+                                             measure.getDisplayName(),
                                              label,
-                                             dimension.displayName);
+                                             dimension.getDisplayName());
                 String downloadUrl = SeaAroundUsDataCiteUtils.getCatchesUrl(
                                          SeaAroundUsRegionConstants.TAXA_API_NAME,
                                          taxonKey,
@@ -157,14 +157,14 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
                 // add catch value web link and file
                 String catchLabel = String.format(
                                         SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
-                                        measure.displayName,
+                                        measure.getDisplayName(),
                                         label,
-                                        dimension.displayName);
+                                        dimension.getDisplayName());
                 String catchUrl = String.format(
                                       SeaAroundUsUrlConstants.TAXON_CATCH_VIEW_URL,
                                       taxonKey,
-                                      dimension.urlName,
-                                      measure.urlName);
+                                      dimension.getUrlName(),
+                                      measure.getUrlName());
 
                 WebLink catchLink = new WebLink(catchUrl);
                 catchLink.setName(catchLabel);

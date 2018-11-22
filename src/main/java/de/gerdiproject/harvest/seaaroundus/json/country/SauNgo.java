@@ -17,12 +17,15 @@ package de.gerdiproject.harvest.seaaroundus.json.country;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents a part of a JSON response to a Seaaroundus country request.
  * <br>e.g. http://api.seaaroundus.org/api/v1/country/120
  *
  * @author Robin Weiss
  */
+@Data
 public class SauNgo
 {
     private int international;
@@ -45,124 +48,4 @@ public class SauNgo
 
     @SerializedName("count_code")
     private String countCode;
-
-
-    public int getInternational()
-    {
-        return international;
-    }
-
-
-    public void setInternational(int value)
-    {
-        this.international = value;
-    }
-
-
-    public String getWebsite()
-    {
-        return website;
-    }
-
-
-    public void setWebsite(String value)
-    {
-        this.website = value;
-    }
-
-
-    public String getTelNumber()
-    {
-        return telNumber;
-    }
-
-
-    public void setTelNumber(String value)
-    {
-        this.telNumber = value;
-    }
-
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-
-    public void setEmail(String value)
-    {
-        this.email = value;
-    }
-
-
-    public int getCountryNgoId()
-    {
-        return countryNgoId;
-    }
-
-
-    public void setCountryNgoId(int value)
-    {
-        this.countryNgoId = value;
-    }
-
-
-    public String getNgoName()
-    {
-        return ngoName;
-    }
-
-
-    public void setNgoName(String value)
-    {
-        this.ngoName = value;
-    }
-
-
-    public String getCountryName()
-    {
-        return countryName;
-    }
-
-
-    public void setCountryName(String value)
-    {
-        this.countryName = value;
-    }
-
-
-    public String getCountCode()
-    {
-        return countCode;
-    }
-
-
-    public void setCountCode(String value)
-    {
-        this.countCode = value;
-    }
-
-
-    public String getAddress()
-    {
-        return address;
-    }
-
-
-    public void setAddress(String value)
-    {
-        this.address = value;
-    }
-
-
-    public String getFax()
-    {
-        return fax;
-    }
-
-
-    public void setFax(String value)
-    {
-        this.fax = value;
-    }
 }

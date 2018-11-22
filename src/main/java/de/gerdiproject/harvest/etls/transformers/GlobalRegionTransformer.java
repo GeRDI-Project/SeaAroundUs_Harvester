@@ -128,7 +128,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
                                               params,
                                               subRegionId,
                                               SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
-        marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().displayName).trim()); // NOPMD - parentheses are needed for proper trimming
+        marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().getDisplayName()).trim()); // NOPMD - parentheses are needed for proper trimming
         files.add(marineTrophicIndex);
 
         return files;
@@ -159,7 +159,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
                                          params,
                                          subRegionId,
                                          SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
-        marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().displayName).trim()); // NOPMD - parentheses are needed for proper trimming
+        marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().getDisplayName()).trim()); // NOPMD - parentheses are needed for proper trimming
         links.add(marineTrophicIndex);
 
         return links;

@@ -16,6 +16,7 @@
 package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import de.gerdiproject.json.geo.GeoJson;
+import lombok.Data;
 
 /**
  * This class represents a SeaAroundUs JSON response of a feature collection.
@@ -23,45 +24,10 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @param <T> the type of {@linkplain FeatureProperties}, carried by the feature
  */
+@Data
 public class Feature<T extends FeatureProperties>
 {
     private GeoJson geometry;
     private String type;
     private T properties;
-
-
-    public GeoJson getGeometry()
-    {
-        return geometry;
-    }
-
-
-    public void setGeometry(GeoJson value)
-    {
-        this.geometry = value;
-    }
-
-
-    public String getType()
-    {
-        return type;
-    }
-
-
-    public void setType(String value)
-    {
-        this.type = value;
-    }
-
-
-    public T getProperties()
-    {
-        return properties;
-    }
-
-
-    public void setProperties(T value)
-    {
-        this.properties = value;
-    }
 }
