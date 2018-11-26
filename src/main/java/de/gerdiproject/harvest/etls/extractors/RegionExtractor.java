@@ -17,7 +17,6 @@
 package de.gerdiproject.harvest.etls.extractors;
 
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
@@ -30,7 +29,6 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  * This extractor retrieves region objects from a feature collection of generic regions.
@@ -60,7 +58,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     public RegionExtractor(String regionApiName, Type responseType)
     {
         super();
-        this.httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
+        this.httpRequester = new HttpRequester();
         this.responseType = responseType;
 
         this.regionApiName = regionApiName;

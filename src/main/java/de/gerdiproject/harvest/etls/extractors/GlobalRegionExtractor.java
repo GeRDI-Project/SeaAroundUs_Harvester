@@ -16,7 +16,6 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  * A {@linkplain AbstractIteratorExtractor} implementation for extracting all sub-regions of the Global Seas from SeaAroundUs.
@@ -39,7 +37,7 @@ import de.gerdiproject.json.GsonUtils;
  */
 public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
 {
-    private final HttpRequester httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
+    private final HttpRequester httpRequester = new HttpRequester();
     private final List<String> globalSubRegionNames = SeaAroundUsRegionConstants.GLOBAL_SUB_REGION_SUFFIXES;
     private String version;
 

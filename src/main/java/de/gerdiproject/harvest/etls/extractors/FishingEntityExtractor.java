@@ -16,7 +16,6 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityRe
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  * A {@linkplain AbstractIteratorExtractor} implementation for extracting all Fishing Entities of SeaAroundUs. <br>
@@ -39,7 +37,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
 {
     private static final String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
 
-    private final HttpRequester httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
+    private final HttpRequester httpRequester = new HttpRequester();
 
     private Iterator<SauFishingEntityReduced> fishingEntityListIterator;
     private String version;

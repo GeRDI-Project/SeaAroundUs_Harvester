@@ -17,7 +17,6 @@
 package de.gerdiproject.harvest.etls.extractors;
 
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -35,7 +34,6 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
-import de.gerdiproject.json.GsonUtils;
 
 /**
  * A {@linkplain AbstractIteratorExtractor} implementation for extracting all countries from SeaAroundUs. <br>
@@ -46,7 +44,7 @@ import de.gerdiproject.json.GsonUtils;
  */
 public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<SauCountry>>
 {
-    private final HttpRequester httpRequester = new HttpRequester(GsonUtils.createGeoJsonGsonBuilder().create(), StandardCharsets.UTF_8);
+    private final HttpRequester httpRequester = new HttpRequester();
 
     private final Map<Integer, List<Feature<SauCountryProperties>>> countryMap = new HashMap<>();
     private int size = -1;
