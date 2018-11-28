@@ -58,7 +58,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.addTitles(createTitles(regionName));
-        document.addResearchDataList(createResearchData(regionId, regionName));
+        document.addResearchData(createResearchData(regionId, regionName));
 
         // add region details
         document.addWebLinks(createWebLinks(entry));

@@ -80,7 +80,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         document.addWebLinks(createWebLinks(region));
         document.addSubjects(createSubjects(region));
         document.addGeoLocations(createGeoLocations(region));
-        document.addResearchDataList(createResearchData(region));
+        document.addResearchData(createResearchData(region));
 
         document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 

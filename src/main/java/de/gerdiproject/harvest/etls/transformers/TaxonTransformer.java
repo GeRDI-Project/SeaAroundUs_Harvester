@@ -64,7 +64,7 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.addWebLinks(createWebLinks(apiUrl, taxonKey, label));
-        document.addResearchDataList(createFiles(taxonKey, label));
+        document.addResearchData(createFiles(taxonKey, label));
         document.addGeoLocations(createGeoLocations(taxon));
         document.addTitles(createTitles(label));
         document.addSubjects(createSubjects(taxon));

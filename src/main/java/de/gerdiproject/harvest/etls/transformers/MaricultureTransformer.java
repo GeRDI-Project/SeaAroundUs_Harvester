@@ -61,7 +61,7 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         document.addWebLinks(SeaAroundUsDataCiteUtils.createBasicWebLinks(regionApiName, regionId));
         document.addSubjects(createSubjects(subRegions));
         document.addGeoLocations(createGeoLocations(subRegions));
-        document.addResearchDataList(createResearchData(subRegions));
+        document.addResearchData(createResearchData(subRegions));
         document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
 
         return document;

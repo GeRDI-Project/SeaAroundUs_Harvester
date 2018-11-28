@@ -59,7 +59,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         document.addTitles(createTitles(subRegionName));
         document.addSubjects(createSubjects(entry.getMetrics()));
         document.addWebLinks(createWebLinks(subRegionId, subRegionName));
-        document.addResearchDataList(createFiles(subRegionId, subRegionName));
+        document.addResearchData(createFiles(subRegionId, subRegionName));
 
         return document;
     }
@@ -124,11 +124,11 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         files.add(SeaAroundUsDataCiteUtils.createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
+        String label = SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL + params.getRegionType().getDisplayName().trim();
         ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexFile(
                                               params,
                                               subRegionId,
-                                              SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
-        marineTrophicIndex.setLabel((marineTrophicIndex.getLabel() + params.getRegionType().getDisplayName()).trim()); // NOPMD - parentheses are needed for proper trimming
+                                              label);
         files.add(marineTrophicIndex);
 
         return files;
