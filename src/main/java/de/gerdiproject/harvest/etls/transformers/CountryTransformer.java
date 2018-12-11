@@ -32,8 +32,8 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.enums.TitleType;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all Countries of SeaAroundUs to documents.

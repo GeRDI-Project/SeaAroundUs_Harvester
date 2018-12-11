@@ -25,9 +25,9 @@ import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauFaoRfb;
 import de.gerdiproject.harvest.seaaroundus.json.eez.SauReconstructionDocument;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.ResearchData;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all EEZs of SeaAroundUs to documents.

@@ -34,9 +34,9 @@ import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.ResearchData;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  * A {@linkplain AbstractIteratorTransformer} implementation for transforming {@linkplain SauTaxon}

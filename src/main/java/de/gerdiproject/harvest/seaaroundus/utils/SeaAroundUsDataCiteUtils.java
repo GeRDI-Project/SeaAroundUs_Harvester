@@ -25,9 +25,9 @@ import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.harvest.seaaroundus.vos.UrlVO;
 import de.gerdiproject.json.datacite.GeoLocation;
-import de.gerdiproject.json.datacite.extension.ResearchData;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.ResearchData;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 import de.gerdiproject.json.geo.GeoJson;
 
 /**

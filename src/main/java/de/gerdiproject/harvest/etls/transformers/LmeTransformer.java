@@ -21,8 +21,8 @@ import java.util.List;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.lme.SauLmeRegion;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all LMEs of SeaAroundUs to documents.
