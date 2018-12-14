@@ -21,6 +21,8 @@ import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
@@ -28,6 +30,7 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauRfmoRegion extends GenericRegion
 {
     @SerializedName("contracting_countries")
@@ -44,64 +47,4 @@ public class SauRfmoRegion extends GenericRegion
 
     @SerializedName("profile_url")
     private String profileUrl;
-
-
-    public List<SauRfmoContractingCountry> getContractingCountries()
-    {
-        return contractingCountries;
-    }
-
-
-    public void setContractingCountries(List<SauRfmoContractingCountry> value)
-    {
-        this.contractingCountries = value;
-    }
-
-
-    public List<SauTaxonReduced> getSecondaryTaxa()
-    {
-        return secondaryTaxa;
-    }
-
-
-    public void setSecondaryTaxa(List<SauTaxonReduced> value)
-    {
-        this.secondaryTaxa = value;
-    }
-
-
-    public List<SauTaxonReduced> getPrimaryTaxa()
-    {
-        return primaryTaxa;
-    }
-
-
-    public void setPrimaryTaxa(List<SauTaxonReduced> value)
-    {
-        this.primaryTaxa = value;
-    }
-
-
-    public String getLongTitle()
-    {
-        return longTitle;
-    }
-
-
-    public void setLongTitle(String value)
-    {
-        this.longTitle = value;
-    }
-
-
-    public String getProfileUrl()
-    {
-        return profileUrl;
-    }
-
-
-    public void setProfileUrl(String value)
-    {
-        this.profileUrl = value;
-    }
 }

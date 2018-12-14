@@ -15,6 +15,9 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.generic;
 
+import com.google.gson.annotations.SerializedName;
+
+import lombok.Data;
 
 /**
  * This class represents a generic SeaAroundUs JSON response.
@@ -22,32 +25,11 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
  *
  * @param <T> the type of data, carried by the response
  */
+@Data
 public class GenericResponse <T>
 {
-    private GenericResponseMetadata meta;
     private T data;
 
-
-    public GenericResponseMetadata getMetadata()
-    {
-        return meta;
-    }
-
-
-    public void setMetadata(GenericResponseMetadata metadata)
-    {
-        this.meta = metadata;
-    }
-
-
-    public T getData()
-    {
-        return data;
-    }
-
-
-    public void setData(T data)
-    {
-        this.data = data;
-    }
+    @SerializedName("meta")
+    private GenericResponseMetadata metadata;
 }

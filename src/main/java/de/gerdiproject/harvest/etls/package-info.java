@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
-
-
 /**
- * This class represents a JSON response to any Seaaroundus feature collection request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
+ * This package contains sub-harvesters used by the {@linkplain de.gerdiproject.harvest.harvester.SeaAroundUsHarvester}.
  *
  * @author Robin Weiss
  */
-public final class FeatureCollectionResponse extends GenericResponse<FeatureCollection<FeatureProperties>>
-{
-}
+package de.gerdiproject.harvest.etls;

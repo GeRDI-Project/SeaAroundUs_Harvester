@@ -21,10 +21,10 @@ import java.util.List;
 
 import de.gerdiproject.json.datacite.Creator;
 import de.gerdiproject.json.datacite.Rights;
-import de.gerdiproject.json.datacite.extension.WebLink;
-import de.gerdiproject.json.datacite.extension.abstr.AbstractResearch;
-import de.gerdiproject.json.datacite.extension.constants.ResearchDisciplineConstants;
-import de.gerdiproject.json.datacite.extension.enums.WebLinkType;
+import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
+import de.gerdiproject.json.datacite.extension.generic.WebLink;
+import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
+import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 
 /**
  *  This static class contains fields and values of SeaAroundUs DataCite documents.

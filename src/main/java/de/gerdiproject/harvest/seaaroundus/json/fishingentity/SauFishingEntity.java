@@ -13,35 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.vos;
+package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
+import com.google.gson.annotations.SerializedName;
+
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * A value object, representing a sub-region.
+ * This class represents a JSON object response to a Seaaroundus fishing-entity request.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/fishing-entity/1
  *
  * @author Robin Weiss
  */
-public class SubRegionVO
+@Data @EqualsAndHashCode(callSuper = true)
+public class SauFishingEntity extends GenericRegion
 {
-    private final int id;
-    private final String labelSuffix;
+    @SerializedName("country_id")
+    private int countryId;
 
-
-    public SubRegionVO(int id, String labelSuffix)
-    {
-        this.id = id;
-        this.labelSuffix = labelSuffix;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public String getLabelSuffix()
-    {
-        return labelSuffix;
-    }
+    @SerializedName("geo_entity_id")
+    private int geoEntityId;
 }

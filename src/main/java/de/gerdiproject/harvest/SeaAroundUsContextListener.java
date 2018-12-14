@@ -15,33 +15,37 @@
  */
 package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.config.parameters.AbstractParameter;
-import de.gerdiproject.harvest.config.parameters.StringParameter;
-import de.gerdiproject.harvest.harvester.SeaAroundUsHarvester;
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsParameterConstants;
-
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.annotation.WebListener;
 
+import de.gerdiproject.harvest.application.ContextListener;
+import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.SeaAroundUsETLFactory;
+
 /**
+ * This class initializes the harvester service and all objects that are required.
  *
- * @author row
+ * @author Robin Weiss
  */
 @WebListener
-public class SeaAroundUsContextListener extends ContextListener<SeaAroundUsHarvester>
+public class SeaAroundUsContextListener extends ContextListener
 {
-
     @Override
-    protected List<AbstractParameter<?>> getHarvesterSpecificParameters()
+    protected List<? extends AbstractETL<?, ?>> createETLs()
     {
-        AbstractParameter<?> versionParam = new StringParameter(
-            SeaAroundUsParameterConstants.VERSION_KEY,
-            SeaAroundUsParameterConstants.VERSION_DEFAULT);
-
-        return Arrays.asList(versionParam);
+        return Arrays.asList(
+                   SeaAroundUsETLFactory.createTaxonETL(),
+                   SeaAroundUsETLFactory.createGlobalOceanETL(),
+                   SeaAroundUsETLFactory.createFishingEntityETL(),
+                   SeaAroundUsETLFactory.createMaricultureETL(),
+                   SeaAroundUsETLFactory.createCountryETL(),
+                   SeaAroundUsETLFactory.createEezETL(),
+                   SeaAroundUsETLFactory.createRfmoETL(),
+                   SeaAroundUsETLFactory.createLmeETL(),
+                   SeaAroundUsETLFactory.createHighSeasETL(),
+                   SeaAroundUsETLFactory.createFaoETL()
+               );
     }
-
-
 }

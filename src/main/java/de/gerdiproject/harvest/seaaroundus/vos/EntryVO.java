@@ -15,34 +15,24 @@
  */
 package de.gerdiproject.harvest.seaaroundus.vos;
 
+import lombok.Data;
+
 /**
  * An entry value object in this context is a typical filtering option for SeaAroundUs
  * datasets.
  *
  * @author Robin Weiss
  */
+@Data
 public class EntryVO
 {
     /**
      * The string as it is used in HTTP requests.
      */
-    public final String urlName;
+    private final String urlName;
 
     /**
      * The string as it is displayed to the user.
      */
-    public final String displayName;
-
-
-    /**
-     * Simple constructor.
-     *
-     * @param urlName the string as it is used in HTTP requests
-     * @param displayName the string as it is displayed to the user
-     */
-    public EntryVO(String urlName, String displayName)
-    {
-        this.urlName = urlName;
-        this.displayName = displayName;
-    }
+    private final String displayName;
 }

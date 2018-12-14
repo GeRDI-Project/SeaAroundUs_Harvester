@@ -18,7 +18,7 @@ package de.gerdiproject.harvest.seaaroundus.json.global;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 
 /**
- * This class represents a JSON object that is part of the response to a Seaaroundus taxa request.
+ * This class represents a JSON object that is part of the response to a Seaaroundus global request.
  * <br>see http://api.seaaroundus.org/api/v1/global/1
  *
  * @author Robin Weiss

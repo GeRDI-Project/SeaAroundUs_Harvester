@@ -17,40 +17,19 @@ package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus taxon-level request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/taxon-level/
  *
  * @author Robin Weiss
  */
+@Data
 public final class SauTaxonLevel
 {
     private String name;
 
     @SerializedName("taxon_level_id")
     private int taxonLevelId;
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public void setName(String value)
-    {
-        this.name = value;
-    }
-
-
-    public int getTaxonLevelId()
-    {
-        return taxonLevelId;
-    }
-
-
-    public void setTaxonLevelId(int value)
-    {
-        this.taxonLevelId = value;
-    }
 }

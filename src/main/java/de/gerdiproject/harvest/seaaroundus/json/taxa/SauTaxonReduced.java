@@ -17,12 +17,15 @@ package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents part of a JSON object response to a Seaaroundus taxa request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/taxa/
  *
  * @author Robin Weiss
  */
+@Data
 public class SauTaxonReduced
 {
     @SerializedName("common_name")
@@ -42,76 +45,4 @@ public class SauTaxonReduced
 
     @SerializedName("taxon_key")
     private int taxonKey;
-
-
-    public String getCommonName()
-    {
-        return commonName;
-    }
-
-
-    public void setCommonName(String value)
-    {
-        this.commonName = value;
-    }
-
-
-    public int getFunctionalGroup()
-    {
-        return functionalGroup;
-    }
-
-
-    public void setFunctionalGroup(int value)
-    {
-        this.functionalGroup = value;
-    }
-
-
-    public boolean getIsTaxonDistributionBackfilled()
-    {
-        return isTaxonDistributionBackfilled;
-    }
-
-
-    public void setIsTaxonDistributionBackfilled(boolean value)
-    {
-        this.isTaxonDistributionBackfilled = value;
-    }
-
-
-    public int getCommercialGroup()
-    {
-        return commercialGroup;
-    }
-
-
-    public void setCommercialGroup(int value)
-    {
-        this.commercialGroup = value;
-    }
-
-
-    public String getScientificName()
-    {
-        return scientificName;
-    }
-
-
-    public void setScientificName(String value)
-    {
-        this.scientificName = value;
-    }
-
-
-    public int getTaxonKey()
-    {
-        return taxonKey;
-    }
-
-
-    public void setTaxonKey(int value)
-    {
-        this.taxonKey = value;
-    }
 }

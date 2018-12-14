@@ -17,38 +17,17 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * This class represents a generic SeaAroundUs JSON response.
  * @author Robin Weiss
  *
  * @param <T> the type of data, carried by the response
  */
+@Data
 public class FeatureCollection <T extends FeatureProperties>
 {
     private List<Feature<T>> features;
     private String type;
-
-
-    public List<Feature<T>> getFeatures()
-    {
-        return features;
-    }
-
-
-    public void setFeatures(List<Feature<T>> value)
-    {
-        this.features = value;
-    }
-
-
-    public String getType()
-    {
-        return type;
-    }
-
-
-    public void setType(String value)
-    {
-        this.type = value;
-    }
 }

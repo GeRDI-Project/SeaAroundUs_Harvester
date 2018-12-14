@@ -17,12 +17,15 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents a JSON object of feature propeties that is part of every Seaaroundus {@linkplain Feature}.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/country/
  *
  * @author Robin Weiss
  */
+@Data
 public class FeatureProperties
 {
     private String title;
@@ -33,52 +36,4 @@ public class FeatureProperties
 
     @SerializedName("long_title")
     private String longTitle;
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
-    }
-
-
-    public String getRegion()
-    {
-        return region;
-    }
-
-
-    public void setRegion(String value)
-    {
-        this.region = value;
-    }
-
-
-    public int getRegionId()
-    {
-        return regionId;
-    }
-
-
-    public void setRegionId(int value)
-    {
-        this.regionId = value;
-    }
-
-
-    public String getLongTitle()
-    {
-        return longTitle;
-    }
-
-
-    public void setLongTitle(String value)
-    {
-        this.longTitle = value;
-    }
 }
