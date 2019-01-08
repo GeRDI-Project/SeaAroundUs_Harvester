@@ -26,7 +26,6 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstant
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
@@ -262,10 +261,6 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
                     subjects.add(new Subject(name));
             });
         }
-
-        // add catch regions
-        for (SauCatch taxonCatch : taxon.getCatches())
-            subjects.add(new Subject(taxonCatch.getKey()));
 
         return subjects;
     }
