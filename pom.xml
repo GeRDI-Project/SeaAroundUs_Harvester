@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>SeaAroundUs-HarvesterService</artifactId>
-	<version>7.1.0-SNAPSHOT</version>
+	<version>7.1.1-SNAPSHOT</version>
     <packaging>war</packaging>
 	<name>Sea Around Us Harvester Service</name>
 	<description>This is a restful harvester for retrieving data from: www.seaaroundus.org</description>
