@@ -15,12 +15,10 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.taxa;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.harvest.seaaroundus.json.catches.SauCatch;
 import lombok.Data;
 
 
@@ -35,7 +33,6 @@ public class SauTaxon
 {
     private transient String taxonLevelName;
     private transient String taxonGroupName;
-    private transient List<SauCatch> catches;
     private transient String version;
 
     private double k;
