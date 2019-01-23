@@ -26,7 +26,7 @@ import lombok.Data;
  * @author Robin Weiss
  */
 @Data
-public class FeatureProperties
+public class SauFeatureProperties
 {
     private String title;
     private String region;

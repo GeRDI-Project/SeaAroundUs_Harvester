@@ -24,7 +24,6 @@ import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
-import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
@@ -34,6 +33,7 @@ import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.enums.TitleType;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import de.gerdiproject.json.geo.Feature;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all Countries of SeaAroundUs to documents.

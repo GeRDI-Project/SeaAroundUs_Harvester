@@ -17,6 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import java.util.List;
 
+import de.gerdiproject.json.geo.Feature;
 import de.gerdiproject.json.geo.GeoJson;
 import lombok.Data;
 
@@ -28,7 +29,7 @@ import lombok.Data;
 @Data
 public class GenericRegion
 {
-    private transient Feature<FeatureProperties> feature;
+    private transient Feature<SauFeatureProperties> feature;
 
     private String title;
     private int id;

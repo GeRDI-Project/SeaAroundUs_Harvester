@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
+import de.gerdiproject.json.geo.Feature;
 import lombok.Data;
 
 

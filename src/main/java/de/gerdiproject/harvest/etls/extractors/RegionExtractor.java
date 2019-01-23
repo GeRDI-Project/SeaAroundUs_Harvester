@@ -21,14 +21,14 @@ import java.util.Iterator;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
+import de.gerdiproject.json.geo.Feature;
+import de.gerdiproject.json.geo.FeatureCollection;
 
 /**
  * This extractor retrieves region objects from a feature collection of generic regions.
@@ -44,7 +44,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     private final Type responseType;
     private final String regionApiName;
 
-    private Iterator<Feature<FeatureProperties>> baseListIterator;
+    private Iterator<Feature<SauFeatureProperties>> baseListIterator;
     private String version;
     private int size = -1;
 
@@ -72,7 +72,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
         // request all regions
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(regionApiName);
-        final GenericResponse<FeatureCollection<FeatureProperties>> allRegions =
+        final GenericResponse<FeatureCollection<SauFeatureProperties>> allRegions =
             httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.ALL_REGIONS_RESPONSE_TYPE);
 
         // get version from metadata
@@ -123,7 +123,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
         public GenericResponse<T> next()
         {
             // retrieve feature
-            final Feature<FeatureProperties> feature = baseListIterator.next();
+            final Feature<SauFeatureProperties> feature = baseListIterator.next();
 
             // retrieve region
             final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
