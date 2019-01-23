@@ -17,6 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import com.google.gson.annotations.SerializedName;
 
+import de.gerdiproject.json.geo.Feature;
 import lombok.Data;
 
 /**
