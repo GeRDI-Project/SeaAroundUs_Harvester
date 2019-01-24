@@ -26,8 +26,7 @@ import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityReduced;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
@@ -36,6 +35,7 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonLevel;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
+import de.gerdiproject.json.geo.FeatureCollection;
 
 /**
  *  This static class contains descriptions of regions. Regions are filter
@@ -75,7 +75,7 @@ public class SeaAroundUsRegionConstants
     public static final EntryVO TAXON_MEASURE_TONNAGE = new EntryVO("tonnage", "Global catches");
     public static final List<EntryVO> TAXON_MEASURES = Collections.unmodifiableList(Arrays.asList(TAXON_MEASURE_VALUE, TAXON_MEASURE_TONNAGE));
 
-    public static final Type ALL_REGIONS_RESPONSE_TYPE = new TypeToken<GenericResponse<FeatureCollection<FeatureProperties>>>() {} .getType();
+    public static final Type ALL_REGIONS_RESPONSE_TYPE = new TypeToken<GenericResponse<FeatureCollection<SauFeatureProperties>>>() {} .getType();
 
     public static final RegionParametersVO EEZ_PARAMS = new RegionParametersVO(
         "EezETL",

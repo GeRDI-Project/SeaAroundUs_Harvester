@@ -22,7 +22,7 @@ import java.util.List;
 
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
@@ -65,7 +65,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
     protected DataCiteJson transformElement(GenericResponse<T> source) throws TransformerException
     {
         final T region = source.getData();
-        final FeatureProperties properties = region.getFeature().getProperties();
+        final SauFeatureProperties properties = region.getFeature().getProperties();
         final int regionId = properties.getRegionId();
 
         DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
@@ -210,7 +210,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    protected List<Title> createTitles(FeatureProperties properties)
+    protected List<Title> createTitles(SauFeatureProperties properties)
     {
         List<Title> titles = new LinkedList<>();
 
@@ -247,7 +247,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      */
     protected List<Subject> createSubjects(T regionObject)
     {
-        final FeatureProperties properties = regionObject.getFeature().getProperties();
+        final SauFeatureProperties properties = regionObject.getFeature().getProperties();
         final List<Subject> subjects = new LinkedList<>();
 
         final String region = properties.getRegion();

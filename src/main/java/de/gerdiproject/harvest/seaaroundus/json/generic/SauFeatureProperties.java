@@ -17,6 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import com.google.gson.annotations.SerializedName;
 
+import de.gerdiproject.json.geo.Feature;
 import lombok.Data;
 
 /**
@@ -26,7 +27,7 @@ import lombok.Data;
  * @author Robin Weiss
  */
 @Data
-public class FeatureProperties
+public class SauFeatureProperties
 {
     private String title;
     private String region;

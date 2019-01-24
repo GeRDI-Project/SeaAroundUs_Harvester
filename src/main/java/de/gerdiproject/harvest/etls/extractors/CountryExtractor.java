@@ -29,11 +29,11 @@ import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
-import de.gerdiproject.harvest.seaaroundus.json.generic.Feature;
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureCollection;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
+import de.gerdiproject.json.geo.Feature;
+import de.gerdiproject.json.geo.FeatureCollection;
 
 /**
  * A {@linkplain AbstractIteratorExtractor} implementation for extracting all countries from SeaAroundUs. <br>

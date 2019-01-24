@@ -17,7 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.country;
 
 import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.FeatureProperties;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
  * @author Robin Weiss
  */
 @Data @EqualsAndHashCode(callSuper = true)
-public class SauCountryProperties extends FeatureProperties
+public class SauCountryProperties extends SauFeatureProperties
 {
     @SerializedName("c_iso_code")
     private String cIsoCode;
