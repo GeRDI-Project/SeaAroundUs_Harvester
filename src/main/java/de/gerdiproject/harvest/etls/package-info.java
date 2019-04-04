@@ -13,18 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.taxa;
-
-import java.util.List;
-
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
-
 /**
- * This class represents the JSON response to a Seaaroundus taxa request.
- * <br>see http://api.seaaroundus.org/api/v1/taxa/
+ * This package contains sub-harvesters used by the {@linkplain de.gerdiproject.harvest.harvester.SeaAroundUsHarvester}.
  *
  * @author Robin Weiss
  */
-public final class SauAllTaxaResponse extends GenericResponse<List<SauTaxonReduced>>
-{
-}
+package de.gerdiproject.harvest.etls;

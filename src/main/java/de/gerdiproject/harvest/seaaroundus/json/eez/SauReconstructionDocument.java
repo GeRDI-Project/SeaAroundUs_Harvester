@@ -17,12 +17,15 @@ package de.gerdiproject.harvest.seaaroundus.json.eez;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus EEZ request.
  * <br>e.g. see http://api.seaaroundus.org/api/v1/eez/12
  *
  * @author Robin Weiss
  */
+@Data
 public final class SauReconstructionDocument
 {
     private String name;
@@ -31,52 +34,4 @@ public final class SauReconstructionDocument
 
     @SerializedName("last_modified")
     private String lastModified;
-
-
-    public String getLastModified()
-    {
-        return lastModified;
-    }
-
-
-    public void setLastModified(String value)
-    {
-        this.lastModified = value;
-    }
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public void setName(String value)
-    {
-        this.name = value;
-    }
-
-
-    public String getUrl()
-    {
-        return url;
-    }
-
-
-    public void setUrl(String value)
-    {
-        this.url = value;
-    }
-
-
-    public int getSize()
-    {
-        return size;
-    }
-
-
-    public void setSize(int value)
-    {
-        this.size = value;
-    }
 }

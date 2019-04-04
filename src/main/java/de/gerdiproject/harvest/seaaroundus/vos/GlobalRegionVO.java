@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.generic;
+package de.gerdiproject.harvest.seaaroundus.vos;
 
+import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
+import lombok.Data;
 
 /**
- * This class represents a JSON response to any Seaaroundus feature collection request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/
+ * A value object, representing a global sub-region.
  *
  * @author Robin Weiss
  */
-public final class FeatureCollectionResponse extends GenericResponse<FeatureCollection<FeatureProperties>>
+@Data
+public class GlobalRegionVO
 {
+    private int id;
+    private String nameSuffix;
+    private SauGlobal global;
+    private String version;
 }

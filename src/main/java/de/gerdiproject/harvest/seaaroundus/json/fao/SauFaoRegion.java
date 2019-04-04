@@ -18,6 +18,8 @@ package de.gerdiproject.harvest.seaaroundus.json.fao;
 import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object response to a Seaaroundus FAO request.
@@ -25,20 +27,9 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauFaoRegion extends GenericRegion
 {
     @SerializedName("long_title")
     private String longTitle;
-
-
-    public String getLongTitle()
-    {
-        return longTitle;
-    }
-
-
-    public void setLongTitle(String value)
-    {
-        this.longTitle = value;
-    }
 }

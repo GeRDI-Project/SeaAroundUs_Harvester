@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.json.mariculture;
+package de.gerdiproject.harvest.seaaroundus.json.generic;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.json.geo.Feature;
+import lombok.Data;
 
 /**
- * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
- * <br>e.g. see http://api.seaaroundus.org/api/v1/mariculture/57
+ * This class represents a JSON object of feature propeties that is part of every Seaaroundus {@linkplain Feature}.
+ * <br>e.g. see http://api.seaaroundus.org/api/v1/country/
  *
  * @author Robin Weiss
  */
-public final class SauMaricultureResponse extends GenericResponse<List<SauMariculture>>
+@Data
+public class SauFeatureProperties
 {
+    private String title;
+    private String region;
+
+    @SerializedName("region_id")
+    private int regionId;
+
+    @SerializedName("long_title")
+    private String longTitle;
 }

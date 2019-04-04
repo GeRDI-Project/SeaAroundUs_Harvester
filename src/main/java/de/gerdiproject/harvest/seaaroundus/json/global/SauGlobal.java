@@ -18,6 +18,7 @@ package de.gerdiproject.harvest.seaaroundus.json.global;
 import java.util.List;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
+import lombok.Data;
 
 /**
  * This class represents a JSON object response to a Seaaroundus global request.
@@ -25,19 +26,12 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
  *
  * @author Robin Weiss
  */
+@Data
 public class SauGlobal
 {
+    private transient int subRegionId;
+    private transient String subRegionNameSuffix;
+    private transient String version;
+
     private List<Metric> metrics;
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> metrics)
-    {
-        this.metrics = metrics;
-    }
 }

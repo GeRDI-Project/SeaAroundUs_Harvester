@@ -17,65 +17,22 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import java.util.List;
 
+import de.gerdiproject.json.geo.Feature;
 import de.gerdiproject.json.geo.GeoJson;
+import lombok.Data;
 
 /**
  * This class represents a generic SeaAroundUs region response.
  *
  * @author Robin Weiss
  */
+@Data
 public class GenericRegion
 {
+    private transient Feature<SauFeatureProperties> feature;
+
     private String title;
     private int id;
     private GeoJson geojson;
     private List<Metric> metrics;
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-
-    public GeoJson getGeojson()
-    {
-        return geojson;
-    }
-
-
-    public void setGeojson(GeoJson geojson)
-    {
-        this.geojson = geojson;
-    }
-
-
-    public List<Metric> getMetrics()
-    {
-        return metrics;
-    }
-
-
-    public void setMetrics(List<Metric> metrics)
-    {
-        this.metrics = metrics;
-    }
 }

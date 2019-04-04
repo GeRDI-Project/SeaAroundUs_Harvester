@@ -17,7 +17,10 @@ package de.gerdiproject.harvest.seaaroundus.json.mariculture;
 
 import com.google.gson.annotations.SerializedName;
 
+import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.json.geo.GeoJson;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
@@ -25,11 +28,9 @@ import de.gerdiproject.json.geo.GeoJson;
  *
  * @author Robin Weiss
  */
-public class SauMariculture
+@Data @EqualsAndHashCode(callSuper = true)
+public class SauMariculture extends GenericRegion
 {
-    private GeoJson geojson;
-    private String title;
-
     @SerializedName("country_name")
     private String countryName;
 
@@ -47,100 +48,4 @@ public class SauMariculture
 
     @SerializedName("total_production")
     private double totalProduction;
-
-
-    public GeoJson getGeojson()
-    {
-        return geojson;
-    }
-
-
-    public void setGeojson(GeoJson value)
-    {
-        this.geojson = value;
-    }
-
-
-    public String getCountryName()
-    {
-        return countryName;
-    }
-
-
-    public void setCountryName(String value)
-    {
-        this.countryName = value;
-    }
-
-
-    public GeoJson getPointGeojson()
-    {
-        return pointGeojson;
-    }
-
-
-    public void setPointGeojson(GeoJson value)
-    {
-        this.pointGeojson = value;
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
-    }
-
-
-    public int getEntityId()
-    {
-        return entityId;
-    }
-
-
-    public void setEntityId(int value)
-    {
-        this.entityId = value;
-    }
-
-
-    public int getRegionId()
-    {
-        return regionId;
-    }
-
-
-    public void setRegionId(int value)
-    {
-        this.regionId = value;
-    }
-
-
-    public int getCountryId()
-    {
-        return countryId;
-    }
-
-
-    public void setCountryId(int value)
-    {
-        this.countryId = value;
-    }
-
-
-    public double getTotalProduction()
-    {
-        return totalProduction;
-    }
-
-
-    public void setTotalProduction(double value)
-    {
-        this.totalProduction = value;
-    }
 }

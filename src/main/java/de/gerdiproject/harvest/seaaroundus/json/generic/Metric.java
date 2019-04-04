@@ -15,6 +15,7 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.generic;
 
+import lombok.Data;
 
 /**
  * This class represents a JSON object that is part of many Seaaroundus requests.
@@ -22,45 +23,10 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
  *
  * @author Robin Weiss
  */
+@Data
 public final class Metric
 {
     private String title;
     private double value;
     private String units;
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String value)
-    {
-        this.title = value;
-    }
-
-
-    public double getValue()
-    {
-        return value;
-    }
-
-
-    public void setValue(double value)
-    {
-        this.value = value;
-    }
-
-
-    public String getUnits()
-    {
-        return units;
-    }
-
-
-    public void setUnits(String value)
-    {
-        this.units = value;
-    }
 }

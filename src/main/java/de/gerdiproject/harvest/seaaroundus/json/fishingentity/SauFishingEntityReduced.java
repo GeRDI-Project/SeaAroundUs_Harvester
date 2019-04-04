@@ -17,6 +17,8 @@ package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 
 /**
  * This class represents a JSON array element of the response to a Seaaroundus fishing-entity request.
@@ -24,6 +26,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Robin Weiss
  */
+@Data
 public class SauFishingEntityReduced
 {
     int id;
@@ -31,40 +34,4 @@ public class SauFishingEntityReduced
 
     @SerializedName("country_id")
     int countryId;
-
-
-    public int getCountryId()
-    {
-        return countryId;
-    }
-
-
-    public void setCountryId(int countryId)
-    {
-        this.countryId = countryId;
-    }
-
-
-    public int getId()
-    {
-        return id;
-    }
-
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
 }

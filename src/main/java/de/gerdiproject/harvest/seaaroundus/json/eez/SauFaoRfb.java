@@ -15,6 +15,7 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.eez;
 
+import lombok.Data;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus EEZ request.
@@ -22,58 +23,11 @@ package de.gerdiproject.harvest.seaaroundus.json.eez;
  *
  * @author Robin Weiss
  */
+@Data
 public final class SauFaoRfb
 {
     private String acronym;
     private String url;
     private int fid;
     private String name;
-
-
-    public String getAcronym()
-    {
-        return acronym;
-    }
-
-
-    public void setAcronym(String value)
-    {
-        this.acronym = value;
-    }
-
-
-    public String getUrl()
-    {
-        return url;
-    }
-
-
-    public void setUrl(String value)
-    {
-        this.url = value;
-    }
-
-
-    public int getFid()
-    {
-        return fid;
-    }
-
-
-    public void setFid(int value)
-    {
-        this.fid = value;
-    }
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public void setName(String value)
-    {
-        this.name = value;
-    }
 }

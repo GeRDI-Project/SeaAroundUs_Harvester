@@ -20,6 +20,8 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class represents a JSON object response to a Seaaroundus eez request.
@@ -27,6 +29,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
  *
  * @author Robin Weiss
  */
+@Data @EqualsAndHashCode(callSuper = true)
 public class SauEezRegion extends GenericRegion
 {
     @SerializedName("gsi_link")
@@ -76,196 +79,4 @@ public class SauEezRegion extends GenericRegion
 
     @SerializedName("year_allowed_to_fish_other_eezs")
     private int yearAllowedToFishOtherEezs;
-
-
-    public String getGsiLink()
-    {
-        return gsiLink;
-    }
-
-
-    public void setGsiLink(String value)
-    {
-        this.gsiLink = value;
-    }
-
-
-    public List<Integer> getIntersectingFaoAreaId()
-    {
-        return intersectingFaoAreaId;
-    }
-
-
-    public void setIntersectingFaoAreaId(List<Integer> value)
-    {
-        this.intersectingFaoAreaId = value;
-    }
-
-
-    public String getFishbaseId()
-    {
-        return fishbaseId;
-    }
-
-
-    public void setFishbaseId(String value)
-    {
-        this.fishbaseId = value;
-    }
-
-
-    public String getCCode()
-    {
-        return cCode;
-    }
-
-
-    public void setCCode(String value)
-    {
-        this.cCode = value;
-    }
-
-
-    public String getOhiLink()
-    {
-        return ohiLink;
-    }
-
-
-    public void setOhiLink(String value)
-    {
-        this.ohiLink = value;
-    }
-
-
-    public int getGeoEntityId()
-    {
-        return geoEntityId;
-    }
-
-
-    public void setGeoEntityId(int value)
-    {
-        this.geoEntityId = value;
-    }
-
-
-    public String getFaoProfileUrl()
-    {
-        return faoProfileUrl;
-    }
-
-
-    public void setFaoProfileUrl(String value)
-    {
-        this.faoProfileUrl = value;
-    }
-
-
-    public List<SauFaoRfb> getFaoRfb()
-    {
-        return faoRfb;
-    }
-
-
-    public void setFaoRfb(List<SauFaoRfb> value)
-    {
-        this.faoRfb = value;
-    }
-
-
-    public int getYearStartedEezAt()
-    {
-        return yearStartedEezAt;
-    }
-
-
-    public void setYearStartedEezAt(int value)
-    {
-        this.yearStartedEezAt = value;
-    }
-
-
-    public List<SauReconstructionDocument> getReconstructionDocuments()
-    {
-        return reconstructionDocuments;
-    }
-
-
-    public void setReconstructionDocuments(List<SauReconstructionDocument> value)
-    {
-        this.reconstructionDocuments = value;
-    }
-
-
-    public int getYearAllowedToFishHighSeas()
-    {
-        return yearAllowedToFishHighSeas;
-    }
-
-
-    public void setYearAllowedToFishHighSeas(int value)
-    {
-        this.yearAllowedToFishHighSeas = value;
-    }
-
-
-    public int getDeclarationYear()
-    {
-        return declarationYear;
-    }
-
-
-    public void setDeclarationYear(int value)
-    {
-        this.declarationYear = value;
-    }
-
-
-    public int getCountryId()
-    {
-        return countryId;
-    }
-
-
-    public void setCountryId(int value)
-    {
-        this.countryId = value;
-    }
-
-
-    public String getCountryName()
-    {
-        return countryName;
-    }
-
-
-    public void setCountryName(String value)
-    {
-        this.countryName = value;
-    }
-
-
-    public int getEstuaryCount()
-    {
-        return estuaryCount;
-    }
-
-
-    public void setEstuaryCount(int value)
-    {
-        this.estuaryCount = value;
-    }
-
-
-    public int getYearAllowedToFishOtherEezs()
-    {
-        return yearAllowedToFishOtherEezs;
-    }
-
-
-    public void setYearAllowedToFishOtherEezs(int value)
-    {
-        this.yearAllowedToFishOtherEezs = value;
-    }
 }

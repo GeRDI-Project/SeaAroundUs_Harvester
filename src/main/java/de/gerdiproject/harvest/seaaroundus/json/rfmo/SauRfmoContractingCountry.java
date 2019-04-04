@@ -18,6 +18,8 @@ package de.gerdiproject.harvest.seaaroundus.json.rfmo;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
@@ -25,6 +27,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Robin Weiss
  */
+@Data
 public class SauRfmoContractingCountry
 {
     private String name;
@@ -32,40 +35,4 @@ public class SauRfmoContractingCountry
 
     @SerializedName("facp_url")
     private String facpUrl;
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public void setName(String value)
-    {
-        this.name = value;
-    }
-
-
-    public String getIso3()
-    {
-        return iso3;
-    }
-
-
-    public void setIso3(String value)
-    {
-        this.iso3 = value;
-    }
-
-
-    public String getFacpUrl()
-    {
-        return facpUrl;
-    }
-
-
-    public void setFacpUrl(String value)
-    {
-        this.facpUrl = value;
-    }
 }
