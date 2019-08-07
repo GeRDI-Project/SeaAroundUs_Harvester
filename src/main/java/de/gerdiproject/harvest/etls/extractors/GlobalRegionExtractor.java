@@ -97,6 +97,13 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
     }
 
 
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
+    }
+
+
     /**
      * This iterator iterates a list of sub region IDs of the global Ocean and
      * returns {@linkplain SauGlobal} objects.

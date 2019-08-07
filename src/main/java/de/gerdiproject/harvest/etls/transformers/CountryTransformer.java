@@ -19,6 +19,7 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -43,6 +44,13 @@ import de.gerdiproject.json.geo.Feature;
  */
 public class CountryTransformer extends AbstractIteratorTransformer<GenericResponse<SauCountry>, DataCiteJson>
 {
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
     @Override
     protected DataCiteJson transformElement(GenericResponse<SauCountry> source) throws TransformerException
     {
@@ -225,5 +233,12 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
         }
 
         return geoLocations;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

@@ -105,6 +105,13 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
     }
 
 
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
+    }
+
+
     /**
      * This iterator iterates through the map of countries and extracts related
      * data which is then added to the retrieved {@linkplain SauCountry}.

@@ -140,6 +140,13 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
     }
 
 
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
+    }
+
+
     /**
      * This iterator iterates a list of taxon keys and extracts more taxon related
      * data which is then added to the retrieved {@linkplain SauTaxon}.

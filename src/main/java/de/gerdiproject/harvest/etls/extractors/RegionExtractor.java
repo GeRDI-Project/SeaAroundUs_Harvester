@@ -21,9 +21,9 @@ import java.util.Iterator;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
@@ -101,6 +101,13 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     protected Iterator<GenericResponse<T>> extractAll() throws ExtractorException
     {
         return new EntryIterator();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 

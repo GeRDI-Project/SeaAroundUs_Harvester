@@ -19,6 +19,7 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -39,6 +40,12 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  */
 public class FishingEntityTransformer extends AbstractIteratorTransformer<GenericResponse<SauFishingEntity>, DataCiteJson>
 {
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
 
     @Override
     protected DataCiteJson transformElement(GenericResponse<SauFishingEntity> response) throws TransformerException
@@ -182,5 +189,12 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
                                        regionId,
                                        regionName);
         return files;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

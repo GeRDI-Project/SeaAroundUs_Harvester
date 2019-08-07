@@ -20,12 +20,13 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
@@ -58,6 +59,13 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
     {
         super();
         this.params = params;
+    }
+
+
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
     }
 
 
@@ -261,5 +269,12 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         });
 
         return subjects;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

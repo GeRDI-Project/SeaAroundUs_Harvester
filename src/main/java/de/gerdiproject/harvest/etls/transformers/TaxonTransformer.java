@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
@@ -45,6 +46,13 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  */
 public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, DataCiteJson>
 {
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
     @Override
     protected DataCiteJson transformElement(SauTaxon taxon) throws TransformerException
     {
@@ -266,4 +274,9 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
     }
 
 
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
+    }
 }

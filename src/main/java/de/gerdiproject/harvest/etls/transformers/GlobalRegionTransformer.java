@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -42,6 +43,13 @@ import de.gerdiproject.json.datacite.extension.generic.WebLink;
  */
 public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlobal, DataCiteJson>
 {
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
     @Override
     protected DataCiteJson transformElement(SauGlobal entry) throws TransformerException
     {
@@ -184,5 +192,12 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
             url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
 
         return url;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

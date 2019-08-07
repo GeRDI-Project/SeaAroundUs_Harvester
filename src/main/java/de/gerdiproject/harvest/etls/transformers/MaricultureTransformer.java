@@ -19,6 +19,7 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
@@ -42,6 +43,13 @@ import de.gerdiproject.json.geo.GeoJson;
  */
 public class MaricultureTransformer extends AbstractIteratorTransformer<GenericResponse<List<SauMariculture>>, DataCiteJson>
 {
+    @Override
+    public void init(AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
     @Override
     protected DataCiteJson transformElement(GenericResponse<List<SauMariculture>> source) throws TransformerException
     {
@@ -173,5 +181,12 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         });
 
         return geoLocations;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }
