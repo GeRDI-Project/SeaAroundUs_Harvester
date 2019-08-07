@@ -200,7 +200,7 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
         for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
             final String isoCode = subRegion.getProperties().getCIsoCode();
 
-            if (!isoCode.equals("-99"))
+            if (!"-99".equals(isoCode))
                 subjects.add(new Subject(isoCode));
 
 

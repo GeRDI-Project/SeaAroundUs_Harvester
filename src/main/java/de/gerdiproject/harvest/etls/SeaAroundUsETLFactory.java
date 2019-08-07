@@ -49,23 +49,17 @@ import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.json.datacite.DataCiteJson;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * This factory offers creators for SeaAroundUs ETLs.
  *
  * @author Robin Weiss
  */
-public class SeaAroundUsETLFactory
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
 {
-    /**
-     * Private constructor because all methods are static.
-     */
-    private SeaAroundUsETLFactory()
-    {
-
-    }
-
-
     /**
      * Creates an ETL for harvesting {@linkplain SauCountry} metadata.
      *

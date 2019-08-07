@@ -39,14 +39,14 @@ import de.gerdiproject.json.geo.FeatureCollection;
  */
 public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericResponse<T>>
 {
-    private final HttpRequester httpRequester;
+    protected final HttpRequester httpRequester;
 
-    private final Type responseType;
-    private final String regionApiName;
+    protected final Type responseType;
+    protected final String regionApiName;
 
-    private Iterator<Feature<SauFeatureProperties>> baseListIterator;
+    protected Iterator<Feature<SauFeatureProperties>> baseListIterator;
     private String version;
-    private int size = -1;
+    private int regionCount = -1;
 
 
     /**
@@ -78,7 +78,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
         // get version from metadata
         this.version = allRegions.getMetadata().getVersion();
 
-        this.size = allRegions.getData().getFeatures().size();
+        this.regionCount = allRegions.getData().getFeatures().size();
         this.baseListIterator = allRegions.getData().getFeatures().iterator();
     }
 
@@ -86,7 +86,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     @Override
     public int size()
     {
-        return size;
+        return regionCount;
     }
 
 

@@ -63,7 +63,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
 
 
     @Override
-    public void init(final AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl) // NOPMD init is empty on purpose here
     {
         // nothing to retrieve from the ETL
     }
@@ -273,7 +273,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
 
 
     @Override
-    public void clear()
+    public void clear() // NOPMD clear is empty on purpose here
     {
         // nothing to clean up
     }

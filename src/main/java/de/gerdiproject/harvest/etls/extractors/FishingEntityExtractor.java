@@ -35,13 +35,12 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  */
 public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericResponse<SauFishingEntity>>
 {
-    private static final String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
+    protected static final String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
+    protected final HttpRequester httpRequester = new HttpRequester();
+    protected Iterator<SauFishingEntityReduced> fishingEntityListIterator;
 
-    private final HttpRequester httpRequester = new HttpRequester();
-
-    private Iterator<SauFishingEntityReduced> fishingEntityListIterator;
     private String version;
-    private int size = -1;
+    private int fishingEntityCount = -1;
 
 
     @Override
@@ -56,7 +55,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
             httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.ALL_FISHING_ENTITIES_RESPONSE_TYPE);
 
         this.fishingEntityListIterator = allFishingEntities.getData().iterator();
-        this.size = allFishingEntities.getData().size();
+        this.fishingEntityCount = allFishingEntities.getData().size();
 
         // get version from metadata
         this.version = allFishingEntities.getMetadata().getVersion();
@@ -66,7 +65,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
     @Override
     public int size()
     {
-        return size;
+        return fishingEntityCount;
     }
 
 

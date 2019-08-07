@@ -25,12 +25,15 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  *  This static class contains fields and values of SeaAroundUs DataCite documents.
  *
  *  @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeaAroundUsDataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
@@ -104,25 +107,18 @@ public class SeaAroundUsDataCiteConstants
 
 
     /**
-     * Private constructor, because this is a static class.
-     */
-    private SeaAroundUsDataCiteConstants()
-    {
-    }
-
-
-    /**
      * Creates a list of Research Disciplines that fit SeaAroundUs.
      *
      * @return a list of Research Disciplines that fit SeaAroundUs
      */
     private static List<AbstractResearch> createResearchDisciplines()
     {
-        return Collections.unmodifiableList(Arrays.asList(
-                                                ResearchDisciplineConstants.OCEANOGRAPHY,
-                                                ResearchDisciplineConstants.STATISTICS_AND_ECONOMETRICS,
-                                                ResearchDisciplineConstants.ANIMAL_ECOLOGY
-                                            ));
+        return Collections.unmodifiableList(
+                   Arrays.asList(
+                       ResearchDisciplineConstants.OCEANOGRAPHY,
+                       ResearchDisciplineConstants.STATISTICS_AND_ECONOMETRICS,
+                       ResearchDisciplineConstants.ANIMAL_ECOLOGY
+                   ));
     }
 
 

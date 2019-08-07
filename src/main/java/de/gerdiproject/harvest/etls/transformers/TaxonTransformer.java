@@ -199,12 +199,15 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         final String scientificName = taxon.getScientificName();
         String label;
 
-        if (commonName != null && scientificName != null)
-            label = String.format(SeaAroundUsDataCiteConstants.TAXON_LABEL, commonName, scientificName);
-        else if (commonName != null)
+        if (commonName == null)
+            label = scientificName;
+        else if (scientificName == null)
             label = commonName;
         else
-            label = scientificName;
+            label = String.format(
+                        SeaAroundUsDataCiteConstants.TAXON_LABEL,
+                        commonName,
+                        scientificName);
 
 
         return label;

@@ -45,13 +45,14 @@ import de.gerdiproject.json.GsonUtils;
 public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 {
     private final Gson gson = GsonUtils.createGeoJsonGsonBuilder().create();
-    private final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
+    protected final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
 
-    private Iterator<SauTaxonReduced> taxonListIterator;
-    private int size = -1;
-    private String version;
-    private Map<Integer, String> taxonGroups;
-    private Map<Integer, String> taxonLevels;
+    protected Iterator<SauTaxonReduced> taxonListIterator;
+    protected Map<Integer, String> taxonGroups;
+    protected Map<Integer, String> taxonLevels;
+    protected String version;
+
+    private int taxonCount = -1;
 
 
     @Override
@@ -65,7 +66,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
                                                                    apiUrl,
                                                                    SeaAroundUsRegionConstants.ALL_TAXA_RESPONSE_TYPE);
         this.taxonListIterator = allTaxa.getData().iterator();
-        this.size = allTaxa.getData().size();
+        this.taxonCount = allTaxa.getData().size();
 
         // get version from metadata
         this.version = allTaxa.getMetadata().getVersion();
@@ -86,7 +87,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
     @Override
     public int size()
     {
-        return size;
+        return taxonCount;
     }
 
 

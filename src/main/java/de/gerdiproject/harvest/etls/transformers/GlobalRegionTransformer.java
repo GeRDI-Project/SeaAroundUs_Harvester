@@ -115,27 +115,32 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return a list of global ocean document files
      */
-    private List<ResearchData> createFiles(int subRegionId, final String regionName)
+    private List<ResearchData> createFiles(final int subRegionId, final String regionName)
     {
-        RegionParametersVO params;
+        final RegionParametersVO params;
+        final int id;
 
-        // subregion 0 is a special case as it uses differen URLs
+        // subregion 0 is a special case as it uses different URLs
         if (subRegionId == 0) {
-            subRegionId = 1;
+            id = 1;
             params = SeaAroundUsRegionConstants.GLOBAL_PARAMS;
-        } else
+        } else {
+            id = subRegionId;
             params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
+        }
+
+
         List<ResearchData> files;
-        files = SeaAroundUsDataCiteUtils.createCatchResearchData(params, subRegionId, regionName);
-        files.add(SeaAroundUsDataCiteUtils.createPrimaryProductionFile(params, subRegionId, regionName));
-        files.add(SeaAroundUsDataCiteUtils.createStockStatusFile(params, subRegionId, regionName));
+        files = SeaAroundUsDataCiteUtils.createCatchResearchData(params, id, regionName);
+        files.add(SeaAroundUsDataCiteUtils.createPrimaryProductionFile(params, id, regionName));
+        files.add(SeaAroundUsDataCiteUtils.createStockStatusFile(params, id, regionName));
 
         // marine trophic index
         final String label = SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL + params.getRegionType().getDisplayName().trim();
         final ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexFile(
                                                     params,
-                                                    subRegionId,
+                                                    id,
                                                     label);
         files.add(marineTrophicIndex);
 
@@ -183,15 +188,16 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      */
     private String getApiUrl(final int subRegionId)
     {
-        String url = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
-                         SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
-                         1);
+        final String regionUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
+                                     SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
+                                     1);
+        final StringBuilder urlBuilder = new StringBuilder(regionUrl);
 
         // add sub-region suffix, if necessary
         if (subRegionId != 0)
-            url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
+            urlBuilder.append(String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId));
 
-        return url;
+        return urlBuilder.toString();
     }
 
 
