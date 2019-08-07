@@ -51,14 +51,14 @@ public class UrlVO
      * @param catchesViewSuffix the suffix to link to a catches overview page
      * @param catchesDownloadSuffix the suffix to download catch data
      */
-    public UrlVO(String primaryProductionViewSuffix,
-                 String primaryProductionDownloadSuffix,
-                 String stockStatusViewSuffix,
-                 String stockStatusDownloadSuffix,
-                 String marineTrophicIndexViewSuffix,
-                 String marineTrophicIndexDownloadSuffix,
-                 String catchesViewSuffix,
-                 String catchesDownloadSuffix)
+    public UrlVO(final String primaryProductionViewSuffix,
+                 final String primaryProductionDownloadSuffix,
+                 final String stockStatusViewSuffix,
+                 final String stockStatusDownloadSuffix,
+                 final String marineTrophicIndexViewSuffix,
+                 final String marineTrophicIndexDownloadSuffix,
+                 final String catchesViewSuffix,
+                 final String catchesDownloadSuffix)
     {
         this.primaryProductionViewSuffix = primaryProductionViewSuffix;
         this.primaryProductionDownloadSuffix = primaryProductionDownloadSuffix;
@@ -79,7 +79,7 @@ public class UrlVO
      *
      * @return a link to a primary production overview page
      */
-    public String getPrimaryProductionViewUrl(String prefix, int regionId)
+    public String getPrimaryProductionViewUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(primaryProductionViewSuffix, regionId);
     }
@@ -93,7 +93,7 @@ public class UrlVO
      *
      * @return a download-link of primary production data
      */
-    public String getPrimaryProductionDownloadUrl(String prefix, int regionId)
+    public String getPrimaryProductionDownloadUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(primaryProductionDownloadSuffix, regionId);
 
@@ -108,7 +108,7 @@ public class UrlVO
      *
      * @return a link to a stock-status overview page
      */
-    public String getStockStatusViewUrl(String prefix, int regionId)
+    public String getStockStatusViewUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(stockStatusViewSuffix, regionId);
     }
@@ -122,7 +122,7 @@ public class UrlVO
      *
      * @return a download-link of stock-status data
      */
-    public String getStockStatusDownloadUrl(String prefix, int regionId)
+    public String getStockStatusDownloadUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(stockStatusDownloadSuffix, regionId);
     }
@@ -136,7 +136,7 @@ public class UrlVO
      *
      * @return a link to the marine trophic index overview page
      */
-    public String getMarineTrophicIndexViewUrl(String prefix, int regionId)
+    public String getMarineTrophicIndexViewUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(marineTrophicIndexViewSuffix, regionId);
     }
@@ -150,7 +150,7 @@ public class UrlVO
      *
      * @return a download-link of marine trophic index data
      */
-    public String getMarineTrophicIndexDownloadUrl(String prefix, int regionId)
+    public String getMarineTrophicIndexDownloadUrl(final String prefix, final int regionId)
     {
         return prefix + String.format(marineTrophicIndexDownloadSuffix, regionId);
     }
@@ -166,7 +166,7 @@ public class UrlVO
      *
      * @return a link to a catches overview page
      */
-    public String getCatchesViewUrl(String prefix, int regionId, String dimension, String measure)
+    public String getCatchesViewUrl(final String prefix, final int regionId, final String dimension, final String measure)
     {
         return prefix + String.format(catchesViewSuffix, regionId, dimension, measure);
     }
@@ -182,7 +182,7 @@ public class UrlVO
      *
      * @return a download-link of catch data
      */
-    public String getCatchesDownloadUrl(String prefix, int regionId, String dimension, String measure)
+    public String getCatchesDownloadUrl(final String prefix, final int regionId, final String dimension, final String measure)
     {
         return prefix + String.format(catchesDownloadSuffix, regionId, dimension, measure);
     }

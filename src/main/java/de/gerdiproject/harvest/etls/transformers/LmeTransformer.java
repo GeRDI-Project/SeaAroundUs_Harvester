@@ -42,7 +42,7 @@ public class LmeTransformer extends AbstractRegionTransformer<SauLmeRegion>
 
 
     @Override
-    protected List<WebLink> createWebLinks(SauLmeRegion regionObject)
+    protected List<WebLink> createWebLinks(final SauLmeRegion regionObject)
     {
         final List<WebLink> links = super.createWebLinks(regionObject);
 

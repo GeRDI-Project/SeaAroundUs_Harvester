@@ -55,7 +55,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
      * @param regionApiName the API key of the region that is to be harvested
      * @param responseType the type of a single region server response
      */
-    public RegionExtractor(String regionApiName, Type responseType)
+    public RegionExtractor(final String regionApiName, final Type responseType)
     {
         super();
         this.httpRequester = new HttpRequester();
@@ -66,7 +66,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 

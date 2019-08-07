@@ -44,20 +44,20 @@ import de.gerdiproject.json.geo.GeoJson;
 public class MaricultureTransformer extends AbstractIteratorTransformer<GenericResponse<List<SauMariculture>>, DataCiteJson>
 {
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         // nothing to retrieve from the ETL
     }
 
 
     @Override
-    protected DataCiteJson transformElement(GenericResponse<List<SauMariculture>> source) throws TransformerException
+    protected DataCiteJson transformElement(final GenericResponse<List<SauMariculture>> source) throws TransformerException
     {
         final List<SauMariculture> subRegions = source.getData();
         final int regionId = subRegions.get(0).getEntityId();
         final String regionApiName = SeaAroundUsRegionConstants.MARICULTURE_API_NAME;
 
-        DataCiteJson document = new DataCiteJson(regionApiName + regionId);
+        final DataCiteJson document = new DataCiteJson(regionApiName + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -83,12 +83,12 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    protected List<Title> createTitles(List<SauMariculture> subRegions)
+    protected List<Title> createTitles(final List<SauMariculture> subRegions)
     {
         final String shortTitle = subRegions.get(0).getCountryName();
         final Title mainTitle = new Title(SeaAroundUsDataCiteConstants.MARICULTURE_LABEL_PREFIX + shortTitle);
 
-        List<Title> titles = new LinkedList<>();
+        final List<Title> titles = new LinkedList<>();
         titles.add(mainTitle);
 
         return titles;
@@ -103,22 +103,22 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
      * @return a list of downloadable {@linkplain ResearchData}
      */
 
-    private List<ResearchData> createResearchData(List<SauMariculture> subRegions)
+    private List<ResearchData> createResearchData(final List<SauMariculture> subRegions)
     {
-        String countryName = subRegions.get(0).getCountryName();
+        final String countryName = subRegions.get(0).getCountryName();
         final int regionId = subRegions.get(0).getEntityId();
         final String apiUrl = SeaAroundUsDataCiteUtils.getAllRegionsUrl(SeaAroundUsRegionConstants.MARICULTURE_API_NAME);
 
-        List<ResearchData> researchData = new LinkedList<>();
+        final List<ResearchData> researchData = new LinkedList<>();
 
-        for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_MARICULTURE) {
+        for (final EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_MARICULTURE) {
             // add download for combined sub-regions
             researchData.add(new ResearchData(
                                  String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_ALL_URL, apiUrl, dimension.getUrlName(), regionId),
                                  String.format(SeaAroundUsDataCiteConstants.MARICULTURE_FILE_NAME, dimension.getDisplayName(), countryName)));
 
             // add sub-region downloads
-            subRegions.forEach((SauMariculture subRegion) -> {
+            subRegions.forEach((final SauMariculture subRegion) -> {
                 researchData.add(new ResearchData(
                                      String.format(SeaAroundUsUrlConstants.MARICULTURE_DOWNLOAD_SUBREGION_URL, apiUrl, dimension.getUrlName(), regionId, subRegion.getRegionId()),
                                      String.format(SeaAroundUsDataCiteConstants.MARICULTURE_SUBREGION_FILE_NAME, dimension.getDisplayName(), countryName, subRegion.getTitle())));
@@ -136,12 +136,12 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
      *
      * @return subjects for subregions of the mariculture
      */
-    private List<Subject> createSubjects(List<SauMariculture> subRegions)
+    private List<Subject> createSubjects(final List<SauMariculture> subRegions)
     {
         final List<Subject> subjects = new LinkedList<>();
 
         // add titles of sub-regions
-        subRegions.forEach((SauMariculture subRegion) -> {
+        subRegions.forEach((final SauMariculture subRegion) -> {
             final Subject subRegionTitle = new Subject(subRegion.getTitle());
             subRegionTitle.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);
             subjects.add(subRegionTitle);
@@ -158,20 +158,20 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
      *
      * @return a list of {@linkplain GeoLocation} of the subregions
      */
-    protected List<GeoLocation> createGeoLocations(List<SauMariculture> subRegions)
+    protected List<GeoLocation> createGeoLocations(final List<SauMariculture> subRegions)
     {
         final List<GeoLocation> geoLocations = new LinkedList<GeoLocation>();
 
-        subRegions.forEach((SauMariculture subRegion) -> {
+        subRegions.forEach((final SauMariculture subRegion) -> {
 
             // only add location if it has geo json data
             if (subRegion.getGeojson() != null || subRegion.getPointGeojson() != null)
             {
-                List<GeoJson>
+                final List<GeoJson>
                 polys = new LinkedList<>();
                 polys.add(subRegion.getGeojson());
 
-                GeoLocation subLocation = new GeoLocation();
+                final GeoLocation subLocation = new GeoLocation();
                 subLocation.setPolygons(polys);
                 subLocation.setPoint(subRegion.getPointGeojson());
                 subLocation.setPlace(subRegion.getTitle());

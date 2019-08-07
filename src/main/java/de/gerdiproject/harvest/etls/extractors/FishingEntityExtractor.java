@@ -45,7 +45,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 

@@ -153,7 +153,7 @@ public class SauCountry
      *
      * @param subRegions the features that belong to this country
      */
-    public void setSubRegions(List<Feature<SauCountryProperties>> subRegions)
+    public void setSubRegions(final List<Feature<SauCountryProperties>> subRegions)
     {
         this.subRegions = subRegions;
     }

@@ -44,14 +44,14 @@ import de.gerdiproject.json.datacite.extension.generic.WebLink;
 public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlobal, DataCiteJson>
 {
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         // nothing to retrieve from the ETL
     }
 
 
     @Override
-    protected DataCiteJson transformElement(SauGlobal entry) throws TransformerException
+    protected DataCiteJson transformElement(final SauGlobal entry) throws TransformerException
     {
         final String subRegionName = entry.getSubRegionNameSuffix();
         final int subRegionId = entry.getSubRegionId();
@@ -80,10 +80,10 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return a list of global ocean document titles
      */
-    private List<Title> createTitles(String regionName)
+    private List<Title> createTitles(final String regionName)
     {
-        String titleString = (SeaAroundUsDataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim(); // NOPMD - parentheses are needed for proper trimming
-        Title mainTitle = new Title(titleString);
+        final String titleString = (SeaAroundUsDataCiteConstants.GLOBAL_OCEAN_TITLE + regionName).trim(); // NOPMD - parentheses are needed for proper trimming
+        final Title mainTitle = new Title(titleString);
         return Arrays.asList(mainTitle);
     }
 
@@ -95,10 +95,10 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return a list of global ocean document subjects
      */
-    private List<Subject> createSubjects(List<Metric> metrics)
+    private List<Subject> createSubjects(final List<Metric> metrics)
     {
-        List<Subject> subjects = new LinkedList<>();
-        metrics.forEach((Metric m) -> {
+        final List<Subject> subjects = new LinkedList<>();
+        metrics.forEach((final Metric m) -> {
             if (m.getValue() != 0.0)
                 subjects.add(new Subject(m.getTitle()));
         });
@@ -115,7 +115,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return a list of global ocean document files
      */
-    private List<ResearchData> createFiles(int subRegionId, String regionName)
+    private List<ResearchData> createFiles(int subRegionId, final String regionName)
     {
         RegionParametersVO params;
 
@@ -132,11 +132,11 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         files.add(SeaAroundUsDataCiteUtils.createStockStatusFile(params, subRegionId, regionName));
 
         // marine trophic index
-        String label = SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL + params.getRegionType().getDisplayName().trim();
-        ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexFile(
-                                              params,
-                                              subRegionId,
-                                              label);
+        final String label = SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL + params.getRegionType().getDisplayName().trim();
+        final ResearchData marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexFile(
+                                                    params,
+                                                    subRegionId,
+                                                    label);
         files.add(marineTrophicIndex);
 
         return files;
@@ -151,9 +151,9 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return a list of global ocean document web links
      */
-    private List<WebLink> createWebLinks(int subRegionId, String regionName)
+    private List<WebLink> createWebLinks(final int subRegionId, final String regionName)
     {
-        RegionParametersVO params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
+        final RegionParametersVO params = SeaAroundUsRegionConstants.GLOBAL_SUBREGION_PARAMS;
 
         List<WebLink> links;
         links = SeaAroundUsDataCiteUtils.createCatchLinks(params, subRegionId, regionName);
@@ -163,10 +163,10 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         links.add(SeaAroundUsDataCiteUtils.createSourceLink(getApiUrl(subRegionId)));
 
         // marine trophic index
-        WebLink marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexLink(
-                                         params,
-                                         subRegionId,
-                                         SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
+        final WebLink marineTrophicIndex = SeaAroundUsDataCiteUtils.createMarineTrophicIndexLink(
+                                               params,
+                                               subRegionId,
+                                               SeaAroundUsDataCiteConstants.GLOBAL_MARINE_TROPHIC_INDEX_LABEL);
         marineTrophicIndex.setName((marineTrophicIndex.getName() + params.getRegionType().getDisplayName()).trim()); // NOPMD - parentheses are needed for proper trimming
         links.add(marineTrophicIndex);
 
@@ -181,7 +181,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
      *
      * @return the source URL for retrieving global ocean data
      */
-    private String getApiUrl(int subRegionId)
+    private String getApiUrl(final int subRegionId)
     {
         String url = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                          SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,

@@ -55,7 +55,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -112,7 +112,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
         // create map out of group list
         final Map<Integer, String> taxonLevelMap = new HashMap<>();
-        response.getData().forEach((SauTaxonGroup g) ->
+        response.getData().forEach((final SauTaxonGroup g) ->
                                    taxonLevelMap.put(g.getTaxonGroupId(), g.getName())
                                   );
         return taxonLevelMap;
@@ -133,7 +133,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
             httpRequester.getObjectFromUrl(taxonGroupUrl, SeaAroundUsRegionConstants.TAXON_LEVEL_RESPONSE_TYPE);
 
         final Map<Integer, String> taxonLevelMap = new HashMap<>();
-        response.getData().forEach((SauTaxonLevel l) ->
+        response.getData().forEach((final SauTaxonLevel l) ->
                                    taxonLevelMap.put(l.getTaxonLevelId(), l.getName())
                                   );
         return taxonLevelMap;
@@ -184,7 +184,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
          *
          * @param item the item that is to be enriched
          */
-        private void enrich(SauTaxon item)
+        private void enrich(final SauTaxon item)
         {
             // set version
             item.setVersion(version);

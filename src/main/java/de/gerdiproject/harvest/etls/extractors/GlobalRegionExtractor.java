@@ -43,7 +43,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -83,7 +83,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
      * @param subRegionId
      * @return the source URL for retrieving global ocean data
      */
-    private String createApiUrl(int subRegionId)
+    private String createApiUrl(final int subRegionId)
     {
         String url = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                          SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,

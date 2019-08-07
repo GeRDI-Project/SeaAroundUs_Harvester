@@ -44,16 +44,16 @@ public class RfmoTransformer extends AbstractRegionTransformer<SauRfmoRegion>
 
 
     @Override
-    protected List<WebLink> createWebLinks(SauRfmoRegion regionObject)
+    protected List<WebLink> createWebLinks(final SauRfmoRegion regionObject)
     {
         final List<WebLink> links = super.createWebLinks(regionObject);
 
         final List<SauRfmoContractingCountry> countries = regionObject.getContractingCountries();
 
         if (countries != null && !countries.isEmpty()) {
-            countries.forEach((SauRfmoContractingCountry c) -> {
+            countries.forEach((final SauRfmoContractingCountry c) -> {
 
-                WebLink cLink = new WebLink(c.getFacpUrl());
+                final WebLink cLink = new WebLink(c.getFacpUrl());
                 cLink.setName(String.format(
                                   SeaAroundUsDataCiteConstants.CONTRACTING_COUNTRY_NAME,
                                   c.getName(),
@@ -68,7 +68,7 @@ public class RfmoTransformer extends AbstractRegionTransformer<SauRfmoRegion>
 
 
     @Override
-    protected List<Subject> createSubjects(SauRfmoRegion regionObject)
+    protected List<Subject> createSubjects(final SauRfmoRegion regionObject)
     {
         final List<Subject> subjects = super.createSubjects(regionObject);
 
@@ -85,18 +85,18 @@ public class RfmoTransformer extends AbstractRegionTransformer<SauRfmoRegion>
      * @param subjects the subject list of the document that is to be enriched
      * @param taxa a list of taxon data
      */
-    private void addTaxaSubjects(List<Subject> subjects, List<SauTaxonReduced> taxa)
+    private void addTaxaSubjects(final List<Subject> subjects, final List<SauTaxonReduced> taxa)
     {
         if (taxa != null && !taxa.isEmpty()) {
 
-            taxa.forEach((SauTaxonReduced taxon) -> {
+            taxa.forEach((final SauTaxonReduced taxon) -> {
 
-                String commonName = taxon.getCommonName();
+                final String commonName = taxon.getCommonName();
 
                 if (commonName != null)
                     subjects.add(new Subject(commonName));
 
-                String scientificName = taxon.getScientificName();
+                final String scientificName = taxon.getScientificName();
                 if (scientificName != null)
                     subjects.add(new Subject(scientificName));
             });

@@ -133,7 +133,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Rights> createRightsList()
     {
-        Rights termsOfUsage = new Rights(
+        final Rights termsOfUsage = new Rights(
             "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
             + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
         return Collections.unmodifiableList(Arrays.asList(termsOfUsage));
@@ -147,7 +147,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static WebLink createLogoLink()
     {
-        WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
+        final WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
         logoLink.setName("Logo");
         logoLink.setType(WebLinkType.ProviderLogoURL);
         return logoLink;
@@ -161,7 +161,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Creator> createSauCreatorList()
     {
-        Creator sauCreator = new Creator(PROVIDER);
+        final Creator sauCreator = new Creator(PROVIDER);
         return Collections.unmodifiableList(Arrays.asList(sauCreator));
     }
 }

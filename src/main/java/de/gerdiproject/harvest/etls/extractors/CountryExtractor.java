@@ -52,7 +52,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -65,7 +65,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
         countryMap.clear();
         this.size = 0;
 
-        for (Feature<SauCountryProperties> basicCountry : allCountries.getData().getFeatures()) {
+        for (final Feature<SauCountryProperties> basicCountry : allCountries.getData().getFeatures()) {
             final int countryId = basicCountry.getProperties().getCNumber();
 
             List<Feature<SauCountryProperties>> subRegions = countryMap.get(countryId);

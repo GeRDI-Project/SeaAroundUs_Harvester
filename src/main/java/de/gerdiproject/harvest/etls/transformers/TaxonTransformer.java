@@ -47,22 +47,22 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, DataCiteJson>
 {
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         // nothing to retrieve from the ETL
     }
 
 
     @Override
-    protected DataCiteJson transformElement(SauTaxon taxon) throws TransformerException
+    protected DataCiteJson transformElement(final SauTaxon taxon) throws TransformerException
     {
         final int taxonKey = taxon.getTaxonKey();
-        String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
-                            SeaAroundUsRegionConstants.TAXA_API_NAME,
-                            taxonKey);
-        String label = createTaxonLabel(taxon);
+        final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
+                                  SeaAroundUsRegionConstants.TAXA_API_NAME,
+                                  taxonKey);
+        final String label = createTaxonLabel(taxon);
 
-        DataCiteJson document = new DataCiteJson(apiUrl);
+        final DataCiteJson document = new DataCiteJson(apiUrl);
         document.setVersion(taxon.getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -87,7 +87,7 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      *
      * @return a list of titles for a taxon
      */
-    private List<Title> createTitles(String label)
+    private List<Title> createTitles(final String label)
     {
         return Arrays.asList(new Title(label));
     }
@@ -103,26 +103,26 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      * @return a list of {@linkplain File}s for downloading CSV catch files of
      *         the taxon
      */
-    private List<ResearchData> createFiles(int taxonKey, String label)
+    private List<ResearchData> createFiles(final int taxonKey, final String label)
     {
-        List<ResearchData> files = new LinkedList<>();
+        final List<ResearchData> files = new LinkedList<>();
 
-        for (EntryVO measure : SeaAroundUsRegionConstants.TAXON_MEASURES) {
-            for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
+        for (final EntryVO measure : SeaAroundUsRegionConstants.TAXON_MEASURES) {
+            for (final EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchValueLabel = String.format(
-                                             SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
-                                             measure.getDisplayName(),
-                                             label,
-                                             dimension.getDisplayName());
-                String downloadUrl = SeaAroundUsDataCiteUtils.getCatchesUrl(
-                                         SeaAroundUsRegionConstants.TAXA_API_NAME,
-                                         taxonKey,
-                                         measure,
-                                         dimension)
-                                     + SeaAroundUsUrlConstants.CSV_FORM;
-                ResearchData catchFile = new ResearchData(downloadUrl, catchValueLabel);
+                final String catchValueLabel = String.format(
+                                                   SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
+                                                   measure.getDisplayName(),
+                                                   label,
+                                                   dimension.getDisplayName());
+                final String downloadUrl = SeaAroundUsDataCiteUtils.getCatchesUrl(
+                                               SeaAroundUsRegionConstants.TAXA_API_NAME,
+                                               taxonKey,
+                                               measure,
+                                               dimension)
+                                           + SeaAroundUsUrlConstants.CSV_FORM;
+                final ResearchData catchFile = new ResearchData(downloadUrl, catchValueLabel);
                 catchFile.setType(SeaAroundUsDataCiteConstants.CSV_FORMAT);
 
                 files.add(catchFile);
@@ -142,38 +142,38 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      *
      * @return a list of {@linkplain WebLink}s for viewing taxon catches
      */
-    private List<WebLink> createWebLinks(String apiUrl, int taxonKey, String label)
+    private List<WebLink> createWebLinks(final String apiUrl, final int taxonKey, final String label)
     {
-        List<WebLink> links = new LinkedList<>();
+        final List<WebLink> links = new LinkedList<>();
 
         // add source link
-        WebLink sourceLink = SeaAroundUsDataCiteUtils.createSourceLink(apiUrl);
+        final WebLink sourceLink = SeaAroundUsDataCiteUtils.createSourceLink(apiUrl);
         links.add(sourceLink);
 
         // add view link
-        String viewUrl = String.format(SeaAroundUsUrlConstants.TAXON_PROFILE_VIEW_URL, taxonKey);
-        WebLink viewLink = new WebLink(viewUrl);
+        final String viewUrl = String.format(SeaAroundUsUrlConstants.TAXON_PROFILE_VIEW_URL, taxonKey);
+        final WebLink viewLink = new WebLink(viewUrl);
         viewLink.setName(SeaAroundUsDataCiteConstants.TAXON_VIEW_NAME);
         viewLink.setType(WebLinkType.ViewURL);
         links.add(viewLink);
 
         // add catch links
-        for (EntryVO measure : SeaAroundUsRegionConstants.TAXON_MEASURES) {
-            for (EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
+        for (final EntryVO measure : SeaAroundUsRegionConstants.TAXON_MEASURES) {
+            for (final EntryVO dimension : SeaAroundUsDimensionConstants.DIMENSIONS_TAXON) {
 
                 // add catch value web link and file
-                String catchLabel = String.format(
-                                        SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
-                                        measure.getDisplayName(),
-                                        label,
-                                        dimension.getDisplayName());
-                String catchUrl = String.format(
-                                      SeaAroundUsUrlConstants.TAXON_CATCH_VIEW_URL,
-                                      taxonKey,
-                                      dimension.getUrlName(),
-                                      measure.getUrlName());
+                final String catchLabel = String.format(
+                                              SeaAroundUsDataCiteConstants.TAXON_CATCHES_LABEL,
+                                              measure.getDisplayName(),
+                                              label,
+                                              dimension.getDisplayName());
+                final String catchUrl = String.format(
+                                            SeaAroundUsUrlConstants.TAXON_CATCH_VIEW_URL,
+                                            taxonKey,
+                                            dimension.getUrlName(),
+                                            measure.getUrlName());
 
-                WebLink catchLink = new WebLink(catchUrl);
+                final WebLink catchLink = new WebLink(catchUrl);
                 catchLink.setName(catchLabel);
                 catchLink.setType(WebLinkType.ViewURL);
 
@@ -193,10 +193,10 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      *
      * @return a label for the taxon
      */
-    private String createTaxonLabel(SauTaxon taxon)
+    private String createTaxonLabel(final SauTaxon taxon)
     {
-        String commonName = taxon.getCommonName();
-        String scientificName = taxon.getScientificName();
+        final String commonName = taxon.getCommonName();
+        final String scientificName = taxon.getScientificName();
         String label;
 
         if (commonName != null && scientificName != null)
@@ -219,17 +219,17 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      *
      * @return a list of {@linkplain GeoLocation}s
      */
-    private List<GeoLocation> createGeoLocations(SauTaxon taxon)
+    private List<GeoLocation> createGeoLocations(final SauTaxon taxon)
     {
         List<GeoLocation> geoLocations = null;
 
-        Double latNorth = taxon.getLatNorth();
-        Double latSouth = taxon.getLatSouth();
+        final Double latNorth = taxon.getLatNorth();
+        final Double latSouth = taxon.getLatSouth();
 
         // check if geo data is available
         if (latNorth != null && latSouth != null) {
             geoLocations = new LinkedList<>();
-            GeoLocation geo = new GeoLocation();
+            final GeoLocation geo = new GeoLocation();
             geo.setBox(-180.0, 180.0, latSouth, latNorth);
 
             geoLocations.add(geo);
@@ -246,9 +246,9 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
      *
      * @return a list of search tags
      */
-    private List<Subject> createSubjects(SauTaxon taxon)
+    private List<Subject> createSubjects(final SauTaxon taxon)
     {
-        List<Subject> subjects = new LinkedList<>();
+        final List<Subject> subjects = new LinkedList<>();
 
         // add generic taxon fields
         subjects.add(new Subject(taxon.getCommonName()));
@@ -260,10 +260,10 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         subjects.add(new Subject(taxon.getTaxonLevelName()));
 
         // add names of all habitats occupied by the taxon
-        Map<String, Double> habitatIndex = taxon.getHabitatIndex();
+        final Map<String, Double> habitatIndex = taxon.getHabitatIndex();
 
         if (habitatIndex != null) {
-            habitatIndex.forEach((String name, Double value) -> {
+            habitatIndex.forEach((final String name, final Double value) -> {
 
                 if (value != null && value > 0.0 && !name.equals("habitat_diversity_index"))
                     subjects.add(new Subject(name));

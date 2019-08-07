@@ -41,14 +41,14 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
 public class FishingEntityTransformer extends AbstractIteratorTransformer<GenericResponse<SauFishingEntity>, DataCiteJson>
 {
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         // nothing to retrieve from the ETL
     }
 
 
     @Override
-    protected DataCiteJson transformElement(GenericResponse<SauFishingEntity> response) throws TransformerException
+    protected DataCiteJson transformElement(final GenericResponse<SauFishingEntity> response) throws TransformerException
     {
         final SauFishingEntity entry = response.getData();
         final int regionId = entry.getId();
@@ -85,14 +85,14 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    private List<Title> createTitles(String regionName)
+    private List<Title> createTitles(final String regionName)
     {
         final String titleString = String.format(
                                        SeaAroundUsDataCiteConstants.GENERIC_LABEL,
                                        SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getDisplayName(),
                                        regionName);
 
-        List<Title> titles = new LinkedList<>();
+        final List<Title> titles = new LinkedList<>();
         titles.add(new Title(titleString));
 
         return titles;
@@ -108,7 +108,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
      * @return a list of (related) {@linkplain WebLink}s of a fishing-entity
      *         region
      */
-    private List<WebLink> createWebLinks(SauFishingEntity regionObject)
+    private List<WebLink> createWebLinks(final SauFishingEntity regionObject)
     {
         final int regionId = regionObject.getId();
         final int countryId = regionObject.getCountryId();
@@ -182,12 +182,12 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
      *
      * @return a list of {@linkplain ResearchData} of a fishing-entity region
      */
-    private List<ResearchData> createResearchData(int regionId, String regionName)
+    private List<ResearchData> createResearchData(final int regionId, final String regionName)
     {
-        List<ResearchData> files = SeaAroundUsDataCiteUtils.createCatchResearchData(
-                                       SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS,
-                                       regionId,
-                                       regionName);
+        final List<ResearchData> files = SeaAroundUsDataCiteUtils.createCatchResearchData(
+                                             SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS,
+                                             regionId,
+                                             regionName);
         return files;
     }
 
