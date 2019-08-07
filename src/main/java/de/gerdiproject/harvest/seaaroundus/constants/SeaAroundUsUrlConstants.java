@@ -51,6 +51,7 @@ public class SeaAroundUsUrlConstants
 
     // FISHING-ENTITY
     public static final String CATCH_ALLOCATIONS_URL = "http://www.seaaroundus.org/data/#/spatial-catch?entities=%d";
+    public static final String FISHING_ENTITY_TREATIES_VIEW_URL = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=%03d";
 
     // TAXA
     public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";

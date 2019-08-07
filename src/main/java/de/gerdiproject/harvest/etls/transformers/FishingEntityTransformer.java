@@ -153,7 +153,7 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
         webLinks.add(fishingAccessLink);
 
         // Treaties and Conventions
-        final WebLink treatiesLink = new WebLink(String.format(SeaAroundUsUrlConstants.TREATIES_VIEW_URL, countryId));
+        final WebLink treatiesLink = new WebLink(String.format(SeaAroundUsUrlConstants.FISHING_ENTITY_TREATIES_VIEW_URL, countryId));
         treatiesLink.setType(WebLinkType.Related);
         treatiesLink.setName(String.format(SeaAroundUsDataCiteConstants.TREATIES_LABEL_SHORT, countryName));
         webLinks.add(treatiesLink);
