@@ -26,8 +26,8 @@ import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityReduced;
-import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonGroup;
@@ -36,6 +36,8 @@ import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.geo.FeatureCollection;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  *  This static class contains descriptions of regions. Regions are filter
@@ -43,6 +45,7 @@ import de.gerdiproject.json.geo.FeatureCollection;
  *
  *  @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeaAroundUsRegionConstants
 {
 
@@ -147,15 +150,4 @@ public class SeaAroundUsRegionConstants
 
     public static final List<String> GLOBAL_SUB_REGION_SUFFIXES =
         Collections.unmodifiableList(Arrays.asList("", "- EEZs of the world", "- High Seas of the world"));
-
-
-    //Entry regionType, List<Entry> dimensions, UrlVO urls,
-    //Class<? extends GenericRegion> regionClass
-
-    /**
-     * Private constructor, because this is a static class.
-     */
-    private SeaAroundUsRegionConstants()
-    {
-    }
 }

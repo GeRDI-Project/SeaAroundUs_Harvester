@@ -25,12 +25,15 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  *  This static class contains fields and values of SeaAroundUs DataCite documents.
  *
  *  @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeaAroundUsDataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
@@ -104,25 +107,18 @@ public class SeaAroundUsDataCiteConstants
 
 
     /**
-     * Private constructor, because this is a static class.
-     */
-    private SeaAroundUsDataCiteConstants()
-    {
-    }
-
-
-    /**
      * Creates a list of Research Disciplines that fit SeaAroundUs.
      *
      * @return a list of Research Disciplines that fit SeaAroundUs
      */
     private static List<AbstractResearch> createResearchDisciplines()
     {
-        return Collections.unmodifiableList(Arrays.asList(
-                                                ResearchDisciplineConstants.OCEANOGRAPHY,
-                                                ResearchDisciplineConstants.STATISTICS_AND_ECONOMETRICS,
-                                                ResearchDisciplineConstants.ANIMAL_ECOLOGY
-                                            ));
+        return Collections.unmodifiableList(
+                   Arrays.asList(
+                       ResearchDisciplineConstants.OCEANOGRAPHY,
+                       ResearchDisciplineConstants.STATISTICS_AND_ECONOMETRICS,
+                       ResearchDisciplineConstants.ANIMAL_ECOLOGY
+                   ));
     }
 
 
@@ -133,7 +129,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Rights> createRightsList()
     {
-        Rights termsOfUsage = new Rights(
+        final Rights termsOfUsage = new Rights(
             "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\n"
             + "By downloading this data, you agree to provide attribution for any Sea Around Us data you use.");
         return Collections.unmodifiableList(Arrays.asList(termsOfUsage));
@@ -147,7 +143,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static WebLink createLogoLink()
     {
-        WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
+        final WebLink logoLink = new WebLink("http://www.seaaroundus.org/data/images/logo_saup.png");
         logoLink.setName("Logo");
         logoLink.setType(WebLinkType.ProviderLogoURL);
         return logoLink;
@@ -161,7 +157,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Creator> createSauCreatorList()
     {
-        Creator sauCreator = new Creator(PROVIDER);
+        final Creator sauCreator = new Creator(PROVIDER);
         return Collections.unmodifiableList(Arrays.asList(sauCreator));
     }
 }

@@ -44,15 +44,15 @@ import de.gerdiproject.json.geo.FeatureCollection;
  */
 public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<SauCountry>>
 {
-    private final HttpRequester httpRequester = new HttpRequester();
+    protected final HttpRequester httpRequester = new HttpRequester();
 
-    private final Map<Integer, List<Feature<SauCountryProperties>>> countryMap = new HashMap<>();
-    private int size = -1;
+    protected final Map<Integer, List<Feature<SauCountryProperties>>> countryMap = new HashMap<>();
+    private int countryCount = -1;
     private String version;
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -63,9 +63,9 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
 
         // set up the map of country sub-regions
         countryMap.clear();
-        this.size = 0;
+        this.countryCount = 0;
 
-        for (Feature<SauCountryProperties> basicCountry : allCountries.getData().getFeatures()) {
+        for (final Feature<SauCountryProperties> basicCountry : allCountries.getData().getFeatures()) {
             final int countryId = basicCountry.getProperties().getCNumber();
 
             List<Feature<SauCountryProperties>> subRegions = countryMap.get(countryId);
@@ -73,7 +73,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
             if (subRegions == null) {
                 subRegions = new LinkedList<>();
                 countryMap.put(countryId, subRegions);
-                this.size++;
+                this.countryCount++;
             }
 
             subRegions.add(basicCountry);
@@ -94,7 +94,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
     @Override
     public int size()
     {
-        return size;
+        return countryCount;
     }
 
 
@@ -102,6 +102,13 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
     protected Iterator<GenericResponse<SauCountry>> extractAll() throws ExtractorException
     {
         return new CountryIterator();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 

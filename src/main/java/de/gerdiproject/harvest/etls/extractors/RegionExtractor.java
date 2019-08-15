@@ -21,9 +21,9 @@ import java.util.Iterator;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.HttpRequester;
@@ -39,14 +39,14 @@ import de.gerdiproject.json.geo.FeatureCollection;
  */
 public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericResponse<T>>
 {
-    private final HttpRequester httpRequester;
+    protected final HttpRequester httpRequester;
 
-    private final Type responseType;
-    private final String regionApiName;
+    protected final Type responseType;
+    protected final String regionApiName;
 
-    private Iterator<Feature<SauFeatureProperties>> baseListIterator;
+    protected Iterator<Feature<SauFeatureProperties>> baseListIterator;
     private String version;
-    private int size = -1;
+    private int regionCount = -1;
 
 
     /**
@@ -55,7 +55,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
      * @param regionApiName the API key of the region that is to be harvested
      * @param responseType the type of a single region server response
      */
-    public RegionExtractor(String regionApiName, Type responseType)
+    public RegionExtractor(final String regionApiName, final Type responseType)
     {
         super();
         this.httpRequester = new HttpRequester();
@@ -66,7 +66,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -78,7 +78,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
         // get version from metadata
         this.version = allRegions.getMetadata().getVersion();
 
-        this.size = allRegions.getData().getFeatures().size();
+        this.regionCount = allRegions.getData().getFeatures().size();
         this.baseListIterator = allRegions.getData().getFeatures().iterator();
     }
 
@@ -86,7 +86,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     @Override
     public int size()
     {
-        return size;
+        return regionCount;
     }
 
 
@@ -101,6 +101,13 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
     protected Iterator<GenericResponse<T>> extractAll() throws ExtractorException
     {
         return new EntryIterator();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 

@@ -16,12 +16,15 @@
 package de.gerdiproject.harvest.seaaroundus.constants;
 
 import de.gerdiproject.harvest.seaaroundus.vos.UrlVO;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  *  This static class provides SeaAroundUs URL related constants.
  *
  *  @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeaAroundUsUrlConstants
 {
     public static final String PROVIDER_URI = "http://www.seaaroundus.org/";
@@ -48,6 +51,7 @@ public class SeaAroundUsUrlConstants
 
     // FISHING-ENTITY
     public static final String CATCH_ALLOCATIONS_URL = "http://www.seaaroundus.org/data/#/spatial-catch?entities=%d";
+    public static final String FISHING_ENTITY_TREATIES_VIEW_URL = "http://www.fishbase.org/Country/CountryTreatyList.php?Country=%03d";
 
     // TAXA
     public static final String TAXON_PROFILE_VIEW_URL = "http://www.seaaroundus.org/data/#/taxa/%d?showHabitatIndex=true";
@@ -77,12 +81,4 @@ public class SeaAroundUsUrlConstants
         "marine-trophic-index/?region_id=1&transfer_efficiency=0.1&sub_area_id=%d",
         "?chart=catch-chart&subRegion=%d&dimension=%s&measure=%s&limit=20",
         "%3$s/%2$s/?limit=20&fao_id=%1$d&region_id=1");
-
-
-    /**
-     * Private constructor, because this is a static class.
-     */
-    private SeaAroundUsUrlConstants()
-    {
-    }
 }

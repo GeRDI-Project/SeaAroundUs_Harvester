@@ -45,17 +45,18 @@ import de.gerdiproject.json.GsonUtils;
 public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 {
     private final Gson gson = GsonUtils.createGeoJsonGsonBuilder().create();
-    private final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
+    protected final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
 
-    private Iterator<SauTaxonReduced> taxonListIterator;
-    private int size = -1;
-    private String version;
-    private Map<Integer, String> taxonGroups;
-    private Map<Integer, String> taxonLevels;
+    protected Iterator<SauTaxonReduced> taxonListIterator;
+    protected Map<Integer, String> taxonGroups;
+    protected Map<Integer, String> taxonLevels;
+    protected String version;
+
+    private int taxonCount = -1;
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -65,7 +66,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
                                                                    apiUrl,
                                                                    SeaAroundUsRegionConstants.ALL_TAXA_RESPONSE_TYPE);
         this.taxonListIterator = allTaxa.getData().iterator();
-        this.size = allTaxa.getData().size();
+        this.taxonCount = allTaxa.getData().size();
 
         // get version from metadata
         this.version = allTaxa.getMetadata().getVersion();
@@ -86,7 +87,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
     @Override
     public int size()
     {
-        return size;
+        return taxonCount;
     }
 
 
@@ -112,7 +113,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
         // create map out of group list
         final Map<Integer, String> taxonLevelMap = new HashMap<>();
-        response.getData().forEach((SauTaxonGroup g) ->
+        response.getData().forEach((final SauTaxonGroup g) ->
                                    taxonLevelMap.put(g.getTaxonGroupId(), g.getName())
                                   );
         return taxonLevelMap;
@@ -133,10 +134,17 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
             httpRequester.getObjectFromUrl(taxonGroupUrl, SeaAroundUsRegionConstants.TAXON_LEVEL_RESPONSE_TYPE);
 
         final Map<Integer, String> taxonLevelMap = new HashMap<>();
-        response.getData().forEach((SauTaxonLevel l) ->
+        response.getData().forEach((final SauTaxonLevel l) ->
                                    taxonLevelMap.put(l.getTaxonLevelId(), l.getName())
                                   );
         return taxonLevelMap;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 
@@ -177,7 +185,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
          *
          * @param item the item that is to be enriched
          */
-        private void enrich(SauTaxon item)
+        private void enrich(final SauTaxon item)
         {
             // set version
             item.setVersion(version);

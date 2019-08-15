@@ -43,10 +43,10 @@ public class SauCountry
     private List<SauNgo> ngo;
 
     @SerializedName("has_survey")
-    private int hasSurvey;
+    private int survey;
 
     @SerializedName("is_active")
-    private boolean isActive;
+    private boolean active;
 
     @SerializedName("eez_ppr")
     private double eezPpr;
@@ -73,7 +73,7 @@ public class SauCountry
     private String faoCode;
 
     @SerializedName("has_mpa")
-    private int hasMpa;
+    private int mpa;
 
     @SerializedName("fao_fisheries")
     private String faoFisheries;
@@ -118,7 +118,7 @@ public class SauCountry
     private String fishBase;
 
     @SerializedName("has_saup_profile")
-    private int hasSaupProfile;
+    private int saupProfile;
 
     @SerializedName("admin_c_number")
     private int adminCNumber;
@@ -127,7 +127,7 @@ public class SauCountry
     private double eezArea;
 
     @SerializedName("has_estuary")
-    private int hasEstuary;
+    private int estuary;
 
     @SerializedName("per_sea_mount")
     private double perSeaMount;
@@ -153,7 +153,7 @@ public class SauCountry
      *
      * @param subRegions the features that belong to this country
      */
-    public void setSubRegions(List<Feature<SauCountryProperties>> subRegions)
+    public void setSubRegions(final List<Feature<SauCountryProperties>> subRegions)
     {
         this.subRegions = subRegions;
     }

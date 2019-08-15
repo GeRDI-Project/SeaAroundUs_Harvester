@@ -19,6 +19,7 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -44,13 +45,20 @@ import de.gerdiproject.json.geo.Feature;
 public class CountryTransformer extends AbstractIteratorTransformer<GenericResponse<SauCountry>, DataCiteJson>
 {
     @Override
-    protected DataCiteJson transformElement(GenericResponse<SauCountry> source) throws TransformerException
+    public void init(final AbstractETL<?, ?> etl)
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
+    @Override
+    protected DataCiteJson transformElement(final GenericResponse<SauCountry> source) throws TransformerException
     {
         final SauCountry country = source.getData();
         final int regionId = country.getCNumber();
         final String regionApiName = SeaAroundUsRegionConstants.COUNTRY_API_NAME;
 
-        DataCiteJson document = new DataCiteJson(regionApiName + regionId);
+        final DataCiteJson document = new DataCiteJson(regionApiName + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -75,14 +83,14 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    private List<Title> createTitles(SauCountry country)
+    private List<Title> createTitles(final SauCountry country)
     {
         final List<Title> titles = new LinkedList<>();
 
         final Title mainTitle = new Title(String.format(SeaAroundUsDataCiteConstants.COUNTRY_LABEL, country.getCountry()));
 
         // add subRegion titles
-        for (Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
             final Title subRegionTitle = new Title(String.format(
                                                        SeaAroundUsDataCiteConstants.COUNTRY_LABEL,
                                                        subRegion.getProperties().getTitle()));
@@ -103,7 +111,7 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      *
      * @param country the country that is to be transformed
      */
-    private List<WebLink> createWebLinks(SauCountry country)
+    private List<WebLink> createWebLinks(final SauCountry country)
     {
         final String faoProfileUrl = country.getFaoProfileUrl();
 
@@ -166,7 +174,7 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      *
      * @param country the country that is to be transformed
      */
-    private List<Subject> createSubjects(SauCountry country)
+    private List<Subject> createSubjects(final SauCountry country)
     {
         final List<Subject> subjects = new LinkedList<>();
 
@@ -179,20 +187,20 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
             country.getFaoCode()
         };
 
-        for (String tag : rawTags) {
+        for (final String tag : rawTags) {
 
             if (tag != null) {
-                Subject s = new Subject(tag);
+                final Subject s = new Subject(tag);
                 s.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);
                 subjects.add(s);
             }
         }
 
         // add subRegion subjects
-        for (Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
             final String isoCode = subRegion.getProperties().getCIsoCode();
 
-            if (!isoCode.equals("-99"))
+            if (!"-99".equals(isoCode))
                 subjects.add(new Subject(isoCode));
 
 
@@ -213,17 +221,24 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      *
      * @return a list of {@linkplain GeoLocation} of the country
      */
-    private List<GeoLocation> createGeoLocations(SauCountry country)
+    private List<GeoLocation> createGeoLocations(final SauCountry country)
     {
         final List<GeoLocation> geoLocations = new LinkedList<GeoLocation>();
 
         // add geo locations of subRegion
-        for (Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
             geoLocations.addAll(SeaAroundUsDataCiteUtils.createBasicGeoLocations(
                                     subRegion.getGeometry(),
                                     subRegion.getProperties().getTitle()));
         }
 
         return geoLocations;
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 }

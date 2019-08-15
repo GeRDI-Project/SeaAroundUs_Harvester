@@ -37,13 +37,13 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  */
 public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
 {
-    private final HttpRequester httpRequester = new HttpRequester();
-    private final List<String> globalSubRegionNames = SeaAroundUsRegionConstants.GLOBAL_SUB_REGION_SUFFIXES;
+    protected final HttpRequester httpRequester = new HttpRequester();
+    protected final List<String> globalSubRegionNames = SeaAroundUsRegionConstants.GLOBAL_SUB_REGION_SUFFIXES;
     private String version;
 
 
     @Override
-    public void init(AbstractETL<?, ?> etl)
+    public void init(final AbstractETL<?, ?> etl)
     {
         super.init(etl);
 
@@ -83,17 +83,26 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
      * @param subRegionId
      * @return the source URL for retrieving global ocean data
      */
-    private String createApiUrl(int subRegionId)
+    protected String createApiUrl(final int subRegionId)
     {
-        String url = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
-                         SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
-                         1);
+        final String regionUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
+                                     SeaAroundUsDataCiteConstants.GLOBAL_REGION_NAME,
+                                     1);
+
+        final StringBuilder urlBuilder = new StringBuilder(regionUrl);
 
         // add sub-region suffix, if necessary
         if (subRegionId != 0)
-            url += String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId);
+            urlBuilder.append(String.format(SeaAroundUsUrlConstants.GLOBAL_SUB_REGION_API_SUFFIX, subRegionId));
 
-        return url;
+        return urlBuilder.toString();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        // nothing to clean up
     }
 
 
@@ -105,7 +114,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
      */
     private class GlobalRegionIterator implements Iterator<SauGlobal>
     {
-        private int subRegionId = 0;
+        private int subRegionId = 0; // NOPMD explicit initialization of 0
 
         @Override
         public boolean hasNext()

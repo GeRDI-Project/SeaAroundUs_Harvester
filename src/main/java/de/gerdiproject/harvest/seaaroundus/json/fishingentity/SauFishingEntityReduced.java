@@ -17,7 +17,7 @@ package de.gerdiproject.harvest.seaaroundus.json.fishingentity;
 
 import com.google.gson.annotations.SerializedName;
 
-import lombok.Data;
+import lombok.Value;
 
 
 /**
@@ -26,12 +26,12 @@ import lombok.Data;
  *
  * @author Robin Weiss
  */
-@Data
+@Value
 public class SauFishingEntityReduced
 {
-    int id;
-    String title;
+    private final int id;
+    private final String title;
 
     @SerializedName("country_id")
-    int countryId;
+    private final int countryId;
 }

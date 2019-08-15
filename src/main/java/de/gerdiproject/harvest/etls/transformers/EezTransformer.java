@@ -48,7 +48,7 @@ public class EezTransformer extends AbstractRegionTransformer<SauEezRegion>
 
 
     @Override
-    protected List<ResearchData> createResearchData(SauEezRegion regionObject)
+    protected List<ResearchData> createResearchData(final SauEezRegion regionObject)
     {
         final List<ResearchData> files = super.createResearchData(regionObject);
 
@@ -72,7 +72,7 @@ public class EezTransformer extends AbstractRegionTransformer<SauEezRegion>
 
 
     @Override
-    protected List<WebLink> createWebLinks(SauEezRegion regionObject)
+    protected List<WebLink> createWebLinks(final SauEezRegion regionObject)
     {
         final List<WebLink> weblinks = super.createWebLinks(regionObject);
 
@@ -104,7 +104,7 @@ public class EezTransformer extends AbstractRegionTransformer<SauEezRegion>
 
         // FAO RFB
         if (regionObject.getFaoRfb() != null) {
-            regionObject.getFaoRfb().forEach((SauFaoRfb rfb) -> {
+            regionObject.getFaoRfb().forEach((final SauFaoRfb rfb) -> {
                 final WebLink rfbLink = new WebLink(rfb.getUrl());
                 rfbLink.setName(rfb.getName());
                 rfbLink.setType(WebLinkType.Related);
@@ -114,7 +114,7 @@ public class EezTransformer extends AbstractRegionTransformer<SauEezRegion>
 
         // Reconstruction Documents
         if (regionObject.getReconstructionDocuments() != null) {
-            regionObject.getReconstructionDocuments().forEach((SauReconstructionDocument rd) -> {
+            regionObject.getReconstructionDocuments().forEach((final SauReconstructionDocument rd) -> {
                 final WebLink rdLink = new WebLink(rd.getUrl());
                 rdLink.setName(rd.getName());
                 rdLink.setType(WebLinkType.Related);

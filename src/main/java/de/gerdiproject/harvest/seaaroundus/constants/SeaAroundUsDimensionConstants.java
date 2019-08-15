@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  *  This static class contains collections of dimensions. Dimensions are filter
@@ -27,6 +29,7 @@ import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
  *
  *  @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeaAroundUsDimensionConstants
 {
     private final static EntryVO DIMENSION_TAXON = new EntryVO("taxon", "Taxon");
@@ -96,11 +99,4 @@ public class SeaAroundUsDimensionConstants
                                          SeaAroundUsDimensionConstants.DIMENSION_SECTOR,
                                          SeaAroundUsDimensionConstants.DIMENSION_CATCH_TYPE,
                                          SeaAroundUsDimensionConstants.DIMENSION_REPORTING_STATUS));
-
-    /**
-     * Private constructor, because this is a static class.
-     */
-    private SeaAroundUsDimensionConstants()
-    {
-    }
 }

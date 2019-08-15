@@ -20,12 +20,13 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
+import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.RegionParametersVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
@@ -54,7 +55,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @param params region specific parameters
      */
-    public AbstractRegionTransformer(RegionParametersVO params)
+    public AbstractRegionTransformer(final RegionParametersVO params)
     {
         super();
         this.params = params;
@@ -62,13 +63,20 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
 
 
     @Override
-    protected DataCiteJson transformElement(GenericResponse<T> source) throws TransformerException
+    public void init(final AbstractETL<?, ?> etl) // NOPMD init is empty on purpose here
+    {
+        // nothing to retrieve from the ETL
+    }
+
+
+    @Override
+    protected DataCiteJson transformElement(final GenericResponse<T> source) throws TransformerException
     {
         final T region = source.getData();
         final SauFeatureProperties properties = region.getFeature().getProperties();
         final int regionId = properties.getRegionId();
 
-        DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
+        final DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
@@ -108,7 +116,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a well-formatted region title
      */
-    protected String getMainTitleString(String regionName)
+    protected String getMainTitleString(final String regionName)
     {
         return String.format(
                    SeaAroundUsDataCiteConstants.GENERIC_LABEL,
@@ -124,10 +132,10 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of relevant weblinks
      */
-    protected List<WebLink> createWebLinks(T regionObject)
+    protected List<WebLink> createWebLinks(final T regionObject)
     {
-        int regionId = regionObject.getId();
-        String regionName = regionObject.getTitle();
+        final int regionId = regionObject.getId();
+        final String regionName = regionObject.getTitle();
 
         final List<WebLink> links = SeaAroundUsDataCiteUtils.createBasicWebLinks(params.getRegionType().getUrlName(), regionId);
 
@@ -149,7 +157,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of {@linkplain File}s from the harvested document
      */
-    protected List<ResearchData> createResearchData(T regionObject)
+    protected List<ResearchData> createResearchData(final T regionObject)
     {
         final int regionId = regionObject.getId();
         final String regionName = regionObject.getTitle();
@@ -174,7 +182,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of {@linkplain GeoLocation}s from the harvested document
      */
-    protected List<GeoLocation> createGeoLocations(T regionObject)
+    protected List<GeoLocation> createGeoLocations(final T regionObject)
     {
         final List<GeoLocation> geoLocations = SeaAroundUsDataCiteUtils.createBasicGeoLocations(
                                                    regionObject.getFeature().getGeometry(),
@@ -197,7 +205,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return the view URL of the region
      */
-    protected String getViewUrl(int regionId)
+    protected String getViewUrl(final int regionId)
     {
         return String.format(SeaAroundUsUrlConstants.VIEW_URL, params.getRegionType().getUrlName(), regionId);
     }
@@ -210,23 +218,23 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    protected List<Title> createTitles(SauFeatureProperties properties)
+    protected List<Title> createTitles(final SauFeatureProperties properties)
     {
-        List<Title> titles = new LinkedList<>();
+        final List<Title> titles = new LinkedList<>();
 
 
-        String longTitle = properties.getLongTitle();
+        final String longTitle = properties.getLongTitle();
 
         if (longTitle != null) {
-            Title lt = new Title(getMainTitleString(longTitle));
+            final Title lt = new Title(getMainTitleString(longTitle));
             titles.add(lt);
         }
 
 
-        String shortTitle = properties.getTitle();
+        final String shortTitle = properties.getTitle();
 
         if (shortTitle != null) {
-            Title st = new Title(getMainTitleString(shortTitle));
+            final Title st = new Title(getMainTitleString(shortTitle));
 
             if (longTitle != null)
                 st.setType(TitleType.AlternativeTitle);
@@ -245,7 +253,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      *
      * @return a list of {@linkplain Subject}s for a SeaAroundUs region
      */
-    protected List<Subject> createSubjects(T regionObject)
+    protected List<Subject> createSubjects(final T regionObject)
     {
         final SauFeatureProperties properties = regionObject.getFeature().getProperties();
         final List<Subject> subjects = new LinkedList<>();
@@ -255,11 +263,18 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         if (region != null)
             subjects.add(new Subject(region));
 
-        regionObject.getMetrics().forEach((Metric m) -> {
+        regionObject.getMetrics().forEach((final Metric m) -> {
             if (m.getValue() != 0)
                 subjects.add(new Subject(m.getTitle()));
         });
 
         return subjects;
+    }
+
+
+    @Override
+    public void clear() // NOPMD clear is empty on purpose here
+    {
+        // nothing to clean up
     }
 }
