@@ -62,7 +62,7 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
-        document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
+        document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
         document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);

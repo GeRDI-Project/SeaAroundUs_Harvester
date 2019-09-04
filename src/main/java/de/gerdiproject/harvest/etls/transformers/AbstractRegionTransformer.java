@@ -17,8 +17,11 @@
 package de.gerdiproject.harvest.etls.transformers;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.vividsolutions.jts.geom.Geometry;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
@@ -36,7 +39,6 @@ import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.enums.TitleType;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
-import de.gerdiproject.json.geo.GeoJson;
 
 /**
  * This transformer deals with creating documents for a generic SeaAroundUs region type, such as EEZ, LME, or RFMO.
@@ -80,7 +82,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
-        document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
+        document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
         document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
@@ -188,13 +190,14 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
                                                    regionObject.getFeature().getGeometry(),
                                                    regionObject.getFeature().getProperties().getTitle());
 
-        final List<GeoJson> polys = new LinkedList<>();
-        polys.add(regionObject.getGeojson());
+        final Geometry regionGeo = regionObject.getGeojson();
 
-        final GeoLocation geoLocation = new GeoLocation();
-        geoLocation.setPolygons(polys);
-
-        geoLocations.add(geoLocation);
+        // quick check to avoid duplicate GeoJson objects: if the coordinate is the same, do not add the polygon
+        if (geoLocations.isEmpty() || !regionGeo.getCoordinate().equals(geoLocations.get(0).getPolygons().iterator().next().getCoordinate())) {
+            final GeoLocation geoLocation = new GeoLocation();
+            geoLocation.addPolygons(Arrays.asList(regionGeo));
+            geoLocations.add(geoLocation);
+        }
 
         return geoLocations;
     }

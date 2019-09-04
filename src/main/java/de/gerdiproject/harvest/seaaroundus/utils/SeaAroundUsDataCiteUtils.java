@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
@@ -28,7 +30,6 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
-import de.gerdiproject.json.geo.GeoJson;
 
 /**
  * A static helper class for creating SeaAroundUs DataCite fields.
@@ -352,17 +353,17 @@ public final class SeaAroundUsDataCiteUtils
      * @return a {@linkplain GeoLocation} describing the region border or null
      *      if no {@linkplain GeoJson} data exists for the region feature
      */
-    public static List<GeoLocation> createBasicGeoLocations(final GeoJson regionBorders, final String regionName)
+    public static List<GeoLocation> createBasicGeoLocations(final Geometry regionBorders, final String regionName)
     {
         final List<GeoLocation> geoLocations = new LinkedList<>();
 
         if (regionBorders != null) {
-            final List<GeoJson> polygons = new LinkedList<>();
+            final List<Geometry> polygons = new LinkedList<>();
             polygons.add(regionBorders);
 
             final GeoLocation g = new GeoLocation();
             g.setPlace(regionName);
-            g.setPolygons(polygons);
+            g.addPolygons(polygons);
             geoLocations.add(g);
         }
 

@@ -19,6 +19,8 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import de.gerdiproject.harvest.etls.AbstractETL;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
@@ -33,7 +35,6 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.Subject;
 import de.gerdiproject.json.datacite.Title;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
-import de.gerdiproject.json.geo.GeoJson;
 
 /**
  * This {@linkplain AbstractRegionTransformer} transforms all Maricultures of SeaAroundUs to documents.
@@ -61,7 +62,7 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         document.setVersion(source.getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
-        document.setPublisher(SeaAroundUsDataCiteConstants.PROVIDER);
+        document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
         document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
@@ -163,16 +164,15 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
         final List<GeoLocation> geoLocations = new LinkedList<GeoLocation>();
 
         subRegions.forEach((final SauMariculture subRegion) -> {
-
             // only add location if it has geo json data
             if (subRegion.getGeojson() != null || subRegion.getPointGeojson() != null)
             {
-                final List<GeoJson>
+                final List<Geometry>
                 polys = new LinkedList<>();
                 polys.add(subRegion.getGeojson());
 
                 final GeoLocation subLocation = new GeoLocation();
-                subLocation.setPolygons(polys);
+                subLocation.addPolygons(polys);
                 subLocation.setPoint(subRegion.getPointGeojson());
                 subLocation.setPlace(subRegion.getTitle());
 
