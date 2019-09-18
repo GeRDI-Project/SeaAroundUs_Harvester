@@ -17,8 +17,9 @@ package de.gerdiproject.harvest.seaaroundus.json.generic;
 
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import de.gerdiproject.json.geo.Feature;
-import de.gerdiproject.json.geo.GeoJson;
 import lombok.Data;
 
 /**
@@ -33,6 +34,6 @@ public class GenericRegion
 
     private String title;
     private int id;
-    private GeoJson geojson;
+    private Geometry geojson;
     private List<Metric> metrics;
 }

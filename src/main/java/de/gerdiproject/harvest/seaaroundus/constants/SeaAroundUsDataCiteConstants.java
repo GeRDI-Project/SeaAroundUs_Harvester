@@ -25,6 +25,7 @@ import de.gerdiproject.json.datacite.extension.generic.AbstractResearch;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.constants.ResearchDisciplineConstants;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import de.gerdiproject.json.datacite.nested.Publisher;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -38,7 +39,8 @@ public class SeaAroundUsDataCiteConstants
 {
     public static final List<Rights> RIGHTS_LIST = createRightsList();
     public static final String REPOSITORY_ID = "Sea Around Us";
-    public static final String PROVIDER = "Sea Around Us - Fisheries, Ecosystems & Biodiversity";
+    public static final String PROVIDER_NAME = "Sea Around Us - Fisheries, Ecosystems & Biodiversity";
+    public static final Publisher PUBLISHER = new Publisher(PROVIDER_NAME, "en");
     public static final WebLink LOGO_LINK = createLogoLink();
     public static final List<Creator> SAU_CREATORS = createSauCreatorList();
     public static final String JSON_FORMAT = "json";
@@ -157,7 +159,7 @@ public class SeaAroundUsDataCiteConstants
      */
     private static List<Creator> createSauCreatorList()
     {
-        final Creator sauCreator = new Creator(PROVIDER);
+        final Creator sauCreator = new Creator(PROVIDER_NAME);
         return Collections.unmodifiableList(Arrays.asList(sauCreator));
     }
 }
