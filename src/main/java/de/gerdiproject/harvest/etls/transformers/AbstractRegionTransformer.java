@@ -186,16 +186,17 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
      */
     protected List<GeoLocation> createGeoLocations(final T regionObject)
     {
-        final List<GeoLocation> geoLocations = SeaAroundUsDataCiteUtils.createBasicGeoLocations(
-                                                   regionObject.getFeature().getGeometry(),
-                                                   regionObject.getFeature().getProperties().getTitle());
+        final Geometry regionBorders = regionObject.getFeature().getGeometry();
+        final Geometry regionGeometry = regionObject.getGeojson();
+        final String regionName = regionObject.getFeature().getProperties().getTitle();
 
-        final Geometry regionGeo = regionObject.getGeojson();
+        final List<GeoLocation> geoLocations =
+            SeaAroundUsDataCiteUtils.createBasicGeoLocations(regionBorders, regionName);
 
         // quick check to avoid duplicate GeoJson objects: if the coordinate is the same, do not add the polygon
-        if (geoLocations.isEmpty() || !regionGeo.getCoordinate().equals(geoLocations.get(0).getPolygons().iterator().next().getCoordinate())) {
+        if (regionGeometry != null && !regionGeometry.equalsTopo(regionBorders)) {
             final GeoLocation geoLocation = new GeoLocation();
-            geoLocation.addPolygons(Arrays.asList(regionGeo));
+            geoLocation.addPolygons(Arrays.asList(regionGeometry));
             geoLocations.add(geoLocation);
         }
 
