@@ -194,7 +194,7 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
             SeaAroundUsDataCiteUtils.createBasicGeoLocations(regionBorders, regionName);
 
         // quick check to avoid duplicate GeoJson objects: if the coordinate is the same, do not add the polygon
-        if (regionGeometry != null && !regionGeometry.equalsTopo(regionBorders)) {
+        if (regionGeometry != null && !regionGeometry.getCoordinate().equals(regionBorders.getCoordinate())) {
             final GeoLocation geoLocation = new GeoLocation();
             geoLocation.addPolygons(Arrays.asList(regionGeometry));
             geoLocations.add(geoLocation);
