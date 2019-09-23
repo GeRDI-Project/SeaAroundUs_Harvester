@@ -16,7 +16,7 @@
 package de.gerdiproject.harvest.seaaroundus.json.mariculture;
 
 import com.google.gson.annotations.SerializedName;
-import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Geometry;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class SauMariculture extends GenericRegion
     private String countryName;
 
     @SerializedName("point_geojson")
-    private Point pointGeojson;
+    private Geometry pointGeojson;
 
     @SerializedName("entity_id")
     private int entityId;

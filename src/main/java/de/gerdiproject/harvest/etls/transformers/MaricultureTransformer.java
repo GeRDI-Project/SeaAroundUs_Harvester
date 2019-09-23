@@ -19,6 +19,7 @@ package de.gerdiproject.harvest.etls.transformers;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
@@ -173,8 +174,13 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
 
                 final GeoLocation subLocation = new GeoLocation();
                 subLocation.addPolygons(polys);
-                subLocation.setPoint(subRegion.getPointGeojson());
                 subLocation.setPlace(subRegion.getTitle());
+
+                // the point can be a MultiPoint, so we extract the coordinate
+                if (subRegion.getPointGeojson() != null) {
+                    final Coordinate pointCoordinate = subRegion.getPointGeojson().getCoordinate();
+                    subLocation.setPoint(pointCoordinate.x, pointCoordinate.y);
+                }
 
                 geoLocations.add(subLocation);
             }
