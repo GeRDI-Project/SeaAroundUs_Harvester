@@ -47,7 +47,7 @@ public class SeaAroundUsETLFactoryTest extends AbstractUnitTest
                    SeaAroundUsETLFactory.createEezETL(),
                    SeaAroundUsETLFactory.createFaoETL(),
                    SeaAroundUsETLFactory.createFishingEntityETL(),
-                   SeaAroundUsETLFactory.createGlobalOceanETL(),
+                   SeaAroundUsETLFactory.createGlobalRegionETL(),
                    SeaAroundUsETLFactory.createHighSeasETL(),
                    SeaAroundUsETLFactory.createLmeETL(),
                    SeaAroundUsETLFactory.createMaricultureETL(),

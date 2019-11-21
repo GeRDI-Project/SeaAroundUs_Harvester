@@ -1,0 +1,22 @@
+{
+	"meta" : {
+		"title" : "Mocked Meta Title",
+		"date" : "3000-03-03T01:02:03.456",
+		"version" : "42",
+		"request_path" : "mocked/request/path/global"
+	},
+	"data" : { 
+		"metrics" : [ 
+			{ 
+				"title" : "Mocked Metric 1",
+				"value" : 12.34,
+				"units" : "Mocked Units 1"
+			},
+			{ 
+				"title" : "Mocked Metric 2",
+				"value" : 56.78,
+				"units" : "Mocked Units 2"
+			}
+		]
+	}
+}

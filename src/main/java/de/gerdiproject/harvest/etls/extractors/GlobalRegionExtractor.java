@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
-import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalRegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -36,7 +36,7 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
 
  * @author Robin Weiss
  */
-public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalVO>
+public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalRegionVO>
 {
     protected final HttpRequester httpRequester = new HttpRequester();
     protected final List<String> globalSubRegionNames = SeaAroundUsRegionConstants.GLOBAL_SUB_REGION_SUFFIXES;
@@ -73,7 +73,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalVO>
 
 
     @Override
-    protected Iterator<GlobalVO> extractAll() throws ExtractorException
+    protected Iterator<GlobalRegionVO> extractAll() throws ExtractorException
     {
         return new GlobalRegionIterator();
     }
@@ -113,7 +113,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalVO>
      *
      * @author Robin Weiss
      */
-    private class GlobalRegionIterator implements Iterator<GlobalVO>
+    private class GlobalRegionIterator implements Iterator<GlobalRegionVO>
     {
         private int subRegionId = 0; // NOPMD explicit initialization of 0
 
@@ -125,14 +125,14 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalVO>
 
 
         @Override
-        public GlobalVO next()
+        public GlobalRegionVO next()
         {
             final GenericResponse<SauGlobal> globalResponse = httpRequester.getObjectFromUrl(
                                                                   createApiUrl(subRegionId),
                                                                   SeaAroundUsRegionConstants.GLOBAL_RESPONSE_TYPE);
 
             final String subRegionName = globalSubRegionNames.get(subRegionId);
-            final GlobalVO vo = new GlobalVO(globalResponse, subRegionId, subRegionName);
+            final GlobalRegionVO vo = new GlobalRegionVO(globalResponse, subRegionId, subRegionName);
             subRegionId++;
 
             return vo;

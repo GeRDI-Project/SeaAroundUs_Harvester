@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
-import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalRegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -42,7 +42,7 @@ import de.gerdiproject.json.datacite.extension.generic.WebLink;
  *
  * @author Robin Weiss
  */
-public class GlobalRegionTransformer extends AbstractIteratorTransformer<GlobalVO, DataCiteJson>
+public class GlobalRegionTransformer extends AbstractIteratorTransformer<GlobalRegionVO, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -52,7 +52,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<GlobalV
 
 
     @Override
-    protected DataCiteJson transformElement(final GlobalVO vo) throws TransformerException
+    protected DataCiteJson transformElement(final GlobalRegionVO vo) throws TransformerException
     {
         final String subRegionName = vo.getSubRegionNameSuffix();
         final int subRegionId = vo.getSubRegionId();

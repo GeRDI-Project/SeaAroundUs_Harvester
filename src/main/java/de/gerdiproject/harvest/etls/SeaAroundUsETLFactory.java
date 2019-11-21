@@ -28,7 +28,7 @@ import de.gerdiproject.harvest.etls.extractors.RegionExtractor;
 import de.gerdiproject.harvest.etls.extractors.TaxonExtractor;
 import de.gerdiproject.harvest.etls.extractors.vos.CountryVO;
 import de.gerdiproject.harvest.etls.extractors.vos.FishingEntityVO;
-import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalRegionVO;
 import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
 import de.gerdiproject.harvest.etls.extractors.vos.TaxonVO;
 import de.gerdiproject.harvest.etls.transformers.CountryTransformer;
@@ -98,7 +98,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauGlobal} metadata
      */
-    public static StaticIteratorETL<GlobalVO, DataCiteJson> createGlobalOceanETL()
+    public static StaticIteratorETL<GlobalRegionVO, DataCiteJson> createGlobalRegionETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.GLOBAL_ETL_NAME,

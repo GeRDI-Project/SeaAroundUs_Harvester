@@ -27,7 +27,7 @@ import lombok.Value;
  * @author Robin Weiss
  */
 @Value
-public class GlobalVO
+public class GlobalRegionVO
 {
     private final GenericResponse<SauGlobal> response;
 

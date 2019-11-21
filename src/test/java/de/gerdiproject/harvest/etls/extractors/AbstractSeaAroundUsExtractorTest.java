@@ -41,7 +41,7 @@ public abstract class AbstractSeaAroundUsExtractorTest <T> extends AbstractItera
     private static final String OUTPUT_RESOURCE = "output.json";
     protected static final int MOCKED_REGION_ID = 1337;
 
-    private final DiskIO diskReader = new DiskIO(GsonUtils.createGerdiDocumentGsonBuilder().create(), StandardCharsets.UTF_8);
+    protected final DiskIO diskReader = new DiskIO(GsonUtils.createGerdiDocumentGsonBuilder().create(), StandardCharsets.UTF_8);
 
     /**
      * Returns the type of a single SeaAroundUs extraction.
