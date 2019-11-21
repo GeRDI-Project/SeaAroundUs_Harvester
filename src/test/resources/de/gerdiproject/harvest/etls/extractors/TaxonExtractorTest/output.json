@@ -1,0 +1,64 @@
+{
+	"response" : {
+		"data" : {
+			"k" : 12.34,
+			"tl" : 56.78,
+			"woo" : 90.12,
+			"loo" : 34.56,
+			"common_name" : "mocked-common_name",
+			"y_max" : 78,
+			"commercial_group_id" : 42,
+			"commercial_group" : "mocked-commercial_group",
+			"x_max" : 34,
+			"isscaap_id" : 101,
+			"taxon_group_id" : 12,
+			"taxon_level_id" : 34,
+			"y_min" : 56,
+			"has_habitat_index" : true,
+			"habitat_index" : {
+				"abyssal" : 12.34,
+				"offshore" : 56.78,
+				"seagrass" : 90.12,
+				"others" : 34.56,
+				"front" : 78.9,
+				"slope" : 12.34,
+				"seamount" : 56.78,
+				"coral" : 90.12,
+				"effective_d" : 34.56,
+				"shelf" : 78.9,
+				"estuaries" : 12.34,
+				"inshore" : 56.78,
+				"habitat_diversity_index" : 90.12
+			},
+			"is_baltic_only" : false,
+			"x_min" : 12,
+			"functional_group_id" : 101,
+			"lat_north" : 56.78,
+			"is_taxon_distribution_backfilled" : true,
+			"taxon_key" : 1337,
+			"has_map" : true,
+			"functional_group" : "mocked-functional_group",
+			"min_depth" : 12,
+			"sl_max_cm" : 78.9,
+			"scientific_name" : "mocked-scientific_name",
+			"lat_south" : 12.34,
+			"max_depth" : 34
+		},
+		"meta" : {
+			"title" : "Mocked Meta Title",
+			"date" : "3000-03-03T01:02:03.456",
+			"version" : "42",
+			"request_path" : "mocked/request/path/1337"
+		}
+	},
+	"baseInfo" : {
+		"common_name" : "mocked-common_name",
+		"functional_group" : 101,
+		"is_taxon_distribution_backfilled" : true,
+		"commercial_group" : 42,
+		"scientific_name" : "mocked-scientific_name",
+		"taxon_key" : 1337
+	},
+	"taxonLevelName" : "Mocked Taxon Level",
+	"taxonGroupName" : "Mocked Taxon Group"
+}

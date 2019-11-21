@@ -177,10 +177,10 @@ public class TaxonExtractor extends AbstractIteratorExtractor<TaxonVO>
             final GenericResponse<SauTaxon> taxon =
                 httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.TAXON_RESPONSE_TYPE);
 
-            final String groupId = taxonGroups.get(taxon.getData().getTaxonGroupId());
-            final String levelId = taxonGroups.get(taxon.getData().getTaxonLevelId());
+            final String groupName = taxonGroups.get(taxon.getData().getTaxonGroupId());
+            final String levelName = taxonLevels.get(taxon.getData().getTaxonLevelId());
 
-            return new TaxonVO(taxon, baseInfo, groupId, levelId);
+            return new TaxonVO(taxon, baseInfo, levelName, groupName);
         }
 
     }
