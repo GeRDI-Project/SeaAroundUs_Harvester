@@ -16,13 +16,9 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
-import java.lang.reflect.Type;
-
 import de.gerdiproject.harvest.etls.AbstractIteratorETL;
 import de.gerdiproject.harvest.etls.SeaAroundUsETLFactory;
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.etls.extractors.vos.FishingEntityVO;
 import de.gerdiproject.json.datacite.DataCiteJson;
 
 /**
@@ -30,25 +26,18 @@ import de.gerdiproject.json.datacite.DataCiteJson;
  *
  * @author Robin Weiss
  */
-public class FishingEntityExtractorTest extends AbstractSeaAroundUsExtractorTest<GenericResponse<SauFishingEntity>>
+public class FishingEntityExtractorTest extends AbstractSeaAroundUsExtractorTest<FishingEntityVO>
 {
     @Override
-    protected String getApiName()
-    {
-        return SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
-    }
-
-
-    @Override
-    protected AbstractIteratorETL<GenericResponse<SauFishingEntity>, DataCiteJson> getEtl()
+    protected AbstractIteratorETL<FishingEntityVO, DataCiteJson> getEtl()
     {
         return SeaAroundUsETLFactory.createFishingEntityETL();
     }
 
 
     @Override
-    protected Type getResponseType()
+    protected Class<FishingEntityVO> getExtractedType()
     {
-        return SeaAroundUsRegionConstants.FISHING_ENTITY_RESPONSE_TYPE;
+        return FishingEntityVO.class;
     }
 }

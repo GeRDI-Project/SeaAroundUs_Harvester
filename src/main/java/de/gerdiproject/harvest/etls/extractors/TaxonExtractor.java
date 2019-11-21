@@ -25,6 +25,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.TaxonVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxon;
@@ -42,7 +43,7 @@ import de.gerdiproject.json.GsonUtils;
  *
  * @author Robin Weiss
  */
-public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
+public class TaxonExtractor extends AbstractIteratorExtractor<TaxonVO>
 {
     private final Gson gson = GsonUtils.createGeoJsonGsonBuilder().create();
     protected final HttpRequester httpRequester = new HttpRequester(gson, StandardCharsets.UTF_8);
@@ -92,7 +93,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
 
     @Override
-    protected Iterator<SauTaxon> extractAll() throws ExtractorException
+    protected Iterator<TaxonVO> extractAll() throws ExtractorException
     {
         return new TaxonIterator();
     }
@@ -154,7 +155,7 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
      *
      * @author Robin Weiss
      */
-    private class TaxonIterator implements Iterator<SauTaxon>
+    private class TaxonIterator implements Iterator<TaxonVO>
     {
         @Override
         public boolean hasNext()
@@ -164,35 +165,22 @@ public class TaxonExtractor extends AbstractIteratorExtractor<SauTaxon>
 
 
         @Override
-        public SauTaxon next()
+        public TaxonVO next()
         {
-            final int key = taxonListIterator.next().getTaxonKey();
+            final SauTaxonReduced baseInfo = taxonListIterator.next();
+            final int key = baseInfo.getTaxonKey();
             final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                                       SeaAroundUsRegionConstants.TAXA_API_NAME,
                                       key);
 
             // retrieve and enrich taxon details
-            final GenericResponse<SauTaxon> response = httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.TAXON_RESPONSE_TYPE);
-            final SauTaxon taxon = response.getData();
-            enrich(taxon);
+            final GenericResponse<SauTaxon> taxon =
+                httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.TAXON_RESPONSE_TYPE);
 
-            return taxon;
-        }
+            final String groupId = taxonGroups.get(taxon.getData().getTaxonGroupId());
+            final String levelId = taxonGroups.get(taxon.getData().getTaxonLevelId());
 
-
-        /**
-         * Possibly extracts and adds more data to the extracted item.
-         *
-         * @param item the item that is to be enriched
-         */
-        private void enrich(final SauTaxon item)
-        {
-            // set version
-            item.setVersion(version);
-
-            // get group and level name from maps
-            item.setTaxonGroupName(taxonGroups.get(item.getTaxonGroupId()));
-            item.setTaxonLevelName(taxonLevels.get(item.getTaxonLevelId()));
+            return new TaxonVO(taxon, baseInfo, groupId, levelId);
         }
 
     }

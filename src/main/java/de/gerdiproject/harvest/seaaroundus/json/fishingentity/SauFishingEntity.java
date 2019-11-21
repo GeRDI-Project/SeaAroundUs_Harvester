@@ -19,6 +19,7 @@ import com.google.gson.annotations.SerializedName;
 
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.Value;
 
 /**
@@ -27,7 +28,7 @@ import lombok.Value;
  *
  * @author Robin Weiss
  */
-@Value @EqualsAndHashCode(callSuper = true)
+@Value @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauFishingEntity extends GenericRegion
 {
     @SerializedName("country_id")

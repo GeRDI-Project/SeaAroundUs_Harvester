@@ -20,12 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.CountryVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.GeoLocation;
@@ -42,7 +42,7 @@ import de.gerdiproject.json.geo.Feature;
  *
  * @author Robin Weiss
  */
-public class CountryTransformer extends AbstractIteratorTransformer<GenericResponse<SauCountry>, DataCiteJson>
+public class CountryTransformer extends AbstractIteratorTransformer<CountryVO, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -52,25 +52,27 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
 
 
     @Override
-    protected DataCiteJson transformElement(final GenericResponse<SauCountry> source) throws TransformerException
+    protected DataCiteJson transformElement(final CountryVO vo) throws TransformerException
     {
-        final SauCountry country = source.getData();
-        final int regionId = country.getCNumber();
-        final String regionApiName = SeaAroundUsRegionConstants.COUNTRY_API_NAME;
+        final SauCountry country = vo.getResponse().getData();
+        final List<Feature<SauCountryProperties>> subRegions = vo.getSubRegions();
 
-        final DataCiteJson document = new DataCiteJson(regionApiName + regionId);
-        document.setVersion(source.getMetadata().getVersion());
+        final DataCiteJson document =
+            new DataCiteJson(SeaAroundUsRegionConstants.COUNTRY_API_NAME + country.getCNumber());
+
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
         document.addFormats(SeaAroundUsDataCiteConstants.JSON_FORMATS);
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
-        document.addTitles(createTitles(country));
-        document.addWebLinks(createWebLinks(country));
-        document.addSubjects(createSubjects(country));
-        document.addGeoLocations(createGeoLocations(country));
         document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
+
+        document.setVersion(vo.getResponse().getMetadata().getVersion());
+        document.addTitles(createTitles(country, subRegions));
+        document.addWebLinks(createWebLinks(country));
+        document.addSubjects(createSubjects(country, subRegions));
+        document.addGeoLocations(createGeoLocations(subRegions));
 
         return document;
     }
@@ -80,17 +82,19 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      * Creates a list of {@linkplain Title}s for the country.
      *
      * @param country the country that is to be transformed
+     * @param subRegions the subRegions that belong to the country
      *
      * @return a list of {@linkplain Title}s for the region
      */
-    private List<Title> createTitles(final SauCountry country)
+    private List<Title> createTitles(final SauCountry country, final List<Feature<SauCountryProperties>> subRegions)
     {
         final List<Title> titles = new LinkedList<>();
 
-        final Title mainTitle = new Title(String.format(SeaAroundUsDataCiteConstants.COUNTRY_LABEL, country.getCountry()));
+        final String countryName = country.getCountry();
+        final Title mainTitle = new Title(String.format(SeaAroundUsDataCiteConstants.COUNTRY_LABEL, countryName));
 
         // add subRegion titles
-        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : subRegions) {
             final Title subRegionTitle = new Title(String.format(
                                                        SeaAroundUsDataCiteConstants.COUNTRY_LABEL,
                                                        subRegion.getProperties().getTitle()));
@@ -173,8 +177,9 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
      * Creates a list of {@linkplain Subject}s for a SeaAroundUs country profile.
      *
      * @param country the country that is to be transformed
+     * @param subRegions the subRegions that belong to the country
      */
-    private List<Subject> createSubjects(final SauCountry country)
+    private List<Subject> createSubjects(final SauCountry country, final List<Feature<SauCountryProperties>> subRegions)
     {
         final List<Subject> subjects = new LinkedList<>();
 
@@ -197,7 +202,7 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
         }
 
         // add subRegion subjects
-        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : subRegions) {
             final String isoCode = subRegion.getProperties().getCIsoCode();
 
             if (!"-99".equals(isoCode))
@@ -217,16 +222,16 @@ public class CountryTransformer extends AbstractIteratorTransformer<GenericRespo
     /**
      * Parses and return a list of {@linkplain GeoLocation}s for a SeaAroundUs country profile.
      *
-     * @param country the country that is to be transformed
+     * @param subRegions the subRegions that belong to the country
      *
      * @return a list of {@linkplain GeoLocation} of the country
      */
-    private List<GeoLocation> createGeoLocations(final SauCountry country)
+    private List<GeoLocation> createGeoLocations(final List<Feature<SauCountryProperties>> subRegions)
     {
         final List<GeoLocation> geoLocations = new LinkedList<GeoLocation>();
 
         // add geo locations of subRegion
-        for (final Feature<SauCountryProperties> subRegion : country.getSubRegions()) {
+        for (final Feature<SauCountryProperties> subRegion : subRegions) {
             geoLocations.addAll(SeaAroundUsDataCiteUtils.createBasicGeoLocations(
                                     subRegion.getGeometry(),
                                     subRegion.getProperties().getTitle()));

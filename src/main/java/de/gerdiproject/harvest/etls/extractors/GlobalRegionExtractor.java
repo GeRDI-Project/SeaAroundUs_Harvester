@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -35,7 +36,7 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
 
  * @author Robin Weiss
  */
-public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
+public class GlobalRegionExtractor extends AbstractIteratorExtractor<GlobalVO>
 {
     protected final HttpRequester httpRequester = new HttpRequester();
     protected final List<String> globalSubRegionNames = SeaAroundUsRegionConstants.GLOBAL_SUB_REGION_SUFFIXES;
@@ -72,7 +73,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
 
 
     @Override
-    protected Iterator<SauGlobal> extractAll() throws ExtractorException
+    protected Iterator<GlobalVO> extractAll() throws ExtractorException
     {
         return new GlobalRegionIterator();
     }
@@ -112,7 +113,7 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
      *
      * @author Robin Weiss
      */
-    private class GlobalRegionIterator implements Iterator<SauGlobal>
+    private class GlobalRegionIterator implements Iterator<GlobalVO>
     {
         private int subRegionId = 0; // NOPMD explicit initialization of 0
 
@@ -124,19 +125,17 @@ public class GlobalRegionExtractor extends AbstractIteratorExtractor<SauGlobal>
 
 
         @Override
-        public SauGlobal next()
+        public GlobalVO next()
         {
             final GenericResponse<SauGlobal> globalResponse = httpRequester.getObjectFromUrl(
                                                                   createApiUrl(subRegionId),
                                                                   SeaAroundUsRegionConstants.GLOBAL_RESPONSE_TYPE);
 
-            final SauGlobal globalRegion = globalResponse.getData();
-            globalRegion.setSubRegionId(subRegionId);
-            globalRegion.setSubRegionNameSuffix(globalSubRegionNames.get(subRegionId));
-            globalRegion.setVersion(globalResponse.getMetadata().getVersion());
-
+            final String subRegionName = globalSubRegionNames.get(subRegionId);
+            final GlobalVO vo = new GlobalVO(globalResponse, subRegionId, subRegionName);
             subRegionId++;
-            return globalRegion;
+
+            return vo;
         }
     }
 }

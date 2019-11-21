@@ -18,6 +18,7 @@ package de.gerdiproject.harvest.etls.transformers;
 
 import java.util.List;
 
+import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.rfmo.SauRfmoContractingCountry;
@@ -68,12 +69,12 @@ public class RfmoTransformer extends AbstractRegionTransformer<SauRfmoRegion>
 
 
     @Override
-    protected List<Subject> createSubjects(final SauRfmoRegion regionObject)
+    protected List<Subject> createSubjects(final RegionVO<SauRfmoRegion> vo)
     {
-        final List<Subject> subjects = super.createSubjects(regionObject);
+        final List<Subject> subjects = super.createSubjects(vo);
 
-        addTaxaSubjects(subjects, regionObject.getPrimaryTaxa());
-        addTaxaSubjects(subjects, regionObject.getSecondaryTaxa());
+        addTaxaSubjects(subjects, vo.getResponse().getData().getPrimaryTaxa());
+        addTaxaSubjects(subjects, vo.getResponse().getData().getSecondaryTaxa());
 
         return subjects;
     }

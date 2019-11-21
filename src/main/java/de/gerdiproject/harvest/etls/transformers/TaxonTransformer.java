@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.TaxonVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
@@ -44,7 +45,7 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  *
  * @author Robin Weiss
  */
-public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, DataCiteJson>
+public class TaxonTransformer extends AbstractIteratorTransformer<TaxonVO, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -54,8 +55,9 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
 
 
     @Override
-    protected DataCiteJson transformElement(final SauTaxon taxon) throws TransformerException
+    protected DataCiteJson transformElement(final TaxonVO vo) throws TransformerException
     {
+        final SauTaxon taxon = vo.getResponse().getData();
         final int taxonKey = taxon.getTaxonKey();
         final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
                                   SeaAroundUsRegionConstants.TAXA_API_NAME,
@@ -63,7 +65,7 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         final String label = createTaxonLabel(taxon);
 
         final DataCiteJson document = new DataCiteJson(apiUrl);
-        document.setVersion(taxon.getVersion());
+        document.setVersion(vo.getResponse().getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
@@ -74,7 +76,7 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
         document.addResearchData(createFiles(taxonKey, label));
         document.addGeoLocations(createGeoLocations(taxon));
         document.addTitles(createTitles(label));
-        document.addSubjects(createSubjects(taxon));
+        document.addSubjects(createSubjects(vo));
 
         return document;
     }
@@ -245,22 +247,23 @@ public class TaxonTransformer extends AbstractIteratorTransformer<SauTaxon, Data
     /**
      * Creates an array of search tags for a taxon.
      *
-     * @param taxon a JSON-object that contains taxon data
+     * @param vo the extracted value object
      *
      * @return a list of search tags
      */
-    private List<Subject> createSubjects(final SauTaxon taxon)
+    private List<Subject> createSubjects(final TaxonVO vo)
     {
         final List<Subject> subjects = new LinkedList<>();
 
         // add generic taxon fields
+        final SauTaxon taxon = vo.getResponse().getData();
         subjects.add(new Subject(taxon.getCommonName()));
         subjects.add(new Subject(taxon.getScientificName()));
         subjects.add(new Subject(taxon.getFunctionalGroup()));
         subjects.add(new Subject(taxon.getCommercialGroup()));
         subjects.add(new Subject(taxon.getSlMaxCm() + SeaAroundUsDataCiteConstants.CENTIMETERS_SUFFIX));
-        subjects.add(new Subject(taxon.getTaxonGroupName()));
-        subjects.add(new Subject(taxon.getTaxonLevelName()));
+        subjects.add(new Subject(vo.getTaxonGroupName()));
+        subjects.add(new Subject(vo.getTaxonLevelName()));
 
         // add names of all habitats occupied by the taxon
         final Map<String, Double> habitatIndex = taxon.getHabitatIndex();

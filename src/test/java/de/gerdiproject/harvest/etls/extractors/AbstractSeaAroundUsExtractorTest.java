@@ -20,16 +20,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
 
 import de.gerdiproject.harvest.SeaAroundUsContextListener;
 import de.gerdiproject.harvest.application.ContextListener;
-import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.utils.data.DiskIO;
-import de.gerdiproject.harvest.utils.data.HttpRequesterUtils;
 import de.gerdiproject.json.GsonUtils;
 
 /**
@@ -41,25 +38,17 @@ public abstract class AbstractSeaAroundUsExtractorTest <T> extends AbstractItera
 {
     private static final String HTTP_RESOURCE_FOLDER = "mockedHttpResponses";
     private static final String CONFIG_RESOURCE = "config.json";
+    private static final String OUTPUT_RESOURCE = "output.json";
     protected static final int MOCKED_REGION_ID = 1337;
 
     private final DiskIO diskReader = new DiskIO(GsonUtils.createGerdiDocumentGsonBuilder().create(), StandardCharsets.UTF_8);
-
-
-    /**
-     * Returns the API identifier for extracting elements.
-     *
-     * @return the API identifier for extracting elements
-     */
-    protected abstract String getApiName();
-
 
     /**
      * Returns the type of a single SeaAroundUs extraction.
      *
      * @return the type of a single SeaAroundUs extraction
      */
-    protected abstract Type getResponseType();
+    protected abstract Class<T> getExtractedType();
 
 
     @Override
@@ -86,13 +75,10 @@ public abstract class AbstractSeaAroundUsExtractorTest <T> extends AbstractItera
     @Override
     protected T getExpectedOutput()
     {
-        final String regionUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(
-                                     getApiName(), MOCKED_REGION_ID);
-        final String regionPath = HttpRequesterUtils.urlToFilePath(
-                                      regionUrl, getMockedHttpResponseFolder()).toString();
+        final String regionPath = getResource(OUTPUT_RESOURCE).toString();
         return diskReader.getObject(
                    regionPath,
-                   getResponseType());
+                   getExtractedType());
     }
 
 

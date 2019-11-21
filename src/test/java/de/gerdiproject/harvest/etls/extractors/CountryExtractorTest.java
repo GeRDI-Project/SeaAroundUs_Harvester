@@ -16,38 +16,28 @@
  */
 package de.gerdiproject.harvest.etls.extractors;
 
-import java.lang.reflect.Type;
-
 import de.gerdiproject.harvest.etls.AbstractIteratorETL;
 import de.gerdiproject.harvest.etls.SeaAroundUsETLFactory;
-import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
+import de.gerdiproject.harvest.etls.extractors.vos.CountryVO;
+import de.gerdiproject.json.datacite.DataCiteJson;
 
 /**
  * This class provides Unit Tests for the {@linkplain CountryExtractor}.
  *
  * @author Robin Weiss
  */
-public class CountryExtractorTest extends AbstractSeaAroundUsExtractorTest<GenericResponse<SauCountry>>
+public class CountryExtractorTest extends AbstractSeaAroundUsExtractorTest<CountryVO>
 {
     @Override
-    protected String getApiName()
-    {
-        return SeaAroundUsRegionConstants.COUNTRY_API_NAME;
-    }
-
-
-    @Override
-    protected AbstractIteratorETL<GenericResponse<SauCountry>, ?> getEtl()
+    protected AbstractIteratorETL<CountryVO, DataCiteJson> getEtl()
     {
         return SeaAroundUsETLFactory.createCountryETL();
     }
 
 
     @Override
-    protected Type getResponseType()
+    protected Class<CountryVO> getExtractedType()
     {
-        return SeaAroundUsRegionConstants.COUNTRY_RESPONSE_TYPE;
+        return CountryVO.class;
     }
 }

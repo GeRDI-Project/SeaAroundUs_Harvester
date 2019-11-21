@@ -23,11 +23,11 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDimensionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.mariculture.SauMariculture;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.harvest.seaaroundus.vos.EntryVO;
@@ -43,7 +43,7 @@ import de.gerdiproject.json.datacite.extension.generic.ResearchData;
  *
  * @author Robin Weiss
  */
-public class MaricultureTransformer extends AbstractIteratorTransformer<GenericResponse<List<SauMariculture>>, DataCiteJson>
+public class MaricultureTransformer extends AbstractIteratorTransformer<RegionVO<List<SauMariculture>>, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -53,14 +53,14 @@ public class MaricultureTransformer extends AbstractIteratorTransformer<GenericR
 
 
     @Override
-    protected DataCiteJson transformElement(final GenericResponse<List<SauMariculture>> source) throws TransformerException
+    protected DataCiteJson transformElement(final RegionVO<List<SauMariculture>> source) throws TransformerException
     {
-        final List<SauMariculture> subRegions = source.getData();
+        final List<SauMariculture> subRegions = source.getResponse().getData();
         final int regionId = subRegions.get(0).getEntityId();
         final String regionApiName = SeaAroundUsRegionConstants.MARICULTURE_API_NAME;
 
         final DataCiteJson document = new DataCiteJson(regionApiName + regionId);
-        document.setVersion(source.getMetadata().getVersion());
+        document.setVersion(source.getResponse().getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);

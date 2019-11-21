@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents a part of a JSON response to a Seaaroundus country request.
@@ -27,7 +28,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author Robin Weiss
  */
-@Data @EqualsAndHashCode(callSuper = true)
+@Data @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauCountryProperties extends SauFeatureProperties
 {
     @SerializedName("c_iso_code")

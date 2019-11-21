@@ -15,12 +15,10 @@
  */
 package de.gerdiproject.harvest.seaaroundus.json.country;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-import de.gerdiproject.json.geo.Feature;
 import lombok.Data;
 
 
@@ -33,8 +31,6 @@ import lombok.Data;
 @Data
 public class SauCountry
 {
-    private transient List<Feature<SauCountryProperties>> subRegions = new LinkedList<>();
-
     private String cia;
     private int territory;
     private String admin;

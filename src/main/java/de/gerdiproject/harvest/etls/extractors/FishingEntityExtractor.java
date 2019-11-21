@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.FishingEntityVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntityReduced;
@@ -33,7 +34,7 @@ import de.gerdiproject.harvest.utils.data.HttpRequester;
  *
  * @author Robin Weiss
  */
-public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericResponse<SauFishingEntity>>
+public class FishingEntityExtractor extends AbstractIteratorExtractor<FishingEntityVO>
 {
     protected static final String REGION_API_NAME = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
     protected final HttpRequester httpRequester = new HttpRequester();
@@ -77,7 +78,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
 
 
     @Override
-    protected Iterator<GenericResponse<SauFishingEntity>> extractAll() throws ExtractorException
+    protected Iterator<FishingEntityVO> extractAll() throws ExtractorException
     {
         return new FishingEntityIterator();
     }
@@ -96,7 +97,7 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
      *
      * @author Robin Weiss
      */
-    private class FishingEntityIterator implements Iterator<GenericResponse<SauFishingEntity>>
+    private class FishingEntityIterator implements Iterator<FishingEntityVO>
     {
         @Override
         public boolean hasNext()
@@ -106,12 +107,15 @@ public class FishingEntityExtractor extends AbstractIteratorExtractor<GenericRes
 
 
         @Override
-        public GenericResponse<SauFishingEntity> next()
+        public FishingEntityVO next()
         {
             final SauFishingEntityReduced baseInfo = fishingEntityListIterator.next();
             final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(REGION_API_NAME, baseInfo.getId());
 
-            return httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.FISHING_ENTITY_RESPONSE_TYPE);
+            final GenericResponse<SauFishingEntity> fishingEntity =
+                httpRequester.getObjectFromUrl(apiUrl, SeaAroundUsRegionConstants.FISHING_ENTITY_RESPONSE_TYPE);
+
+            return new FishingEntityVO(fishingEntity, baseInfo);
         }
     }
 }

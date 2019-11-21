@@ -24,10 +24,10 @@ import java.util.List;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.Metric;
 import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
@@ -47,7 +47,7 @@ import de.gerdiproject.json.datacite.extension.generic.WebLink;
  *
  * @author Robin Weiss
  */
-public abstract class AbstractRegionTransformer <T extends GenericRegion> extends AbstractIteratorTransformer<GenericResponse<T>, DataCiteJson>
+public abstract class AbstractRegionTransformer <T extends GenericRegion> extends AbstractIteratorTransformer<RegionVO<T>, DataCiteJson>
 {
     protected final RegionParametersVO params;
 
@@ -72,14 +72,14 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
 
 
     @Override
-    protected DataCiteJson transformElement(final GenericResponse<T> source) throws TransformerException
+    protected DataCiteJson transformElement(final RegionVO<T> vo) throws TransformerException
     {
-        final T region = source.getData();
-        final SauFeatureProperties properties = region.getFeature().getProperties();
+        final T region = vo.getResponse().getData();
+        final SauFeatureProperties properties = vo.getFeature().getProperties();
         final int regionId = properties.getRegionId();
 
         final DataCiteJson document = new DataCiteJson(region.getClass().getSimpleName() + regionId);
-        document.setVersion(source.getMetadata().getVersion());
+        document.setVersion(vo.getResponse().getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
@@ -88,8 +88,8 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.addTitles(createTitles(properties));
         document.addWebLinks(createWebLinks(region));
-        document.addSubjects(createSubjects(region));
-        document.addGeoLocations(createGeoLocations(region));
+        document.addSubjects(createSubjects(vo));
+        document.addGeoLocations(createGeoLocations(vo));
         document.addResearchData(createResearchData(region));
 
         document.addFormats(SeaAroundUsDataCiteConstants.CSV_FORMATS);
@@ -180,15 +180,15 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
     /**
      * Retrieves the {@linkplain GeoJson} from the base region object and adds it to a list of {@linkplain GeoLocation}s.
      *
-     * @param regionObject the region object source
+     * @param vo the extracted region value object
      *
      * @return a list of {@linkplain GeoLocation}s from the harvested document
      */
-    protected List<GeoLocation> createGeoLocations(final T regionObject)
+    protected List<GeoLocation> createGeoLocations(final RegionVO<T> vo)
     {
-        final Geometry regionBorders = regionObject.getFeature().getGeometry();
-        final Geometry regionGeometry = regionObject.getGeojson();
-        final String regionName = regionObject.getFeature().getProperties().getTitle();
+        final Geometry regionBorders = vo.getFeature().getGeometry();
+        final Geometry regionGeometry = vo.getResponse().getData().getGeojson();
+        final String regionName = vo.getFeature().getProperties().getTitle();
 
         final List<GeoLocation> geoLocations =
             SeaAroundUsDataCiteUtils.createBasicGeoLocations(regionBorders, regionName);
@@ -253,24 +253,23 @@ public abstract class AbstractRegionTransformer <T extends GenericRegion> extend
     /**
      * Creates a list of {@linkplain Subject}s for a SeaAroundUs region.
      *
-     * @param properties fields concerning the region
+     * @param vo the extracted region value object
      *
      * @return a list of {@linkplain Subject}s for a SeaAroundUs region
      */
-    protected List<Subject> createSubjects(final T regionObject)
+    protected List<Subject> createSubjects(final RegionVO<T> vo)
     {
-        final SauFeatureProperties properties = regionObject.getFeature().getProperties();
         final List<Subject> subjects = new LinkedList<>();
 
-        final String region = properties.getRegion();
+        final String region = vo.getFeature().getProperties().getRegion();
 
         if (region != null)
             subjects.add(new Subject(region));
 
-        regionObject.getMetrics().forEach((final Metric m) -> {
+        for (final Metric m : vo.getResponse().getData().getMetrics()) {
             if (m.getValue() != 0)
                 subjects.add(new Subject(m.getTitle()));
-        });
+        }
 
         return subjects;
     }

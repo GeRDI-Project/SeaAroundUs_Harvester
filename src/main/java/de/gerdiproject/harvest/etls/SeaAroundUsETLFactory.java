@@ -26,6 +26,11 @@ import de.gerdiproject.harvest.etls.extractors.FishingEntityExtractor;
 import de.gerdiproject.harvest.etls.extractors.GlobalRegionExtractor;
 import de.gerdiproject.harvest.etls.extractors.RegionExtractor;
 import de.gerdiproject.harvest.etls.extractors.TaxonExtractor;
+import de.gerdiproject.harvest.etls.extractors.vos.CountryVO;
+import de.gerdiproject.harvest.etls.extractors.vos.FishingEntityVO;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
+import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
+import de.gerdiproject.harvest.etls.extractors.vos.TaxonVO;
 import de.gerdiproject.harvest.etls.transformers.CountryTransformer;
 import de.gerdiproject.harvest.etls.transformers.EezTransformer;
 import de.gerdiproject.harvest.etls.transformers.FaoTransformer;
@@ -65,7 +70,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauCountry} metadata
      */
-    public static StaticIteratorETL<GenericResponse<SauCountry>, DataCiteJson> createCountryETL()
+    public static StaticIteratorETL<CountryVO, DataCiteJson> createCountryETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.COUNTRY_ETL_NAME,
@@ -79,7 +84,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauTaxon} metadata
      */
-    public static StaticIteratorETL<SauTaxon, DataCiteJson> createTaxonETL()
+    public static StaticIteratorETL<TaxonVO, DataCiteJson> createTaxonETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.TAXON_ETL_NAME,
@@ -93,7 +98,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauGlobal} metadata
      */
-    public static StaticIteratorETL<SauGlobal, DataCiteJson> createGlobalOceanETL()
+    public static StaticIteratorETL<GlobalVO, DataCiteJson> createGlobalOceanETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.GLOBAL_ETL_NAME,
@@ -107,7 +112,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauFishingEntity} metadata
      */
-    public static StaticIteratorETL<GenericResponse<SauFishingEntity>, DataCiteJson> createFishingEntityETL()
+    public static StaticIteratorETL<FishingEntityVO, DataCiteJson> createFishingEntityETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getEtlName(),
@@ -121,7 +126,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting {@linkplain SauMariculture} metadata
      */
-    public static StaticIteratorETL<GenericResponse<List<SauMariculture>>, DataCiteJson> createMaricultureETL()
+    public static StaticIteratorETL<RegionVO<List<SauMariculture>>, DataCiteJson> createMaricultureETL()
     {
         return new StaticIteratorETL<>(
                    SeaAroundUsRegionConstants.MARICULTURE_ETL_NAME,
@@ -135,7 +140,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting LMEs
      */
-    public static StaticIteratorETL<GenericResponse<SauLmeRegion>, DataCiteJson> createLmeETL()
+    public static StaticIteratorETL<RegionVO<SauLmeRegion>, DataCiteJson> createLmeETL()
     {
         final LmeTransformer transformer = new LmeTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
@@ -152,7 +157,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting EEZs
      */
-    public static StaticIteratorETL<GenericResponse<SauEezRegion>, DataCiteJson> createEezETL()
+    public static StaticIteratorETL<RegionVO<SauEezRegion>, DataCiteJson> createEezETL()
     {
         final EezTransformer transformer = new EezTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
@@ -169,7 +174,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting RFMOs
      */
-    public static StaticIteratorETL<GenericResponse<SauRfmoRegion>, DataCiteJson> createRfmoETL()
+    public static StaticIteratorETL<RegionVO<SauRfmoRegion>, DataCiteJson> createRfmoETL()
     {
         final RfmoTransformer transformer = new RfmoTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
@@ -186,7 +191,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting the HighSeas
      */
-    public static StaticIteratorETL<GenericResponse<GenericRegion>, DataCiteJson> createHighSeasETL()
+    public static StaticIteratorETL<RegionVO<GenericRegion>, DataCiteJson> createHighSeasETL()
     {
         final HighSeasTransformer transformer = new HighSeasTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();
@@ -203,7 +208,7 @@ public class SeaAroundUsETLFactory // NOPMD the helper class name is suitable
      *
      * @return an ETL for harvesting FAOs
      */
-    public static StaticIteratorETL<GenericResponse<SauFaoRegion>, DataCiteJson> createFaoETL()
+    public static StaticIteratorETL<RegionVO<SauFaoRegion>, DataCiteJson> createFaoETL()
     {
         final FaoTransformer transformer = new FaoTransformer();
         final String etlName = transformer.getRegionParameters().getEtlName();

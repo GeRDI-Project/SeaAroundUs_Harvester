@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.GlobalVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
@@ -41,7 +42,7 @@ import de.gerdiproject.json.datacite.extension.generic.WebLink;
  *
  * @author Robin Weiss
  */
-public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlobal, DataCiteJson>
+public class GlobalRegionTransformer extends AbstractIteratorTransformer<GlobalVO, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -51,13 +52,13 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
 
 
     @Override
-    protected DataCiteJson transformElement(final SauGlobal entry) throws TransformerException
+    protected DataCiteJson transformElement(final GlobalVO vo) throws TransformerException
     {
-        final String subRegionName = entry.getSubRegionNameSuffix();
-        final int subRegionId = entry.getSubRegionId();
+        final String subRegionName = vo.getSubRegionNameSuffix();
+        final int subRegionId = vo.getSubRegionId();
 
         final DataCiteJson document = new DataCiteJson(SauGlobal.class.getSimpleName() + subRegionId);
-        document.setVersion(entry.getVersion());
+        document.setVersion(vo.getResponse().getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
@@ -65,7 +66,7 @@ public class GlobalRegionTransformer extends AbstractIteratorTransformer<SauGlob
         document.addCreators(SeaAroundUsDataCiteConstants.SAU_CREATORS);
         document.addRights(SeaAroundUsDataCiteConstants.RIGHTS_LIST);
         document.addTitles(createTitles(subRegionName));
-        document.addSubjects(createSubjects(entry.getMetrics()));
+        document.addSubjects(createSubjects(vo.getResponse().getData().getMetrics()));
         document.addWebLinks(createWebLinks(subRegionId, subRegionName));
         document.addResearchData(createFiles(subRegionId, subRegionName));
 

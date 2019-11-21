@@ -20,11 +20,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.FishingEntityVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsDataCiteConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsUrlConstants;
 import de.gerdiproject.harvest.seaaroundus.json.fishingentity.SauFishingEntity;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.utils.SeaAroundUsDataCiteUtils;
 import de.gerdiproject.json.datacite.DataCiteJson;
 import de.gerdiproject.json.datacite.Title;
@@ -38,7 +38,7 @@ import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
  *
  * @author Robin Weiss
  */
-public class FishingEntityTransformer extends AbstractIteratorTransformer<GenericResponse<SauFishingEntity>, DataCiteJson>
+public class FishingEntityTransformer extends AbstractIteratorTransformer<FishingEntityVO, DataCiteJson>
 {
     @Override
     public void init(final AbstractETL<?, ?> etl)
@@ -48,16 +48,16 @@ public class FishingEntityTransformer extends AbstractIteratorTransformer<Generi
 
 
     @Override
-    protected DataCiteJson transformElement(final GenericResponse<SauFishingEntity> response) throws TransformerException
+    protected DataCiteJson transformElement(final FishingEntityVO vo) throws TransformerException
     {
-        final SauFishingEntity entry = response.getData();
+        final SauFishingEntity entry = vo.getResponse().getData();
         final int regionId = entry.getId();
         final String regionName = entry.getTitle();
         final String regionApiName = SeaAroundUsRegionConstants.FISHING_ENTITY_PARAMS.getRegionType().getUrlName();
         final String apiUrl = SeaAroundUsDataCiteUtils.getRegionEntryUrl(regionApiName, regionId);
 
         final DataCiteJson document = new DataCiteJson(apiUrl);
-        document.setVersion(response.getMetadata().getVersion());
+        document.setVersion(vo.getResponse().getMetadata().getVersion());
         document.setRepositoryIdentifier(SeaAroundUsDataCiteConstants.REPOSITORY_ID);
         document.addResearchDisciplines(SeaAroundUsDataCiteConstants.RESEARCH_DISCIPLINES);
         document.setPublisher(SeaAroundUsDataCiteConstants.PUBLISHER);
