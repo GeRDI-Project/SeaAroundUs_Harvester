@@ -1,0 +1,257 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "The Global Ocean"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"subjects" : [
+		{
+			"value" : "Mocked Metric 1"
+		},
+		{
+			"value" : "Mocked Metric 2"
+		}
+	],
+	"formats" : [
+		"csv",
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcatchtype\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Type in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/images/logo_saup.png",
+			"webLinkName" : "Logo",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dfunctionalgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Functional Groups in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dmultinational-footprint\u0026subRegion\u003d0",
+			"webLinkName" : "Primary Production Required for catches in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/stock-status?subRegion\u003d0",
+			"webLinkName" : "Stock status in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dsector\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Sector in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dreporting-status\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Reporting Status in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dsector\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Sector in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dfunctionalgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Functional Groups in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dreporting-status\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Reporting Status in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcommercialgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Commercial Groups in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/global/1",
+			"webLinkType" : "SourceURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcatchtype\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Type in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dtaxon\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Taxon in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/marine-trophic-index?subRegion\u003d0",
+			"webLinkName" : "Region-based Marine Trophic Index of the catch in the waters of the Global Ocean in the Global Ocean",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcountry\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Country in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcountry\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Country in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dcommercialgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Commercial Groups in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/global/?chart\u003dcatch-chart\u0026subRegion\u003d0\u0026dimension\u003dtaxon\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Taxon in the Global Ocean ",
+			"webLinkType" : "ViewURL"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/marine-trophic-index/?region_id\u003d1",
+			"researchDataLabel" : "Region-based Marine Trophic Index of the catch in the waters of the Global Ocean in the Global Ocean",
+			"researchDataIdentifier" : "1584414459",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/functionalgroup/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Functional Groups in the Global Ocean ",
+			"researchDataIdentifier" : "-573891005",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/commercialgroup/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Commercial Groups in the Global Ocean ",
+			"researchDataIdentifier" : "1198554781",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/taxon/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Taxon in the Global Ocean ",
+			"researchDataIdentifier" : "341044181",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/country/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Country in the Global Ocean ",
+			"researchDataIdentifier" : "582621340",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/taxon/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Taxon in the Global Ocean ",
+			"researchDataIdentifier" : "-321952792",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/country/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Country in the Global Ocean ",
+			"researchDataIdentifier" : "2067552585",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/catchtype/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Type in the Global Ocean ",
+			"researchDataIdentifier" : "708236189",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/sector/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Sector in the Global Ocean ",
+			"researchDataIdentifier" : "-1090363284",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/multinational-footprint/?region_id\u003d1",
+			"researchDataLabel" : "Primary Production Required for catches in the Global Ocean ",
+			"researchDataIdentifier" : "-1018628161",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/commercialgroup/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Commercial Groups in the Global Ocean ",
+			"researchDataIdentifier" : "1274135114",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/stock-status/?region_id\u003d1\u0026sub_area_id\u003d",
+			"researchDataLabel" : "Stock status in the Global Ocean ",
+			"researchDataIdentifier" : "-567245690",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/catchtype/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Type in the Global Ocean ",
+			"researchDataIdentifier" : "1798020362",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/reporting-status/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Reporting Status in the Global Ocean ",
+			"researchDataIdentifier" : "502627521",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/sector/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Sector in the Global Ocean ",
+			"researchDataIdentifier" : "-2012293601",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/value/functionalgroup/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Functional Groups in the Global Ocean ",
+			"researchDataIdentifier" : "-649471338",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/global/tonnage/reporting-status/?limit\u003d20\u0026region_id\u003d1\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Reporting Status in the Global Ocean ",
+			"researchDataIdentifier" : "-1449349452",
+			"researchDataType" : "csv"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}
