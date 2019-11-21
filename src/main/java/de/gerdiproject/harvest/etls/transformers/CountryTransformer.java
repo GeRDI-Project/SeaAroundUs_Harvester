@@ -193,7 +193,6 @@ public class CountryTransformer extends AbstractIteratorTransformer<CountryVO, D
         };
 
         for (final String tag : rawTags) {
-
             if (tag != null) {
                 final Subject s = new Subject(tag);
                 s.setLang(SeaAroundUsDataCiteConstants.SAU_LANGUAGE);

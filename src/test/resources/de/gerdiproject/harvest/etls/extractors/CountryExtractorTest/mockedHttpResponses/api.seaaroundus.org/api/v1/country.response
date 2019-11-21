@@ -45,6 +45,41 @@
 					"region" : "Mocked Region",
 					"region_id" : 42
 				}
+			},
+			{
+				"geometry" : { 
+					"type" : "MultiPolygon",
+					"coordinates" : [
+						[
+							[
+								[
+									1.0,
+									1.0
+								],
+								[
+									2.0,
+									2.0
+								],
+								[
+									3.0,
+									1.0
+								],
+								[
+									1.0,
+									1.0
+								]
+							]
+						]
+					]
+				},
+				"type" : "Feature",
+				"properties" : { 
+					"c_iso_code" : "Mocked Sub-Region ISO Code",
+					"c_number" : 1337,
+					"title" : "Mocked Sub-Region Name",
+					"region" : "Mocked Sub Region",
+					"region_id" : 69
+				}
 			}
 		],
 		"type" : "FeatureCollection"
