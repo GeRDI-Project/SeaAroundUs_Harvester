@@ -1,0 +1,350 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "mocked-common_name (mocked-scientific_name)"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"subjects" : [
+		{
+			"value" : "front"
+		},
+		{
+			"value" : "effective_d"
+		},
+		{
+			"value" : "slope"
+		},
+		{
+			"value" : "coral"
+		},
+		{
+			"value" : "78.9 cm"
+		},
+		{
+			"value" : "Mocked Taxon Level"
+		},
+		{
+			"value" : "others"
+		},
+		{
+			"value" : "estuaries"
+		},
+		{
+			"value" : "shelf"
+		},
+		{
+			"value" : "Mocked Taxon Group"
+		},
+		{
+			"value" : "offshore"
+		},
+		{
+			"value" : "mocked-common_name"
+		},
+		{
+			"value" : "seamount"
+		},
+		{
+			"value" : "inshore"
+		},
+		{
+			"value" : "mocked-scientific_name"
+		},
+		{
+			"value" : "seagrass"
+		},
+		{
+			"value" : "mocked-commercial_group"
+		},
+		{
+			"value" : "mocked-functional_group"
+		},
+		{
+			"value" : "abyssal"
+		}
+	],
+	"formats" : [
+		"csv",
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationBox" : {
+				"type" : "Polygon",
+				"coordinates" : [
+					[
+						[
+							-180.0,
+							12.34
+						],
+						[
+							-180.0,
+							56.78
+						],
+						[
+							180.0,
+							56.78
+						],
+						[
+							180.0,
+							12.34
+						],
+						[
+							-180.0,
+							12.34
+						]
+					]
+				]
+			}
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Commercial Groups",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Type",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dlme\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by LME",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxa/1337?showHabitatIndex\u003dtrue",
+			"webLinkName" : "View Taxon Profile",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Reporting Status",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Reporting Status",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Type",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/taxa/1337",
+			"webLinkType" : "SourceURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003deez\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by EEZ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003deez\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by EEZ",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dlme\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by LME",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Fishing Sector",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Functional Groups",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Fishing Country",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Fishing Country",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Functional Groups",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Fishing Sector",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dhighseas\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by High Seas",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dhighseas\u0026measure\u003dvalue\u0026limit\u003d10",
+			"webLinkName" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by High Seas",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/taxon/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dtonnage\u0026limit\u003d10",
+			"webLinkName" : "Global catches of mocked-common_name (mocked-scientific_name) by Commercial Groups",
+			"webLinkType" : "ViewURL"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/sector/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Fishing Sector",
+			"researchDataIdentifier" : "-108388018",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/reporting-status/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Reporting Status",
+			"researchDataIdentifier" : "824066659",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/reporting-status/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Reporting Status",
+			"researchDataIdentifier" : "-826077418",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/country/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Fishing Country",
+			"researchDataIdentifier" : "-2064789659",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/country/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Fishing Country",
+			"researchDataIdentifier" : "1063666040",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/sector/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Fishing Sector",
+			"researchDataIdentifier" : "621978049",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/functionalgroup/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Functional Groups",
+			"researchDataIdentifier" : "48062322",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/lme/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by LME",
+			"researchDataIdentifier" : "-932482121",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/lme/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by LME",
+			"researchDataIdentifier" : "-549591222",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/highseas/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by High Seas",
+			"researchDataIdentifier" : "-706281138",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/highseas/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by High Seas",
+			"researchDataIdentifier" : "1095840001",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/commercialgroup/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Commercial Groups",
+			"researchDataIdentifier" : "-1597472282",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/commercialgroup/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Commercial Groups",
+			"researchDataIdentifier" : "-574410503",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/eez/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by EEZ",
+			"researchDataIdentifier" : "-709827020",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/eez/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by EEZ",
+			"researchDataIdentifier" : "-1092717919",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/functionalgroup/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Functional Groups",
+			"researchDataIdentifier" : "-974999457",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/value/catchtype/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) of global catches of mocked-common_name (mocked-scientific_name) by Type",
+			"researchDataIdentifier" : "1090481081",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/taxa/tonnage/catchtype/?limit\u003d10\u0026sciname\u003d\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Global catches of mocked-common_name (mocked-scientific_name) by Type",
+			"researchDataIdentifier" : "1121661542",
+			"researchDataType" : "csv"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}
