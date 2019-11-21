@@ -79,6 +79,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
             subRegions.add(basicCountry);
         }
 
+
         // get version from metadata
         this.version = allCountries.getMetadata().getVersion();
     }
@@ -143,7 +144,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
             final GenericResponse<SauCountry> country = httpRequester.getObjectFromUrl(
                                                             apiUrl,
                                                             responseType);
-            //SeaAroundUsRegionConstants.COUNTRY_RESPONSE_TYPE);
+
             country.getData().setSubRegions(subRegions);
 
             return country;

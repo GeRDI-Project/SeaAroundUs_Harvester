@@ -103,13 +103,13 @@ public class SauCountry
     private String countCode;
 
     @SerializedName("sea_mount")
-    private int seaMount;
+    private double seaMount;
 
     @SerializedName("fish_mgt_plan")
     private String fishMgtPlan;
 
     @SerializedName("avg_pprate")
-    private int avgPprate;
+    private double avgPprate;
 
     @SerializedName("c_number")
     private int cNumber;
@@ -134,27 +134,4 @@ public class SauCountry
 
     @SerializedName("fao_profile_url_v1")
     private String faoProfileUrlV1;
-
-
-    /**
-     * Retrieves a list of {@linkplain SauCountryProperties} that belong to this country.
-     *
-     * @return a list of {@linkplain SauCountryProperties} that belong to this country
-     */
-    public List<Feature<SauCountryProperties>> getSubRegions()
-    {
-        return subRegions;
-    }
-
-
-    /**
-     * Sometimes, multiple {@linkplain SauCountryProperties} belong to the same country.
-     * By adding them to a list, we prevent duplicate documents from being created.
-     *
-     * @param subRegions the features that belong to this country
-     */
-    public void setSubRegions(final List<Feature<SauCountryProperties>> subRegions)
-    {
-        this.subRegions = subRegions;
-    }
 }
