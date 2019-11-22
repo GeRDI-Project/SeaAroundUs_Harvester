@@ -1,0 +1,76 @@
+{
+	"meta" : {
+		"title" : "Mocked Meta Title",
+		"date" : "3000-03-03T01:02:03.456",
+		"version" : "42",
+		"request_path" : "mocked/request/path/1337"
+	},
+	"data" : {
+		"gsi_link" : "http://www.mo.ck/gsi",
+		"intersecting_fao_area_id" : [42],
+		"fishbase_id" : "1337",
+		"c_code" : "1337",
+		"ohi_link" : "http://www.mo.ck/ohi",
+		"geo_entity_id" : 1337,
+		"fao_profile_url" : "http://www.mo.ck/fao",
+		"fao_rfb" : [
+			{
+				"acronym" : "MOCK",
+				"url" : "http://www.mo.ck/fao/rfb",
+				"fid" : 101,
+				"name" : "Mocked FAO RFB"
+			}
+		],
+		"year_started_eez_at" : 3000,
+		"reconstruction_documents" : [
+			{
+				"name" : "mocked-document.pdf",
+				"url" : "https://mo.ckpdf?weirdquery=true",
+				"size" : 9001,
+				"last_modified" : "3000-03-03T03:03:03.000Z"
+			}
+		],
+		"year_allowed_to_fish_high_seas" : 3000,
+		"declaration_year" : 2000,
+		"country_id" : 1337,
+		"country_name" : "Mocked Region Name",
+		"estuary_count" : 69,
+		"year_allowed_to_fish_other_eezs" : 3000,
+		"title" : "Mocked Title",
+		"id" : 1337,
+		"geojson" : {
+			"type" : "MultiPolygon",
+			"coordinates" : [
+				[
+					[
+						[1.0, 1.0],
+						[1.0, 2.0],
+						[2.0, 2.0],
+						[2.0, 1.0],
+						[1.0, 1.0]
+					]
+				],
+				[
+					[
+						[5.0, 5.0],
+						[6.0, 6.0],
+						[7.0, 5.0],
+						[5.0, 5.0]
+					]
+				]
+			]
+		},
+		"metrics" : [
+			{
+				"title" : "Mocked Metric 1",
+				"value" : 12.34,
+				"units" : "Mocked Units 1"
+			},
+			{
+				"title" : "Mocked Metric 2",
+				"value" : 56.78,
+				"units" : "Mocked Units 2"
+			}
+		]
+	}
+}

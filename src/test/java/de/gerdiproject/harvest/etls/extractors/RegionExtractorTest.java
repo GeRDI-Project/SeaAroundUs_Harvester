@@ -73,7 +73,6 @@ public class RegionExtractorTest extends AbstractSeaAroundUsExtractorTest<Region
     protected RegionVO<?> getExpectedOutput()
     {
         final String regionPath = getResource(String.format(OUTPUT_REGION_RESOURCE, testParameters.getRegionApiName())).toString();
-        System.out.println(getExtractedType());
         return diskReader.getObject(
                    regionPath,
                    getExtractedType());

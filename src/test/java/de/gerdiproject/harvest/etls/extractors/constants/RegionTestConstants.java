@@ -17,6 +17,7 @@
 package de.gerdiproject.harvest.etls.extractors.constants;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.function.Supplier;
 
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +67,7 @@ public class RegionTestConstants
 
     public static final RegionTestData MARICULTURE = new RegionTestData(
         SeaAroundUsRegionConstants.MARICULTURE_API_NAME,
-    new TypeToken<RegionVO<SauMariculture>>() {} .getType(),
+    new TypeToken<RegionVO<List<SauMariculture>>>() {} .getType(),
     SeaAroundUsETLFactory::createMaricultureETL);
 
     public static final RegionTestData RFMO = new RegionTestData(
