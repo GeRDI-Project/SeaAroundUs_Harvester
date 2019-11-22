@@ -33,12 +33,4 @@ public class FishingEntityTransformerTest extends AbstractSeaAroundUsTransformer
     {
         return SeaAroundUsETLFactory.createFishingEntityETL();
     }
-    
-
-    @Override
-    protected Class<FishingEntityVO> getExtractedClass()
-    {
-        return FishingEntityVO.class;
-    }
-
 }

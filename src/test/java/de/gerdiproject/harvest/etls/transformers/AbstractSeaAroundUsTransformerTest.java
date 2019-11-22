@@ -17,7 +17,11 @@
 package de.gerdiproject.harvest.etls.transformers;
 
 import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+
+import com.google.gson.reflect.TypeToken;
 
 import de.gerdiproject.harvest.SeaAroundUsContextListener;
 import de.gerdiproject.harvest.application.ContextListener;
@@ -41,15 +45,20 @@ public abstract class AbstractSeaAroundUsTransformerTest <T> extends AbstractIte
 
     protected final DiskIO diskReader = new DiskIO(GsonUtils.createGerdiDocumentGsonBuilder().create(), StandardCharsets.UTF_8);
 
-    
+
     /**
-     * Returns the class of the element that is to be transformed.
-     * 
-     * @return the class of the element that is to be transformed
+     * Returns the type of the element that is to be transformed.
+     *
+     * @return the type of the element that is to be transformed
      */
-    protected abstract Class<T> getExtractedClass();
-    
-    
+    @SuppressWarnings("unchecked")
+    protected Type getExtractedType()
+    {
+        final Class<T> extractedClass = (Class<T>)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return TypeToken.get(extractedClass).getType();
+    }
+
+
     @Override
     protected ContextListener getContextListener()
     {
@@ -80,8 +89,8 @@ public abstract class AbstractSeaAroundUsTransformerTest <T> extends AbstractIte
     protected T getMockedInput()
     {
         return diskReader.getObject(
-                getResource(INPUT_RESOURCE).toString(), 
-                getExtractedClass());
+                   getResource(INPUT_RESOURCE).toString(),
+                   getExtractedType());
     }
 
 

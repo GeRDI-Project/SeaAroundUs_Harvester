@@ -20,9 +20,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
+
+import com.google.gson.reflect.TypeToken;
 
 import de.gerdiproject.harvest.SeaAroundUsContextListener;
 import de.gerdiproject.harvest.application.ContextListener;
@@ -43,12 +47,20 @@ public abstract class AbstractSeaAroundUsExtractorTest <T> extends AbstractItera
 
     protected final DiskIO diskReader = new DiskIO(GsonUtils.createGerdiDocumentGsonBuilder().create(), StandardCharsets.UTF_8);
 
+
     /**
-     * Returns the type of a single SeaAroundUs extraction.
+     * Returns the class of the extracted elements.
      *
-     * @return the type of a single SeaAroundUs extraction
+     * @return the class of the extracted elements
      */
-    protected abstract Class<T> getExtractedType();
+    @SuppressWarnings("unchecked")
+    protected Type getExtractedType()
+    {
+        final Class<T> extractedClass =
+            (Class<T>)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+        return TypeToken.get(extractedClass).getType();
+    }
 
 
     @Override

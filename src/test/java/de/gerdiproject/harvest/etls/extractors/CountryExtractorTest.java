@@ -33,11 +33,4 @@ public class CountryExtractorTest extends AbstractSeaAroundUsExtractorTest<Count
     {
         return SeaAroundUsETLFactory.createCountryETL();
     }
-
-
-    @Override
-    protected Class<CountryVO> getExtractedType()
-    {
-        return CountryVO.class;
-    }
 }

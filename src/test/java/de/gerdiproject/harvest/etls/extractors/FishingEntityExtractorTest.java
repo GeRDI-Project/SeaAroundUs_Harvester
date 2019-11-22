@@ -33,11 +33,4 @@ public class FishingEntityExtractorTest extends AbstractSeaAroundUsExtractorTest
     {
         return SeaAroundUsETLFactory.createFishingEntityETL();
     }
-
-
-    @Override
-    protected Class<FishingEntityVO> getExtractedType()
-    {
-        return FishingEntityVO.class;
-    }
 }

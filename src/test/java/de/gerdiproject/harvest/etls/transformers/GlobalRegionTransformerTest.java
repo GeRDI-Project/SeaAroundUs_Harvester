@@ -33,12 +33,4 @@ public class GlobalRegionTransformerTest extends AbstractSeaAroundUsTransformerT
     {
         return SeaAroundUsETLFactory.createGlobalRegionETL();
     }
-    
-
-    @Override
-    protected Class<GlobalRegionVO> getExtractedClass()
-    {
-        return GlobalRegionVO.class;
-    }
-
 }

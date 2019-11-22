@@ -42,13 +42,6 @@ public class GlobalRegionExtractorTest extends AbstractSeaAroundUsExtractorTest<
     }
 
 
-    @Override
-    protected Class<GlobalRegionVO> getExtractedType()
-    {
-        return GlobalRegionVO.class;
-    }
-
-
     /**
      * Tests if retrieving a global sub region returns the expected value object.
      */

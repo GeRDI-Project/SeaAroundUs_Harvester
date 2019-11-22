@@ -33,11 +33,4 @@ public class TaxonExtractorTest extends AbstractSeaAroundUsExtractorTest<TaxonVO
     {
         return SeaAroundUsETLFactory.createTaxonETL();
     }
-
-
-    @Override
-    protected Class<TaxonVO> getExtractedType()
-    {
-        return TaxonVO.class;
-    }
 }

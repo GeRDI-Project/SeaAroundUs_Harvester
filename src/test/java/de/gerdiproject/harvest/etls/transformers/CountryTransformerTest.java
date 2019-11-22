@@ -33,12 +33,4 @@ public class CountryTransformerTest extends AbstractSeaAroundUsTransformerTest<C
     {
         return SeaAroundUsETLFactory.createCountryETL();
     }
-    
-
-    @Override
-    protected Class<CountryVO> getExtractedClass()
-    {
-        return CountryVO.class;
-    }
-
 }
