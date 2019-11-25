@@ -1,0 +1,220 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "Mariculture Production in Mocked Country Name 1"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"subjects" : [
+		{
+			"value" : "Mocked Sub-Region Title 1",
+			"lang" : "en"
+		},
+		{
+			"value" : "Mocked Sub-Region Title 2",
+			"lang" : "en"
+		}
+	],
+	"formats" : [
+		"csv",
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationPlace" : "Mocked Sub-Region Title 2",
+			"geoLocationPoint" : {
+				"type" : "Point",
+				"coordinates" : [
+					2.0,
+					2.0
+				]
+			},
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								7.0,
+								7.0
+							],
+							[
+								8.0,
+								8.0
+							],
+							[
+								9.0,
+								7.0
+							],
+							[
+								7.0,
+								7.0
+							]
+						]
+					]
+				}
+			]
+		},
+		{
+			"geoLocationPlace" : "Mocked Sub-Region Title 1",
+			"geoLocationPoint" : {
+				"type" : "Point",
+				"coordinates" : [
+					1.0,
+					1.0
+				]
+			},
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								5.0,
+								5.0
+							],
+							[
+								6.0,
+								6.0
+							],
+							[
+								7.0,
+								5.0
+							],
+							[
+								5.0,
+								5.0
+							]
+						]
+					]
+				},
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								1.0,
+								2.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								2.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					]
+				}
+			]
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/mariculture/1337",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/images/logo_saup.png",
+			"webLinkName" : "Logo",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/mariculture/1337",
+			"webLinkType" : "SourceURL"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/1337?limit\u003d20\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Commercial Groups in Mocked Country Name 1",
+			"researchDataIdentifier" : "-1254078003"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/taxon/1337?limit\u003d20\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Taxon in Mocked Country Name 1",
+			"researchDataIdentifier" : "-1629538920"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/taxon/1337?limit\u003d20\u0026sub_unit_id\u003d42\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Taxon in Mocked Country Name 1 - Mocked Sub-Region Title 2",
+			"researchDataIdentifier" : "-395980182"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/functionalgroup/1337?limit\u003d20\u0026sub_unit_id\u003d69\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Functional Groups in Mocked Country Name 1 - Mocked Sub-Region Title 1",
+			"researchDataIdentifier" : "-1135760873"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/1337?limit\u003d20\u0026sub_unit_id\u003d42\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Commercial Groups in Mocked Country Name 1 - Mocked Sub-Region Title 2",
+			"researchDataIdentifier" : "1013788053"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/functionalgroup/1337?limit\u003d20\u0026sub_unit_id\u003d42\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Functional Groups in Mocked Country Name 1 - Mocked Sub-Region Title 2",
+			"researchDataIdentifier" : "-1452533892"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/taxon/1337?limit\u003d20\u0026sub_unit_id\u003d69\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Taxon in Mocked Country Name 1 - Mocked Sub-Region Title 1",
+			"researchDataIdentifier" : "-79207163"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/commercialgroup/1337?limit\u003d20\u0026sub_unit_id\u003d69\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Commercial Groups in Mocked Country Name 1 - Mocked Sub-Region Title 1",
+			"researchDataIdentifier" : "1330561072"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/mariculture/functionalgroup/1337?limit\u003d20\u0026format\u003dcsv",
+			"researchDataLabel" : "Mariculture Production by Functional Groups in Mocked Country Name 1",
+			"researchDataIdentifier" : "-1842499898"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}

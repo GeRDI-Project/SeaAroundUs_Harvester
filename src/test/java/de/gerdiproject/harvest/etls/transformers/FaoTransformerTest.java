@@ -23,26 +23,26 @@ import com.google.gson.reflect.TypeToken;
 import de.gerdiproject.harvest.etls.AbstractIteratorETL;
 import de.gerdiproject.harvest.etls.SeaAroundUsETLFactory;
 import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
-import de.gerdiproject.harvest.seaaroundus.json.eez.SauEezRegion;
+import de.gerdiproject.harvest.seaaroundus.json.fao.SauFaoRegion;
 import de.gerdiproject.json.datacite.DataCiteJson;
 
 /**
- * This class provides Unit Tests the {@linkplain EezTransformer}.
+ * This class provides Unit Tests the {@linkplain FaoTransformer}.
  *
  * @author Robin Weiss
  */
-public class EezTransformerTest extends AbstractSeaAroundUsTransformerTest<RegionVO<SauEezRegion>>
+public class FaoTransformerTest extends AbstractSeaAroundUsTransformerTest<RegionVO<SauFaoRegion>>
 {
     @Override
-    protected AbstractIteratorETL<RegionVO<SauEezRegion>, DataCiteJson> getEtl()
+    protected AbstractIteratorETL<RegionVO<SauFaoRegion>, DataCiteJson> getEtl()
     {
-        return SeaAroundUsETLFactory.createEezETL();
+        return SeaAroundUsETLFactory.createFaoETL();
     }
 
     
     @Override
     protected Type getExtractedType()
     {
-        return new TypeToken<RegionVO<SauEezRegion>>() {} .getType();
+        return new TypeToken<RegionVO<SauFaoRegion>>() {} .getType();
     }
 }

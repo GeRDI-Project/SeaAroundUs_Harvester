@@ -19,6 +19,8 @@ package de.gerdiproject.harvest.etls;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.function.Supplier;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,23 +38,23 @@ import lombok.RequiredArgsConstructor;
 @RunWith(Parameterized.class) @RequiredArgsConstructor
 public class SeaAroundUsETLFactoryTest extends AbstractUnitTest
 {
-    private final AbstractETL<?, ?> etl;
+    private final EtlCreator etlCreator;
 
 
     @Parameters(name = "{0}")
     public static Object[] getParameters()
     {
         return new Object[] {
-                   SeaAroundUsETLFactory.createCountryETL(),
-                   SeaAroundUsETLFactory.createEezETL(),
-                   SeaAroundUsETLFactory.createFaoETL(),
-                   SeaAroundUsETLFactory.createFishingEntityETL(),
-                   SeaAroundUsETLFactory.createGlobalRegionETL(),
-                   SeaAroundUsETLFactory.createHighSeasETL(),
-                   SeaAroundUsETLFactory.createLmeETL(),
-                   SeaAroundUsETLFactory.createMaricultureETL(),
-                   SeaAroundUsETLFactory.createRfmoETL(),
-                   SeaAroundUsETLFactory.createTaxonETL()
+                   new EtlCreator(SeaAroundUsETLFactory::createCountryETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createEezETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createFaoETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createFishingEntityETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createGlobalRegionETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createHighSeasETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createLmeETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createMaricultureETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createRfmoETL),
+                   new EtlCreator(SeaAroundUsETLFactory::createTaxonETL)
                };
     }
 
@@ -64,7 +66,7 @@ public class SeaAroundUsETLFactoryTest extends AbstractUnitTest
     public void testCreateETL()
     {
         assertNotNull("Expected a non-null ETL to be created.",
-                      etl);
+                      etlCreator.create());
     }
 
 
@@ -74,6 +76,7 @@ public class SeaAroundUsETLFactoryTest extends AbstractUnitTest
     @Test
     public void testForNoEventListeners()
     {
+        final AbstractETL<?, ?> etl = etlCreator.create();
         assertFalse(String.format("Expected the creation of %s to not add any event listeners.", etl.getClass().getSimpleName()),
                     EventSystem.hasAsynchronousEventListeners()
                     || EventSystem.hasSynchronousEventListeners());
@@ -87,11 +90,36 @@ public class SeaAroundUsETLFactoryTest extends AbstractUnitTest
     @Test
     public void testRemovingEventListeners()
     {
+        final AbstractETL<?, ?> etl = etlCreator.create();
         etl.addEventListeners();
         etl.removeEventListeners();
 
         assertFalse(String.format("Expected the removeEventListeners() method of %s to remove all event listeners.", etl.getClass().getSimpleName()),
                     EventSystem.hasAsynchronousEventListeners()
                     || EventSystem.hasSynchronousEventListeners());
+    }
+
+
+    /**
+     * Test object that wraps an {@linkplain AbstractETL} {@linkplain Supplier}.
+     * Functional Interfaces are not objects and can therefore not be defined directly
+     * as Unit test parameters, making this wrapper class necessary.
+     *
+     * @author Robin Weiss
+     */
+    @RequiredArgsConstructor
+    private static class EtlCreator
+    {
+        final Supplier<AbstractETL<?, ?>> supplier;
+
+        /**
+         * Creates and returns an {@linkplain AbstractETL} using the wrapped {@linkplain Supplier}.
+         *
+         * @return an {@linkplain AbstractETL}
+         */
+        public AbstractETL<?, ?> create()
+        {
+            return supplier.get();
+        }
     }
 }

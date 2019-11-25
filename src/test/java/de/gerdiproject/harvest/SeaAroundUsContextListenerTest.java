@@ -24,4 +24,9 @@ import de.gerdiproject.harvest.application.AbstractContextListenerTest;
  */
 public class SeaAroundUsContextListenerTest extends AbstractContextListenerTest<SeaAroundUsContextListener>
 {
+    @Override
+    protected int getMaxInitializationTime()
+    {
+        return 25000;
+    }
 }
