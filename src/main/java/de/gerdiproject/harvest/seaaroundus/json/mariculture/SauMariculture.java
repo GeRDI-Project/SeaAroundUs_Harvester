@@ -21,6 +21,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus mariculture request.
@@ -28,7 +29,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author Robin Weiss
  */
-@Data @EqualsAndHashCode(callSuper = true)
+@Data @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauMariculture extends GenericRegion
 {
     @SerializedName("country_name")

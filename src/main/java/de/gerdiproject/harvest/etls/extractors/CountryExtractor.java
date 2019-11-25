@@ -26,6 +26,7 @@ import java.util.Map;
 import com.google.gson.reflect.TypeToken;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.CountryVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountry;
 import de.gerdiproject.harvest.seaaroundus.json.country.SauCountryProperties;
@@ -42,7 +43,7 @@ import de.gerdiproject.json.geo.FeatureCollection;
  *
  * @author Robin Weiss
  */
-public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<SauCountry>>
+public class CountryExtractor extends AbstractIteratorExtractor<CountryVO>
 {
     protected final HttpRequester httpRequester = new HttpRequester();
 
@@ -79,6 +80,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
             subRegions.add(basicCountry);
         }
 
+
         // get version from metadata
         this.version = allCountries.getMetadata().getVersion();
     }
@@ -99,7 +101,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
 
 
     @Override
-    protected Iterator<GenericResponse<SauCountry>> extractAll() throws ExtractorException
+    protected Iterator<CountryVO> extractAll() throws ExtractorException
     {
         return new CountryIterator();
     }
@@ -118,7 +120,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
      *
      * @author Robin Weiss
      */
-    private class CountryIterator implements Iterator<GenericResponse<SauCountry>>
+    private class CountryIterator implements Iterator<CountryVO>
     {
         private final Iterator<List<Feature<SauCountryProperties>>> countryMapIterator = countryMap.values().iterator();
         private final Type responseType = new TypeToken<GenericResponse<SauCountry>>() {} .getType();
@@ -131,7 +133,7 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
 
 
         @Override
-        public GenericResponse<SauCountry> next()
+        public CountryVO next()
         {
             final List<Feature<SauCountryProperties>> subRegions = countryMapIterator.next();
             final int key = subRegions.get(0).getProperties().getCNumber();
@@ -143,10 +145,8 @@ public class CountryExtractor extends AbstractIteratorExtractor<GenericResponse<
             final GenericResponse<SauCountry> country = httpRequester.getObjectFromUrl(
                                                             apiUrl,
                                                             responseType);
-            //SeaAroundUsRegionConstants.COUNTRY_RESPONSE_TYPE);
-            country.getData().setSubRegions(subRegions);
 
-            return country;
+            return new CountryVO(country, subRegions);
         }
     }
 }

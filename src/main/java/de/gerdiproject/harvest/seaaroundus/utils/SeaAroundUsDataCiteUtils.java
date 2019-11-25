@@ -30,23 +30,17 @@ import de.gerdiproject.json.datacite.GeoLocation;
 import de.gerdiproject.json.datacite.extension.generic.ResearchData;
 import de.gerdiproject.json.datacite.extension.generic.WebLink;
 import de.gerdiproject.json.datacite.extension.generic.enums.WebLinkType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * A static helper class for creating SeaAroundUs DataCite fields.
  *
  * @author Robin Weiss
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SeaAroundUsDataCiteUtils
 {
-    /**
-     * Private constructor, because this is a static class
-     */
-    private SeaAroundUsDataCiteUtils()
-    {
-
-    }
-
-
     /**
      * Assembles a URL to download an overview of specified regions.
      *

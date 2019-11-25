@@ -29,9 +29,5 @@ import lombok.Data;
 @Data
 public class SauGlobal
 {
-    private transient int subRegionId;
-    private transient String subRegionNameSuffix;
-    private transient String version;
-
     private List<Metric> metrics;
 }

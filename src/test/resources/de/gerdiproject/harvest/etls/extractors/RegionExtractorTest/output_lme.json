@@ -1,0 +1,115 @@
+{
+	"response" : {
+		"data" : {
+			"fishbase_link" : "http://www.mo.ck/fishbase",
+			"profile_url" : "http://www.mo.ck/profile",
+			"title" : "Mocked Title",
+			"id" : 1337,
+			"geojson" : {
+				"type" : "MultiPolygon",
+				"coordinates" : [
+					[
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								1.0,
+								2.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								2.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					],
+					[
+						[
+							[
+								5.0,
+								5.0
+							],
+							[
+								6.0,
+								6.0
+							],
+							[
+								7.0,
+								5.0
+							],
+							[
+								5.0,
+								5.0
+							]
+						]
+					]
+				]
+			},
+			"metrics" : [
+				{
+					"title" : "Mocked Metric 1",
+					"value" : 12.34,
+					"units" : "Mocked Units 1"
+				},
+				{
+					"title" : "Mocked Metric 2",
+					"value" : 56.78,
+					"units" : "Mocked Units 2"
+				}
+			]
+		},
+		"meta" : {
+			"title" : "Mocked Meta Title",
+			"date" : "3000-03-03T01:02:03.456",
+			"version" : "42",
+			"request_path" : "mocked/request/path/1337"
+		}
+	},
+	"feature" : {
+		"geometry" : {
+			"type" : "MultiPolygon",
+			"coordinates" : [
+				[
+					[
+						[
+							1.0,
+							1.0
+						],
+						[
+							1.0,
+							2.0
+						],
+						[
+							2.0,
+							2.0
+						],
+						[
+							2.0,
+							1.0
+						],
+						[
+							1.0,
+							1.0
+						]
+					]
+				]
+			]
+		},
+		"type" : "Feature",
+		"properties" : {
+			"title" : "Mocked Title",
+			"region" : "lme",
+			"region_id" : 1337,
+			"long_title" : "Mocked Long Title"
+		}
+	}
+}

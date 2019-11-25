@@ -1,0 +1,48 @@
+{
+	"response" : {
+		"meta" : {
+			"title" : "Mocked Meta Title",
+			"date" : "3000-03-03T01:02:03.456",
+			"version" : "42",
+			"request_path" : "mocked/request/path/1337"
+		},
+		"data" : {
+			"country_id" : 42,
+			"geo_entity_id" : 1234,
+			
+			"title" : "Mocked Country Name",
+			"id" : 1337,
+			"geojson" : {
+				"type" : "MultiPolygon",
+				"coordinates" : [
+					[
+						[
+							[1.0, 1.0],
+							[1.0, 2.0],
+							[2.0, 2.0],
+							[2.0, 1.0],
+							[1.0, 1.0]
+						]
+					]
+				]
+			},
+			"metrics" : [
+				{
+					"title" : "Mocked Metric 1",
+					"value" : 11.11,
+					"units" : "Mocked Unit 1"
+				},
+				{
+					"title" : "Mocked Metric 2",
+					"value" : 22.22,
+					"units" : "Mocked Unit 2"
+				}
+			]
+		}
+	},
+	"baseInfo" : {
+		"id" : 1337,
+		"title" : "Mocked Country Name",
+		"country_id" : 42
+	}
+}

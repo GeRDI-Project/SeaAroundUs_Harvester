@@ -37,7 +37,7 @@ public class SeaAroundUsContextListener extends ContextListener
     {
         return Arrays.asList(
                    SeaAroundUsETLFactory.createTaxonETL(),
-                   SeaAroundUsETLFactory.createGlobalOceanETL(),
+                   SeaAroundUsETLFactory.createGlobalRegionETL(),
                    SeaAroundUsETLFactory.createFishingEntityETL(),
                    SeaAroundUsETLFactory.createMaricultureETL(),
                    SeaAroundUsETLFactory.createCountryETL(),

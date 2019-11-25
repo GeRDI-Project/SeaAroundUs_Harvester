@@ -21,6 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents the data object of a SeaAroundUs LME response.
@@ -28,7 +29,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author Robin Weiss
  */
-@Data @EqualsAndHashCode(callSuper = true)
+@Data @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauLmeRegion extends GenericRegion
 {
     @SerializedName("fishbase_link")

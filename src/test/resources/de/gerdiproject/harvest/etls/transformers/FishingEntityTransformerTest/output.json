@@ -1,0 +1,278 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "Catches by the Fleets of Mocked Country Name"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"formats" : [
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationPlace" : "Mocked Country Name",
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								1.0,
+								2.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								2.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					]
+				}
+			]
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Country by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337/external-fishing-access",
+			"webLinkName" : "Mocked Country Name\u0027s foreign fishing access agreements by EEZ",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dtaxon\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Taxon by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/subsidy/1234",
+			"webLinkName" : "Fisheries Subsidies in Mocked Country Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Sector by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Commercial Groups by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Functional Groups by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Functional Groups by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Commercial Groups by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Type by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.fishbase.org/Country/CountryTreatyList.php?Country\u003d042",
+			"webLinkName" : "Treaties and Conventions to which Mocked Country Name is a Member",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Sector by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Reporting Status by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Country by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/spatial-catch?entities\u003d1337",
+			"webLinkName" : "View catch allocations on a map for the fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/country/42",
+			"webLinkName" : "Country Profile: Mocked Country Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/images/logo_saup.png",
+			"webLinkName" : "Logo",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/fishing-entity/1337",
+			"webLinkType" : "SourceURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dtaxon\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Taxon by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Type by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/fishing-entity/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Reporting Status by the Fleets of Mocked Country Name",
+			"webLinkType" : "ViewURL"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/commercialgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Commercial Groups by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-431570706",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/functionalgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Functional Groups by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-396299806",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/functionalgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Functional Groups by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-2086881707",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/country/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Country by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "1829208348",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/catchtype/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Type by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-1032407954",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/taxon/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Taxon by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "496275216",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/country/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Country by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "1096575119",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/catchtype/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Type by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-1346511429",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/reporting-status/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Reporting Status by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-1267571215",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/commercialgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Commercial Groups by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "1259011195",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/taxon/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Taxon by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-925714621",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/sector/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Sector by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "621720787",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/value/sector/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Sector by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "1753732774",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/fishing-entity/tonnage/reporting-status/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Reporting Status by the Fleets of Mocked Country Name",
+			"researchDataIdentifier" : "-2136002594",
+			"researchDataType" : "csv"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}

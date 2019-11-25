@@ -20,8 +20,8 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 
 import de.gerdiproject.harvest.etls.AbstractETL;
+import de.gerdiproject.harvest.etls.extractors.vos.RegionVO;
 import de.gerdiproject.harvest.seaaroundus.constants.SeaAroundUsRegionConstants;
-import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericResponse;
 import de.gerdiproject.harvest.seaaroundus.json.generic.SauFeatureProperties;
 import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
@@ -37,7 +37,7 @@ import de.gerdiproject.json.geo.FeatureCollection;
  *
  * @author Robin Weiss
  */
-public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericResponse<T>>
+public class RegionExtractor <T> extends AbstractIteratorExtractor<RegionVO<T>>
 {
     protected final HttpRequester httpRequester;
 
@@ -98,7 +98,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
 
     @Override
-    protected Iterator<GenericResponse<T>> extractAll() throws ExtractorException
+    protected Iterator<RegionVO<T>> extractAll() throws ExtractorException
     {
         return new EntryIterator();
     }
@@ -117,7 +117,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
      *
      * @author Robin Weiss
      */
-    private class EntryIterator implements Iterator<GenericResponse<T>>
+    private class EntryIterator implements Iterator<RegionVO<T>>
     {
         @Override
         public boolean hasNext()
@@ -127,7 +127,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
 
         @Override
-        public GenericResponse<T> next()
+        public RegionVO<T> next()
         {
             // retrieve feature
             final Feature<SauFeatureProperties> feature = baseListIterator.next();
@@ -139,11 +139,7 @@ public class RegionExtractor <T> extends AbstractIteratorExtractor<GenericRespon
 
             final GenericResponse<T> response = httpRequester.getObjectFromUrl(apiUrl, responseType);
 
-            // enrich region with feature, because it holds additional metadata
-            if (response.getData() instanceof GenericRegion)
-                ((GenericRegion) response.getData()).setFeature(feature);
-
-            return response;
+            return new RegionVO<>(response, feature);
         }
     }
 }

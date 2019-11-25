@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents a JSON object response to a Seaaroundus FAO request.
@@ -27,7 +28,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author Robin Weiss
  */
-@Data @EqualsAndHashCode(callSuper = true)
+@Data @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauFaoRegion extends GenericRegion
 {
     @SerializedName("long_title")

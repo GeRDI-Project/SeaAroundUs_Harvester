@@ -1,0 +1,199 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "Country Profile: Mocked Country Name",
+			"titleType" : "AlternativeTitle",
+			"lang" : "en"
+		},
+		{
+			"value" : "Country Profile: Mocked Sub-Region Name",
+			"titleType" : "AlternativeTitle",
+			"lang" : "en"
+		},
+		{
+			"value" : "Country Profile: Mocked Country Name"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"subjects" : [
+		{
+			"value" : "mocked-gov_protect_marine_env",
+			"lang" : "en"
+		},
+		{
+			"value" : "Mocked Region"
+		},
+		{
+			"value" : "mocked-fish_mgt_plan",
+			"lang" : "en"
+		},
+		{
+			"value" : "Mocked ISO Code"
+		},
+		{
+			"value" : "Mocked Country Name",
+			"lang" : "en"
+		},
+		{
+			"value" : "mocked-un_name",
+			"lang" : "en"
+		},
+		{
+			"value" : "mocked-fao_code",
+			"lang" : "en"
+		},
+		{
+			"value" : "Mocked Sub-Region ISO Code"
+		},
+		{
+			"value" : "Mocked Sub Region"
+		},
+		{
+			"value" : "mocked-gov_marine_fish",
+			"lang" : "en"
+		}
+	],
+	"formats" : [
+		"csv",
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationPlace" : "Mocked Sub-Region Name",
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								3.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					]
+				}
+			]
+		},
+		{
+			"geoLocationPlace" : "Mocked Country Name",
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								1.0,
+								2.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								2.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					]
+				}
+			]
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/country/1337",
+			"webLinkType" : "SourceURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/images/logo_saup.png",
+			"webLinkName" : "Logo",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/major/law/plan",
+			"webLinkName" : "mocked-major_law_plan",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/country/1337",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/doc.pdf",
+			"webLinkName" : "mocked-gov_protect_marine_env",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/fao/profile",
+			"webLinkName" : "FAO Country Profile",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/fishy",
+			"webLinkName" : "mocked-fish_mgt_plan",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.fishbase.org/Country/CountryTreatyList.php?Country\u003dmocked-fish_base",
+			"webLinkName" : "Treaties and Conventions to which Mocked Country Name (mocked-fao_code) is a Member",
+			"webLinkType" : "Related"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}

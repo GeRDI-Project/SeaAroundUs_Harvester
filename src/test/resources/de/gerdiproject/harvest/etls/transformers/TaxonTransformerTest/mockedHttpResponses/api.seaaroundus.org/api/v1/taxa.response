@@ -1,0 +1,18 @@
+{
+	"meta" : {
+		"title" : "Mocked Meta Title",
+		"date" : "3000-03-03T01:02:03.456",
+		"version" : "42",
+		"request_path" : "mocked/request/path"
+	},
+	"data" : [
+		{
+			"common_name" : "mocked-common_name",
+			"functional_group" : 101,
+			"is_taxon_distribution_backfilled" : true,
+			"commercial_group" : 42,
+			"scientific_name" : "mocked-scientific_name",
+			"taxon_key" : 1337
+		}
+	]
+}

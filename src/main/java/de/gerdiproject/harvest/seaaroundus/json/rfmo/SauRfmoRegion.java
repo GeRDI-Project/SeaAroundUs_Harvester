@@ -23,6 +23,7 @@ import de.gerdiproject.harvest.seaaroundus.json.generic.GenericRegion;
 import de.gerdiproject.harvest.seaaroundus.json.taxa.SauTaxonReduced;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * This class represents a JSON object that is part of the response to a Seaaroundus rfmo request.
@@ -30,7 +31,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author Robin Weiss
  */
-@Data @EqualsAndHashCode(callSuper = true)
+@Data @EqualsAndHashCode(callSuper = true) @ToString(callSuper = true)
 public class SauRfmoRegion extends GenericRegion
 {
     @SerializedName("contracting_countries")

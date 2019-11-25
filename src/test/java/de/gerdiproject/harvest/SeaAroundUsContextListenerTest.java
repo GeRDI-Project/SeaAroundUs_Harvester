@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 Robin Weiss (http://www.gerdi-project.de)
+ * Copyright © 2019 Robin Weiss (http://www.gerdi-project.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.gerdiproject.harvest.seaaroundus.vos;
+package de.gerdiproject.harvest;
 
-import de.gerdiproject.harvest.seaaroundus.json.global.SauGlobal;
-import lombok.Data;
+import de.gerdiproject.harvest.application.AbstractContextListenerTest;
 
 /**
- * A value object, representing a global sub-region.
+ * This class provides Unit Tests for the {@linkplain SeaAroundUsContextListener}.
  *
  * @author Robin Weiss
  */
-@Data
-public class GlobalRegionVO
+public class SeaAroundUsContextListenerTest extends AbstractContextListenerTest<SeaAroundUsContextListener>
 {
-    private int id;
-    private String nameSuffix;
-    private SauGlobal global;
-    private String version;
+    @Override
+    protected int getMaxInitializationTime()
+    {
+        return 25000;
+    }
 }

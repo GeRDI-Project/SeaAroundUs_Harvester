@@ -31,10 +31,6 @@ import lombok.Data;
 @Data
 public class SauTaxon
 {
-    private transient String taxonLevelName;
-    private transient String taxonGroupName;
-    private transient String version;
-
     private double k;
     private double tl;
     private double woo;

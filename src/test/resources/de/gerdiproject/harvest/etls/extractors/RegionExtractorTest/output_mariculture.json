@@ -1,0 +1,160 @@
+{
+	"response" : {
+		"data" : [
+			{
+				"country_name" : "Mocked Country Name 1",
+				"point_geojson" : {
+					"type" : "MultiPoint",
+					"coordinates" : [
+						[
+							1.0,
+							1.0
+						]
+					]
+				},
+				"entity_id" : 1337,
+				"region_id" : 69,
+				"country_id" : 42,
+				"total_production" : 9000.1,
+				"title" : "Mocked Sub-Region Title 1",
+				"id" : 0,
+				"geojson" : {
+					"type" : "MultiPolygon",
+					"coordinates" : [
+						[
+							[
+								[
+									1.0,
+									1.0
+								],
+								[
+									1.0,
+									2.0
+								],
+								[
+									2.0,
+									2.0
+								],
+								[
+									2.0,
+									1.0
+								],
+								[
+									1.0,
+									1.0
+								]
+							]
+						],
+						[
+							[
+								[
+									5.0,
+									5.0
+								],
+								[
+									6.0,
+									6.0
+								],
+								[
+									7.0,
+									5.0
+								],
+								[
+									5.0,
+									5.0
+								]
+							]
+						]
+					]
+				}
+			},
+			{
+				"country_name" : "Mocked Country Name 2",
+				"point_geojson" : {
+					"type" : "MultiPoint",
+					"coordinates" : [
+						[
+							2.0,
+							2.0
+						]
+					]
+				},
+				"entity_id" : 1337,
+				"region_id" : 42,
+				"country_id" : 69,
+				"total_production" : 8000.2,
+				"title" : "Mocked Sub-Region Title 2",
+				"id" : 0,
+				"geojson" : {
+					"type" : "MultiPolygon",
+					"coordinates" : [
+						[
+							[
+								[
+									7.0,
+									7.0
+								],
+								[
+									8.0,
+									8.0
+								],
+								[
+									9.0,
+									7.0
+								],
+								[
+									7.0,
+									7.0
+								]
+							]
+						]
+					]
+				}
+			}
+		],
+		"meta" : {
+			"title" : "Mocked Meta Title",
+			"date" : "3000-03-03T01:02:03.456",
+			"version" : "42",
+			"request_path" : "mocked/request/path/1337"
+		}
+	},
+	"feature" : {
+		"geometry" : {
+			"type" : "MultiPolygon",
+			"coordinates" : [
+				[
+					[
+						[
+							1.0,
+							1.0
+						],
+						[
+							1.0,
+							2.0
+						],
+						[
+							2.0,
+							2.0
+						],
+						[
+							2.0,
+							1.0
+						],
+						[
+							1.0,
+							1.0
+						]
+					]
+				]
+			]
+		},
+		"type" : "Feature",
+		"properties" : {
+			"title" : "Mocked Title",
+			"region" : "mariculturecountry",
+			"region_id" : 1337,
+			"long_title" : "Mocked Long Title"
+		}
+	}
+}

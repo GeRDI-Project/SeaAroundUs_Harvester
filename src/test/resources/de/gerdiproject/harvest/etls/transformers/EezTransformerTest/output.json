@@ -1,0 +1,367 @@
+{
+	"creators" : [
+		{
+			"creatorName" : {
+				"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity"
+			}
+		}
+	],
+	"titles" : [
+		{
+			"value" : "Catches in the Waters of Mocked Title"
+		}
+	],
+	"publisher" : {
+		"value" : "Sea Around Us - Fisheries, Ecosystems \u0026 Biodiversity",
+		"lang" : "en"
+	},
+	"subjects" : [
+		{
+			"value" : "Mocked Metric 1"
+		},
+		{
+			"value" : "eez"
+		},
+		{
+			"value" : "Mocked Metric 2"
+		}
+	],
+	"formats" : [
+		"csv",
+		"json"
+	],
+	"version" : "42",
+	"rightsList" : [
+		{
+			"value" : "While these data are freely available for use, we ask that you please acknowledge Sea Around Us in your work.\nBy downloading this data, you agree to provide attribution for any Sea Around Us data you use."
+		}
+	],
+	"geoLocations" : [
+		{
+			"geoLocationPlace" : "Mocked Title",
+			"geoLocationPolygon" : [
+				{
+					"type" : "Polygon",
+					"coordinates" : [
+						[
+							[
+								1.0,
+								1.0
+							],
+							[
+								1.0,
+								2.0
+							],
+							[
+								2.0,
+								2.0
+							],
+							[
+								2.0,
+								1.0
+							],
+							[
+								1.0,
+								1.0
+							]
+						]
+					]
+				}
+			]
+		}
+	],
+	"repositoryIdentifier" : "Sea Around Us",
+	"webLinks" : [
+		{
+			"webLinkURI" : "http://www.mo.ck/gsi",
+			"webLinkName" : "Global Slavery Index of Mocked Region Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Type in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/subsidy/1337",
+			"webLinkName" : "Fisheries Subsidies in Mocked Region Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Reporting Status in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dlayer\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Data Layer in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Country in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/ohi",
+			"webLinkName" : "Ocean Health Index of Mocked Region Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcatchtype\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Type in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://api.seaaroundus.org/api/v1/eez/1337",
+			"webLinkType" : "SourceURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dlayer\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Data Layer in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dreporting-status\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Reporting Status in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/images/logo_saup.png",
+			"webLinkName" : "Logo",
+			"webLinkType" : "ProviderLogoURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dmultinational-footprint",
+			"webLinkName" : "Primary Production Required for catches in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/fao",
+			"webLinkName" : "FAO Country Profile",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dtaxon\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Taxon in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.mo.ck/fao/rfb",
+			"webLinkName" : "Mocked FAO RFB",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Commercial Groups in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcountry\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Country in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Fishing Sector in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Functional Groups in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dcommercialgroup\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Commercial Groups in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dtaxon\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Taxon in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337/internal-fishing-access",
+			"webLinkName" : "Foreign fishing access in the waters of Mocked Region Name",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337/stock-status",
+			"webLinkName" : "Stock status in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dsector\u0026measure\u003dvalue\u0026limit\u003d20",
+			"webLinkName" : "Real 2010 value (US$) by Fishing Sector in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "https://mo.ckpdf?weirdquery\u003dtrue",
+			"webLinkName" : "mocked-document.pdf",
+			"webLinkType" : "Related"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337?chart\u003dcatch-chart\u0026dimension\u003dfunctionalgroup\u0026measure\u003dtonnage\u0026limit\u003d20",
+			"webLinkName" : "Catches by Functional Groups in the Waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		},
+		{
+			"webLinkURI" : "http://www.seaaroundus.org/data/#/eez/1337/marine-trophic-index",
+			"webLinkName" : "Region-based Marine Trophic Index of the catch in the waters of Mocked Title",
+			"webLinkType" : "ViewURL"
+		}
+	],
+	"researchDataList" : [
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/reporting-status/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Reporting Status in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-318766831",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/1337/access-agreement-internal/",
+			"researchDataLabel" : "Foreign fishing access in the waters of Mocked Region Name",
+			"researchDataIdentifier" : "-446242432",
+			"researchDataType" : "json"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/geo-entity/1337subsidies/",
+			"researchDataLabel" : "Fisheries Subsidies in Mocked Region Name",
+			"researchDataIdentifier" : "-728201502",
+			"researchDataType" : "json"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/sector/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Sector in the Waters of Mocked Title",
+			"researchDataIdentifier" : "1643737075",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/sector/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Sector in the Waters of Mocked Title",
+			"researchDataIdentifier" : "1361500614",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/taxon/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Taxon in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1317492752",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/layer/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Data Layer in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-646387926",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/country/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Fishing Country in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1580658321",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/marine-trophic-index/?region_id\u003d1337",
+			"researchDataLabel" : "Region-based Marine Trophic Index of the catch in the waters of Mocked Title",
+			"researchDataIdentifier" : "-1248405735",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/commercialgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Commercial Groups in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1083405874",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/functionalgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Functional Groups in the Waters of Mocked Title",
+			"researchDataIdentifier" : "1556250421",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/layer/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Data Layer in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1763870985",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/functionalgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Functional Groups in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1474071870",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/taxon/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Taxon in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-200009693",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/multinational-footprint/?region_id\u003d1337",
+			"researchDataLabel" : "Primary Production Required for catches in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-2141996421",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/catchtype/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Type in the Waters of Mocked Title",
+			"researchDataIdentifier" : "271222427",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/country/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Fishing Country in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1740054020",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/catchtype/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Type in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-1168333490",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/stock-status/?region_id\u003d1337\u0026sub_area_id\u003d",
+			"researchDataLabel" : "Stock status in the Waters of Mocked Title",
+			"researchDataIdentifier" : "564629904",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/value/commercialgroup/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Real 2010 value (US$) by Commercial Groups in the Waters of Mocked Title",
+			"researchDataIdentifier" : "181239131",
+			"researchDataType" : "csv"
+		},
+		{
+			"researchDataURL" : "http://api.seaaroundus.org/api/v1/eez/tonnage/reporting-status/?limit\u003d20\u0026region_id\u003d1337\u0026format\u003dcsv",
+			"researchDataLabel" : "Catches by Reporting Status in the Waters of Mocked Title",
+			"researchDataIdentifier" : "-868056322",
+			"researchDataType" : "csv"
+		}
+	],
+	"researchDisciplines" : [
+		{
+			"area" : "Zoology",
+			"category" : "Life Sciences",
+			"rnbr" : "203-03",
+			"discipline" : "Animal Ecology, Biodiversity and Ecosystem Research"
+		},
+		{
+			"area" : "Atmospheric Science, Oceanography and Climate Research",
+			"category" : "Natural Sciences",
+			"rnbr" : "313-02",
+			"discipline" : "Oceanography"
+		},
+		{
+			"area" : "Economics",
+			"category" : "Humanities and Social Sciences",
+			"rnbr" : "112-04",
+			"discipline" : "Statistics and Econometrics"
+		}
+	]
+}

@@ -19,7 +19,6 @@ import java.util.List;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.gerdiproject.json.geo.Feature;
 import lombok.Data;
 
 /**
@@ -30,8 +29,6 @@ import lombok.Data;
 @Data
 public class GenericRegion
 {
-    private transient Feature<SauFeatureProperties> feature;
-
     private String title;
     private int id;
     private Geometry geojson;

@@ -1,0 +1,35 @@
+{
+	"meta" : {
+		"title" : "Mocked Meta Title",
+		"date" : "3000-03-03T01:02:03.456",
+		"version" : "42",
+		"request_path" : "mocked/request/path"
+	},
+	"data" : {
+		"features" : [
+			{
+				"geometry" : {
+					"type" : "MultiPolygon",
+					"coordinates" : [
+						[
+							[
+								[1.0, 1.0],
+								[1.0, 2.0],
+								[2.0, 2.0],
+								[2.0, 1.0],
+								[1.0, 1.0]
+							]
+						]
+					]
+				},
+				"type" : "Feature",
+				"properties" : {
+					"title" : "Mocked Title",
+					"region" : "eez",
+					"region_id" : 1337
+				}
+			}
+		],
+		"type" : "FeatureCollection"
+	}
+}

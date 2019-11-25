@@ -1,0 +1,53 @@
+{
+	"meta" : {
+		"title" : "Mocked Meta Title",
+		"date" : "3000-03-03T01:02:03.456",
+		"version" : "42",
+		"request_path" : "mocked/request/path/1337"
+	},
+	"data" : {
+		"k" : 12.34,
+		"tl" : 56.78,
+		"woo" : 90.12,
+		"loo" : 34.56,
+		"common_name" : "mocked-common_name",
+		"scientific_name" : "mocked-scientific_name",
+		"commercial_group_id" : 42,
+		"commercial_group" : "mocked-commercial_group",
+		"functional_group_id" : 101,
+		"functional_group" : "mocked-functional_group",
+		"x_min" : 12,
+		"x_max" : 34,
+		"y_min" : 56,
+		"y_max" : 78,
+		"min_depth" : 12,
+		"max_depth" : 34,
+		"lat_south" : 12.34,
+		"lat_north" : 56.78,
+		"sl_max_cm" : 78.90,
+		"isscaap_id" : 101,
+		"taxon_group_id" : 12,
+		"taxon_level_id" : 34,
+		"has_habitat_index" : true,
+		"habitat_index" : {
+			"abyssal" : 12.34,
+			"offshore" : 56.78,
+			"seagrass" : 90.12,
+			"others" : 34.56,
+			"front" : 78.90,
+			"slope" : 12.34,
+			"seamount" : 56.78,
+			"coral" : 90.12,
+			"effective_d" : 34.56,
+			"shelf" : 78.90,
+			"estuaries" : 12.34,
+			"inshore" : 56.78,
+			"habitat_diversity_index" : 90.12
+		},
+		"is_baltic_only" : false,
+		"is_taxon_distribution_backfilled" : true,
+		"taxon_key" : 1337,
+		"has_map" : true
+	}
+}
+
